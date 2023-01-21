@@ -1,0 +1,6 @@
+geranslator:
+  lang_dir: lang
+  to_langs:
+    - en
+    - fr
+    - ar
