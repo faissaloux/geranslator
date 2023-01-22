@@ -1,5 +1,7 @@
 from typing import List
 
+from ..provider.provider import Provider
+
 class Translator:
     lang_to_files: List[str] = []
 
@@ -7,7 +9,7 @@ class Translator:
         self.lang_to_files = []
 
     def translate(self):
-        pass
+        Provider().translate(self.lang_from_file, self.lang_to_files)
 
     def from_lang(self, lang_from_file: str):
         self.lang_from_file = lang_from_file
