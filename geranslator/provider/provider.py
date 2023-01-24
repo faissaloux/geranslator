@@ -15,7 +15,7 @@ class Provider:
 
         _module = import_module(f"geranslator.provider.providers.{self.provider}")
         _class = getattr(_module, self.provider.capitalize())
-        getattr(_class, 'translate')(lang_from_file, lang_to_files)
+        _class().translate(lang_from_file, lang_to_files)
 
     def set_provider(self, provider: str):
         self.provider = provider
