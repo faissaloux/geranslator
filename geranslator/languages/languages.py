@@ -8,5 +8,5 @@ class Languages:
     def get(self, abbr: str) -> str:
         with open(self.dictionary_path, "r") as config_file:
             dictionary = yaml.load(config_file, Loader=yaml.Loader)
-            
+
             return dictionary[abbr] if abbr in dictionary else abbr

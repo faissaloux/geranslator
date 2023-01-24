@@ -14,9 +14,9 @@ def before_and_after_test():
     lang_file = open(f"{lang_dir}/english.json", 'w')
     lang_file.write('{"Hello": "hello", "Bye": "bye"}')
     lang_file.close()
-    
+
     yield
-    
+
     shutil.rmtree(lang_dir)
 
 class TestGoogleProvider:

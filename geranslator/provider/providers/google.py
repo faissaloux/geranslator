@@ -1,5 +1,3 @@
-import os
-import json
 import time
 
 from typing import List
@@ -11,7 +9,7 @@ from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
-from ...config.config import Config
+from ...files_manager.files_manager import FilesManager
 from ...exceptions.UnsupportedLanguage import UnsupportedLanguage
 
 class Google:
@@ -27,13 +25,12 @@ class Google:
 
         for lang in lang_to_files:
             self.translated[lang] = {}
-            translation_file = os.path.join(os.getcwd(), Config().get('lang_dir'), lang + '.' + Config().get('lang_files_ext'))
 
             self.__choose_languages(lang_from_file, lang)
 
             self.__translate_for(lang)
 
-            json.dump(self.translated[lang], open(translation_file, "w"), indent=4, ensure_ascii = False)
+            FilesManager().set_data(self.translated[lang]).set_lang(lang).insert()
 
     def __translate_for(self, lang):
         for word_to_translate in self.to_translate:
@@ -57,12 +54,7 @@ class Google:
             source_text.clear()
 
     def __get_words_to_translate(self, lang):
-        lang_dir_path = os.path.join(os.getcwd(), Config().get('lang_dir'))
-        origin_lang_file = os.path.join(lang_dir_path, lang + '.' + Config().get('lang_files_ext'))
-
-        if os.path.exists(origin_lang_file):
-            with open(origin_lang_file, "r") as file:
-                self.to_translate = list(json.load(file).keys())
+        self.to_translate = FilesManager().set_lang(lang).get_keys()
 
     def __choose_languages(self, lang_from, lang_to):
         more_source_languages_btn = WebDriverWait(self.driver, 15).until(
