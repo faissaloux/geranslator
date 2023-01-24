@@ -9,13 +9,17 @@ from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
+from ...languages.languages import Languages
 from ...files_manager.files_manager import FilesManager
 from ...exceptions.UnsupportedLanguage import UnsupportedLanguage
 
 class Google:
     url: str = 'https://translate.google.com'
     to_translate: list = []
-    translated: dict = {}
+    translated: dict
+
+    def __init__(self):
+        self.translated = {}
 
     def translate(self, lang_from_file: str, lang_to_files: List[str]):
         self.open_browser()
@@ -63,7 +67,7 @@ class Google:
             ))
         )
         more_source_languages_btn.click()
-        self.__search_language(lang_from)
+        self.__search_language(Languages().get(lang_from))
 
         time.sleep(2)
 
@@ -73,7 +77,7 @@ class Google:
             ))
         )
         more_target_languages_btn.click()
-        self.__search_language(lang_to)
+        self.__search_language(Languages().get(lang_to))
 
     def __search_language(self, language):
         WebDriverWait(self.driver, 15).until(
