@@ -7,7 +7,7 @@ from geranslator.config.config import Config
 
 @pytest.fixture(autouse=True)
 def before_and_after_test():
-    
+
     lang_dir = Config().get('lang_dir')
 
     os.mkdir(lang_dir)
@@ -16,7 +16,7 @@ def before_and_after_test():
     lang_file.close()
 
     yield
-    
+
     shutil.rmtree(lang_dir)
 
 class TestFilesManager:

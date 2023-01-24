@@ -16,7 +16,7 @@ class Translator:
         self.lang_from_file = Languages().get(lang_from_file)
 
         return self
-    
+
     def to_lang(self, *lang_to_files: List[str]):
         if (isinstance(lang_to_files[0], list)):
             for lang in lang_to_files[0]:
