@@ -26,17 +26,17 @@ class Geranslator:
 
         return self
 
-    def set_target_lang(self, *lang: List[str]):
+    def set_target_lang(self, *target_lang: List[str]):
         self.target_lang = []
 
-        if (isinstance(lang[0], list)):
-            for lang in lang[0]:
+        if (isinstance(target_lang[0], list)):
+            for lang in target_lang[0]:
                 self.target_lang.append(lang)
-        elif isinstance(lang, tuple):
-            for lang in lang:
+        elif isinstance(target_lang, tuple):
+            for lang in target_lang:
                 self.target_lang.append(lang)
         else:
-            self.target_lang.append(lang[0])
+            self.target_lang.append(target_lang[0])
 
         return self
 
