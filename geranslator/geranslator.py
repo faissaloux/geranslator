@@ -1,7 +1,7 @@
 import os
 
 from typing import List
-from .translator.translator import Translator
+from .provider.provider import Provider
 from .config.config import Config
 from .exceptions.OriginLangFileNotFound import OriginLangFileNotFound
 
@@ -9,7 +9,7 @@ class Geranslator:
     lang_dir: str
     lang_files_ext: str
     origin_lang: str
-    target_lang: List[str]
+    target_lang: List[str] = []
 
     def __init__(self):
         self.set_lang_dir(Config().get('lang_dir'))
@@ -19,15 +19,24 @@ class Geranslator:
         self.make_sure_origin_lang_file_exists()
 
     def translate(self):
-        Translator().from_lang(self.origin_lang).to_lang(self.target_lang).translate()
+        Provider().translate(self.origin_lang, self.target_lang)
 
     def set_origin_lang(self, lang: str):
         self.origin_lang = lang
 
         return self
 
-    def set_target_lang(self, lang: List[str]):
-        self.target_lang = lang
+    def set_target_lang(self, *lang: List[str]):
+        self.target_lang = []
+
+        if (isinstance(lang[0], list)):
+            for lang in lang[0]:
+                self.target_lang.append(lang)
+        elif isinstance(lang, tuple):
+            for lang in lang:
+                self.target_lang.append(lang)
+        else:
+            self.target_lang.append(lang[0])
 
         return self
 

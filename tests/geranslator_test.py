@@ -44,11 +44,23 @@ class TestGeranslator:
 
         assert geranslator.origin_lang == 'en'
 
-    def test_set_target_lang(self):
+    def test_set_one_target_lang(self):
         geranslator = Geranslator()
         geranslator.set_target_lang('en')
 
-        assert geranslator.target_lang == 'en'
+        assert geranslator.target_lang == ['en']
+
+    def test_set_multiple_target_langs(self):
+        geranslator = Geranslator()
+        geranslator.set_target_lang('en', 'ar')
+
+        assert geranslator.target_lang == ['en', 'ar']
+
+    def test_set_multiple_target_langs_as_array(self):
+        geranslator = Geranslator()
+        geranslator.set_target_lang(['en', 'ar'])
+
+        assert geranslator.target_lang == ['en', 'ar']
 
     def test_set_lang_files_extension(self):
         geranslator = Geranslator()
