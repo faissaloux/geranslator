@@ -45,9 +45,9 @@ class TestGeranslator:
 
     def test_set_lang_dir(self):
         geranslator = Geranslator()
-        geranslator.set_lang_dir('lang')
+        geranslator.set_lang_dir('translation')
 
-        assert geranslator.lang_dir == os.path.join(os.getcwd(), 'lang')
+        assert geranslator.lang_dir == os.path.join(os.getcwd(), 'translation')
 
     def test_set_origin_lang(self):
         geranslator = Geranslator()
