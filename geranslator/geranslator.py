@@ -18,9 +18,10 @@ class Geranslator:
         self.set_target_lang(Config().get('to_langs'))
         self.set_lang_files_extension(Config().get('lang_files_ext'))
         self.set_provider(Config().get('provider'))
-        self.make_sure_origin_lang_file_exists()
 
     def translate(self):
+        self.make_sure_origin_lang_file_exists()
+
         Provider(self.provider).translate(self.origin_lang, self.target_lang)
 
     def set_provider(self, provider: str):
