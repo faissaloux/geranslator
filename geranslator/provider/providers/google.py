@@ -8,7 +8,9 @@ from selenium.webdriver.support import expected_conditions
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.service import Service
+from selenium.common.exceptions import WebDriverException
 from webdriver_manager.chrome import ChromeDriverManager
+from termspark import TermSpark
 from ...languages.languages import Languages
 from ...files_manager.files_manager import FilesManager
 from ...exceptions.UnsupportedLanguage import UnsupportedLanguage
@@ -22,19 +24,22 @@ class Google:
         self.translated = {}
 
     def translate(self, lang_from_file: str, lang_to_files: List[str]):
-        self.open_browser()
-        self.driver.get(self.url)
+        try:
+            self.open_browser()
+            self.driver.get(self.url)
 
-        self.__get_words_to_translate(lang_from_file)
+            self.__get_words_to_translate(lang_from_file)
 
-        for lang in lang_to_files:
-            self.translated[lang] = {}
+            for lang in lang_to_files:
+                self.translated[lang] = {}
 
-            self.__choose_languages(lang_from_file, lang)
+                self.__choose_languages(lang_from_file, lang)
 
-            self.__translate_for(lang)
+                self.__translate_for(lang)
 
-            FilesManager().set_data(self.translated[lang]).set_lang(lang).insert()
+                FilesManager().set_data(self.translated[lang]).set_lang(lang).insert()
+        except WebDriverException as e:
+            TermSpark().spark_left([' Please check your network and try again ', 'white', 'red']).spark()
 
     def __translate_for(self, lang):
         for word_to_translate in self.to_translate:
