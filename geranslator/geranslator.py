@@ -65,4 +65,4 @@ class Geranslator:
 
     def make_sure_origin_lang_file_exists(self):
         if not self.origin_lang_file_exists():
-            raise OriginLangFileNotFound(f"{self.origin_lang}.{self.lang_files_ext}")
+            raise OriginLangFileNotFound(os.path.join(self.lang_dir, f"{self.origin_lang}.{self.lang_files_ext}"))
