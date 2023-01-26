@@ -6,6 +6,7 @@ from .config.config import Config
 from .exceptions.OriginLangFileNotFound import OriginLangFileNotFound
 
 class Geranslator:
+    provider: str
     lang_dir: str
     lang_files_ext: str
     origin_lang: str
@@ -16,10 +17,16 @@ class Geranslator:
         self.set_origin_lang(Config().get('origin_lang'))
         self.set_target_lang(Config().get('to_langs'))
         self.set_lang_files_extension(Config().get('lang_files_ext'))
+        self.set_provider(Config().get('provider'))
         self.make_sure_origin_lang_file_exists()
 
     def translate(self):
-        Provider().translate(self.origin_lang, self.target_lang)
+        Provider(self.provider).translate(self.origin_lang, self.target_lang)
+
+    def set_provider(self, provider: str):
+        self.provider = provider
+
+        return self
 
     def set_origin_lang(self, lang: str):
         self.origin_lang = lang
