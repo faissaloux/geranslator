@@ -32,6 +32,17 @@ class TestGeranslator:
 
         assert geranslator.lang_files_ext == Config().get('lang_files_ext')
 
+    def test_default_provider(self):
+        geranslator = Geranslator()
+
+        assert geranslator.provider == Config().get('provider')
+
+    def test_set_provider(self):
+        geranslator = Geranslator()
+        geranslator.set_provider('google')
+
+        assert geranslator.provider == 'google'
+
     def test_set_lang_dir(self):
         geranslator = Geranslator()
         geranslator.set_lang_dir('lang')

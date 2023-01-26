@@ -23,27 +23,31 @@ def before_and_after_test():
 class TestProvider:
 
     def test_set_provider(self):
-        provider = Provider()
-        provider.set_provider('google')
+        provider = Provider('google')
+
+        assert provider.provider == 'google'
+
+    def test_set_provider_uppercase(self):
+        provider = Provider('GOOGLE')
 
         assert provider.provider == 'google'
 
     def test_make_sure_existing_provider_exist(self):
-        provider = Provider()
-        provider.set_provider('google')
+        provider = Provider('google')
 
-        provider.make_sure_provider_exists()
+        assert provider.make_sure_provider_exists() == True
 
     def test_make_sure_unexisting_provider_unexist(self):
-        provider = Provider()
-        provider.set_provider('unexisted')
-
         with pytest.raises(ProviderNotFound):
-            provider.make_sure_provider_exists()
+            Provider('unexisted').make_sure_provider_exists()
+
+    def test_cant_translate_using_unexisted_provider(self):
+        with pytest.raises(ProviderNotFound):
+            Provider('unexisted').translate('en', ['ar', 'fr'])
 
     def test_translation(self):
-        target_langs = ['es', 'pt']
-        Provider().translate('en', target_langs)
+            target_langs = ['es', 'pt']
+            Provider('google').translate('en', target_langs)
 
-        for lang in target_langs:
-            assert os.path.exists(os.path.join(Config().get('lang_dir'), lang + '.' + Config().get('lang_files_ext')))
+            for lang in target_langs:
+                assert os.path.exists(os.path.join(Config().get('lang_dir'), lang + '.' + Config().get('lang_files_ext')))
