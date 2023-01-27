@@ -10,7 +10,7 @@ class TestProvider:
 
         assert provider.provider == 'google'
 
-    def test_set_provider_uppercase(self):
+    def test_case_unsensitivity_provider(self):
         provider = Provider('GOOGLE')
 
         assert provider.provider == 'google'

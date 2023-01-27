@@ -60,7 +60,7 @@ class Geranslator:
         return self
 
     def set_lang_files_extension(self, extension: str):
-        self.lang_files_ext = extension
+        self.lang_files_ext = extension.lower()
 
         return self
 

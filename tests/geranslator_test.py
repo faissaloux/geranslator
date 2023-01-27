@@ -84,6 +84,12 @@ class TestGeranslator:
 
         assert geranslator.lang_files_ext == 'po'
 
+    def test_case_unsensitivity_lang_files_extension(self):
+        geranslator = Geranslator()
+        geranslator.set_lang_files_extension('JSON')
+
+        assert geranslator.lang_files_ext == 'json'
+
     def test_make_sure_existing_origin_lang_file_exist(self):
         geranslator = Geranslator()
         geranslator.set_lang_dir('lang')
