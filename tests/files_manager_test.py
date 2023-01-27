@@ -35,7 +35,8 @@ class TestFilesManager:
     def test_supported_extensions(self):
         supported_extensions = [
             'json',
-            'yaml'
+            'yaml',
+            'yml',
         ]
 
         for extension in supported_extensions:
