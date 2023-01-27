@@ -4,6 +4,7 @@ import yaml
 
 from ..config.config import Config
 from ..exceptions.FileNotFound import FileNotFound
+from ..exceptions.ExtensionNotSupported import ExtensionNotSupported
 
 class FilesManager:
     extension: str
@@ -15,6 +16,7 @@ class FilesManager:
         self.set_extension(Config().get('lang_files_ext'))
 
     def set_extension(self, extension: str):
+        self.__make_sure_extension_is_supported(extension)
         self.extension = extension
 
         return self
@@ -53,6 +55,11 @@ class FilesManager:
             return _method(lang_file)
         else:
             raise FileNotFound(lang_file)
+
+    def __make_sure_extension_is_supported(self, extension) -> bool:
+        if not hasattr(self, f"insert_{extension}"):
+            raise ExtensionNotSupported(extension)
+        return True
 
     def insert_json(self, file: str):
         json.dump(self.data, open(file, "w"), indent=4, ensure_ascii = False)
