@@ -9,16 +9,21 @@ from geranslator.exceptions.OriginLangFileNotFound import OriginLangFileNotFound
 @pytest.fixture(autouse=True)
 def before_and_after_test():
 
-    lang_dir = Config().get('lang_dir')
+    lang_dirs = [
+        Config().get('lang_dir'),
+        'translations'
+    ]
 
-    os.mkdir(lang_dir)
-    lang_file = open(f"{lang_dir}/en.json", 'w')
-    lang_file.write('{"Hey": "hey"}')
-    lang_file.close()
+    for lang_dir in lang_dirs:
+        os.mkdir(lang_dir)
+        lang_file = open(f"{lang_dir}/en.json", 'w')
+        lang_file.write('{"Hello": "hello", "Bye": "bye"}')
+        lang_file.close()
 
     yield
 
-    shutil.rmtree(lang_dir)
+    for lang_dir in lang_dirs:
+        shutil.rmtree(lang_dir)
 
 class TestGeranslator:
 
@@ -45,9 +50,9 @@ class TestGeranslator:
 
     def test_set_lang_dir(self):
         geranslator = Geranslator()
-        geranslator.set_lang_dir('translation')
+        geranslator.set_lang_dir('translations')
 
-        assert geranslator.lang_dir == os.path.join(os.getcwd(), 'translation')
+        assert geranslator.lang_dir == os.path.join(os.getcwd(), 'translations')
 
     def test_set_origin_lang(self):
         geranslator = Geranslator()
@@ -100,7 +105,7 @@ class TestGeranslator:
 
     def test_custom_translation(self):
         target_langs = ['es', 'pt']
-        Geranslator().set_origin_lang('en').set_target_lang(target_langs).translate()
+        Geranslator().set_lang_dir('translations').set_origin_lang('en').set_target_lang(target_langs).translate()
 
         for lang in ['es', 'pt']:
-            assert os.path.exists(os.path.join(Config().get('lang_dir'), lang + '.' + Config().get('lang_files_ext')))
+            assert os.path.exists(os.path.join(os.getcwd(), 'translations', lang + '.' + Config().get('lang_files_ext')))

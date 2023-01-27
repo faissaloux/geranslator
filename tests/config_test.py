@@ -19,7 +19,7 @@ class TestConfig:
         to_langs = Config().get('to_langs')
 
         assert isinstance(to_langs, list)
-        assert to_langs == ['en', 'fr', 'ar']
+        assert to_langs == ['fr', 'ar']
 
     def test_raise_exception_when_value_not_found(self):
         with pytest.raises(ConfigKeyNotFound):

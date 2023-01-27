@@ -1,24 +1,7 @@
-import os
 import pytest
-import shutil
 
-from geranslator.config.config import Config
 from geranslator.provider.provider import Provider
 from geranslator.exceptions.ProviderNotFound import ProviderNotFound
-
-@pytest.fixture(autouse=True)
-def before_and_after_test():
-
-    lang_dir = Config().get('lang_dir')
-
-    os.mkdir(lang_dir)
-    lang_file = open(f"{lang_dir}/en.json", 'w')
-    lang_file.write('{"Hey": "hey"}')
-    lang_file.close()
-
-    yield
-
-    shutil.rmtree(lang_dir)
 
 class TestProvider:
 
@@ -43,11 +26,9 @@ class TestProvider:
 
     def test_cant_translate_using_unexisted_provider(self):
         with pytest.raises(ProviderNotFound):
-            Provider('unexisted').translate('en', ['ar', 'fr'])
+            Provider('unexisted').translate(['Hello'], 'en', ['ar', 'fr'])
 
     def test_translation(self):
-            target_langs = ['es', 'pt']
-            Provider('google').translate('en', target_langs)
+        translation = Provider('google').translate(['Hello'], 'en', ['es', 'pt'])
 
-            for lang in target_langs:
-                assert os.path.exists(os.path.join(Config().get('lang_dir'), lang + '.' + Config().get('lang_files_ext')))
+        assert translation == {'es': {'Hello': 'Hola'}, 'pt': {'Hello': 'Olá'}}

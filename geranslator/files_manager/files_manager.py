@@ -6,6 +6,7 @@ from ..exceptions.FileNotFound import FileNotFound
 
 class FilesManager:
     extension: str = Config().get('lang_files_ext')
+    dir: str = Config().get('lang_dir')
     data: dict
     lang: str
 
@@ -24,8 +25,13 @@ class FilesManager:
 
         return self
 
+    def set_dir(self, dir: str):
+        self.dir = dir
+
+        return self
+
     def insert(self):
-        lang_dir = os.path.join(os.getcwd(), Config().get('lang_dir'))
+        lang_dir = os.path.join(os.getcwd(), self.dir)
         lang_file = os.path.join(lang_dir, self.lang + '.' + self.extension)
 
         if not os.path.exists(lang_dir):
@@ -35,7 +41,7 @@ class FilesManager:
         _method(lang_file)
 
     def get_keys(self) -> list:
-        lang_dir = os.path.join(os.getcwd(), Config().get('lang_dir'))
+        lang_dir = os.path.join(os.getcwd(), self.dir)
         lang_file = os.path.join(lang_dir, self.lang + '.' + self.extension)
 
         if os.path.exists(lang_file):
