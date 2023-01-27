@@ -59,3 +59,9 @@ class FilesManager:
 
     def get_json_keys(self, file: str) -> list:
         return list(json.load(open(file, "r")).keys())
+
+    def insert_yaml(self, file: str):
+        yaml.dump(self.data, open(file, "w"), allow_unicode = True)
+
+    def get_yaml_keys(self, file: str) -> list:
+        return list(yaml.load(open(file, "r"), Loader=yaml.Loader).keys())
