@@ -16,7 +16,9 @@ install: clean
 test: clean
 	pytest --cov -v
 
-mypy: clean
+lint: mypy
+
+mypy:
 	mypy --show-error-codes $(NAME) tests
 
 precommit: clean
