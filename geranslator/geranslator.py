@@ -1,8 +1,9 @@
 import os
 
 from typing import List
-from .provider.provider import Provider
 from .config.config import Config
+from .provider.provider import Provider
+from .files_manager.files_manager import FilesManager
 from .exceptions.OriginLangFileNotFound import OriginLangFileNotFound
 
 class Geranslator:
@@ -22,7 +23,12 @@ class Geranslator:
     def translate(self):
         self.make_sure_origin_lang_file_exists()
 
-        Provider(self.provider).translate(self.origin_lang, self.target_lang)
+        words = FilesManager().set_dir(self.lang_dir).set_lang(self.origin_lang).get_keys()
+
+        translation = Provider(self.provider).translate(words, self.origin_lang, self.target_lang)
+
+        for lang in translation:
+            FilesManager().set_dir(self.lang_dir).set_data(translation[lang]).set_lang(lang).insert()
 
     def set_provider(self, provider: str):
         self.provider = provider

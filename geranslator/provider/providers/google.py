@@ -12,37 +12,37 @@ from selenium.common.exceptions import WebDriverException
 from webdriver_manager.chrome import ChromeDriverManager
 from termspark import TermSpark
 from ...languages.languages import Languages
-from ...files_manager.files_manager import FilesManager
 from ...exceptions.UnsupportedLanguage import UnsupportedLanguage
 
 class Google:
     url: str = 'https://translate.google.com'
-    to_translate: list = []
-    translated: dict
+    words_to_translate: list = []
+    translation: dict
 
     def __init__(self):
-        self.translated = {}
+        self.translation = {}
 
-    def translate(self, lang_from_file: str, lang_to_files: List[str]):
+    def translate(self, words: list, origin_lang: str, lang_to_files: List[str]) -> dict:
         try:
             self.open_browser()
             self.driver.get(self.url)
 
-            self.__get_words_to_translate(lang_from_file)
+            self.words_to_translate = words
 
             for lang in lang_to_files:
-                self.translated[lang] = {}
+                self.translation[lang] = {}
 
-                self.__choose_languages(lang_from_file, lang)
+                self.__choose_languages(origin_lang, lang)
 
                 self.__translate_for(lang)
 
-                FilesManager().set_data(self.translated[lang]).set_lang(lang).insert()
+            return self.translation
         except WebDriverException as e:
             TermSpark().spark_left([' Please check your network and try again ', 'white', 'red']).spark()
+            return {}
 
     def __translate_for(self, lang):
-        for word_to_translate in self.to_translate:
+        for word_to_translate in self.words_to_translate:
             source_text = WebDriverWait(self.driver, 15).until(
                 expected_conditions.presence_of_element_located((
                     By.XPATH, "//textarea[@aria-label='Source text']"
@@ -59,11 +59,8 @@ class Google:
             )
 
             translated_element = self.driver.find_element(by=By.XPATH, value="//span[@class='HwtZe']")
-            self.translated[lang][word_to_translate] = translated_element.text
+            self.translation[lang][word_to_translate] = translated_element.text
             source_text.clear()
-
-    def __get_words_to_translate(self, lang):
-        self.to_translate = FilesManager().set_lang(lang).get_keys()
 
     def __choose_languages(self, lang_from, lang_to):
         more_source_languages_btn = WebDriverWait(self.driver, 15).until(
