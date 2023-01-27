@@ -32,6 +32,19 @@ class TestFilesManager:
 
         assert files_manager.extension == 'json'
 
+    def test_supported_extensions(self):
+        supported_extensions = [
+            'json',
+            'yaml',
+            'yml',
+        ]
+
+        for extension in supported_extensions:
+            files_manager = FilesManager()
+            files_manager.set_extension(extension)
+
+            assert files_manager.extension == extension
+
     def test_set_data(self):
         files_manager = FilesManager()
         files_manager.set_data({'Hello': 'Bonjour', 'Bye': 'Au revoir'})
