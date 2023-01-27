@@ -1,14 +1,18 @@
 import os
 import json
+import yaml
 
 from ..config.config import Config
 from ..exceptions.FileNotFound import FileNotFound
 
 class FilesManager:
-    extension: str = Config().get('lang_files_ext')
+    extension: str
     dir: str = Config().get('lang_dir')
     data: dict
     lang: str
+
+    def __init__(self):
+        self.set_extension(Config().get('lang_files_ext'))
 
     def set_extension(self, extension: str):
         self.extension = extension
