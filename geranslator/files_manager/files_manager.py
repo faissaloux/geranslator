@@ -1,14 +1,14 @@
 import os
-import json
-import yaml
 
+from importlib import import_module
 from ..config.config import Config
 from ..exceptions.FileNotFound import FileNotFound
 from ..exceptions.ExtensionNotSupported import ExtensionNotSupported
 
 class FilesManager:
     extension: str
-    dir: str = Config().get('lang_dir')
+    dir: str = os.path.dirname(os.path.realpath(__file__))
+    langs_dir: str = Config().get('lang_dir')
     data: dict
     lang: str
     ext_aliases: dict = {
@@ -34,51 +34,42 @@ class FilesManager:
 
         return self
 
-    def set_dir(self, dir: str):
-        self.dir = dir
+    def set_langs_dir(self, dir: str):
+        self.langs_dir = dir
 
         return self
 
     def insert(self):
-        lang_dir = os.path.join(os.getcwd(), self.dir)
+        lang_dir = os.path.join(os.getcwd(), self.langs_dir)
         lang_file = os.path.join(lang_dir, self.lang + '.' + self.extension)
 
         if not os.path.exists(lang_dir):
             os.makedirs(lang_dir)
 
-        _method = getattr(self, f"insert_{self.ext_reference}")
-        _method(lang_file)
+        self.__ext_class().insert(self.data, lang_file)
 
     def get_keys(self) -> list:
-        lang_dir = os.path.join(os.getcwd(), self.dir)
+        lang_dir = os.path.join(os.getcwd(), self.langs_dir)
         lang_file = os.path.join(lang_dir, self.lang + '.' + self.extension)
 
         if os.path.exists(lang_file):
-            _method = getattr(self, f"get_{self.ext_reference}_keys")
-            return _method(lang_file)
+            return self.__ext_class().get_keys(lang_file)
         else:
             raise FileNotFound(lang_file)
 
     def __make_sure_extension_is_supported(self, extension) -> bool:
+        self.ext_reference = extension
         for ext_reference, alias in self.ext_aliases.items():
             if extension in alias:
                 self.ext_reference = ext_reference
-                return True
 
-        if not hasattr(self, f"insert_{extension}"):
+        if not self.__extensions_is_supported():
             raise ExtensionNotSupported(extension)
 
-        self.ext_reference = extension
+        __ext_module = import_module(f"geranslator.files_manager.extensions.{self.ext_reference}")
+        self.__ext_class = getattr(__ext_module, self.ext_reference.capitalize())
+
         return True
 
-    def insert_json(self, file: str):
-        json.dump(self.data, open(file, "w"), indent=4, ensure_ascii = False)
-
-    def get_json_keys(self, file: str) -> list:
-        return list(json.load(open(file, "r")).keys())
-
-    def insert_yaml(self, file: str):
-        yaml.dump(self.data, open(file, "w"), allow_unicode = True)
-
-    def get_yaml_keys(self, file: str) -> list:
-        return list(yaml.load(open(file, "r"), Loader=yaml.Loader).keys())
+    def __extensions_is_supported(self) -> bool:
+        return os.path.exists(os.path.join(self.dir, 'extensions', f"{self.ext_reference}.py"))
