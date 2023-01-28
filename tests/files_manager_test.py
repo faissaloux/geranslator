@@ -57,11 +57,11 @@ class TestFilesManager:
 
         assert files_manager.lang == 'en'
 
-    def test_set_dir(self):
+    def test_set_langs_dir(self):
         files_manager = FilesManager()
-        files_manager.set_dir('translations')
+        files_manager.set_langs_dir('translations')
 
-        assert files_manager.dir == 'translations'
+        assert files_manager.langs_dir == 'translations'
 
     def test_data_insertion_default_extension(self):
         FilesManager().set_data({'Hello': 'Bonjour', 'Bye': 'Au revoir'}).set_lang('en').insert()
@@ -69,7 +69,7 @@ class TestFilesManager:
         assert os.path.exists(os.path.join(os.getcwd(), Config().get('lang_dir'), 'en.' + Config().get('lang_files_ext')))
 
     def test_data_insertion(self):
-        FilesManager().set_dir('translations').set_data({'Hello': 'Bonjour', 'Bye': 'Au revoir'}).set_lang('en').set_extension('json').insert()
+        FilesManager().set_langs_dir('translations').set_data({'Hello': 'Bonjour', 'Bye': 'Au revoir'}).set_lang('en').set_extension('json').insert()
 
         assert os.path.exists(os.path.join(os.getcwd(), 'translations', 'en.json'))
 
