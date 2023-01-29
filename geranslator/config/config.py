@@ -5,7 +5,8 @@ from ..exceptions.ConfigKeyNotFound import ConfigKeyNotFound
 
 class Config:
     dir: str = os.path.dirname(os.path.realpath(__file__))
-    config_relative_path: str = os.path.join('..', 'config.yml')
+    config_file_name: str = '.geranslator-config.yaml'
+    config_relative_path: str = os.path.join('..', '..', config_file_name)
     config_path: str = os.path.join(dir, config_relative_path)
 
     def get(self, key: Optional[str] = None):

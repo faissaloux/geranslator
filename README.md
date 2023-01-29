@@ -7,17 +7,14 @@
     pip install geranslator
 ```
 # Configuration
-> geranslator/config.yml
-```yml
+> .geranslator-config.yaml
+```yaml
 geranslator:
   lang_dir: lang
   lang_files_ext: json
   provider: google
   origin_lang: en
-  to_langs:
-  - en
-  - fr
-  - ar
+  to_langs: [fr, ar]
 
 ```
 - lang_dir: Where your translation files live.
