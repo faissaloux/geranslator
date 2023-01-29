@@ -1,12 +1,17 @@
 import os
 import yaml
+import shutil
+
 from typing import Optional
 from ..exceptions.ConfigKeyNotFound import ConfigKeyNotFound
 
 class Config:
     dir: str = os.path.dirname(os.path.realpath(__file__))
-    config_relative_path: str = os.path.join('..', 'config.yml')
-    config_path: str = os.path.join(dir, config_relative_path)
+    config_file_name: str = '.geranslator-config.yaml'
+    config_sample_file_name: str = '.geranslator-config.example'
+    config_sample_relative_path: str = os.path.join('..', '..', config_sample_file_name)
+    config_sample_path: str = os.path.join(dir, config_sample_relative_path)
+    config_path: str = os.path.join(os.getcwd(), config_file_name)
 
     def get(self, key: Optional[str] = None):
         if os.path.exists(self.config_path):
@@ -19,3 +24,7 @@ class Config:
                         raise ConfigKeyNotFound(key)
                 else:
                     return config['geranslator']
+        else:
+            shutil.copy(self.config_sample_path, self.config_path)
+
+            return self.get(key)
