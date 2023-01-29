@@ -26,7 +26,7 @@ geranslator:
 - origin_lang: The origin language you already have.
 - to_langs: Languages you want your file to get translated to.
 
-> supported extensions: json, yaml, yml
+> supported extensions: json, yaml, yml, po
 
 > supported providers: google
 # Usage
