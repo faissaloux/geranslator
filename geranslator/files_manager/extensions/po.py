@@ -2,9 +2,11 @@ import os
 import polib
 import shutil
 
-class Po:
+from .abstractExtension import AbstractExtension
 
-    def insert(self, data: dict, file):
+class Po(AbstractExtension):
+
+    def insert(self, data: dict, file: str):
         lang_directory = os.path.dirname(os.path.realpath(file))
         lang_file_sample = os.path.join(lang_directory, os.listdir(lang_directory)[0])
 
@@ -17,7 +19,7 @@ class Po:
 
         po.save()
 
-    def get_keys(self, file) -> list:
+    def get_keys(self, file: str) -> list:
         keys: list = []
         po = polib.pofile(file)
 
