@@ -9,6 +9,7 @@ class TestConfig:
         config = Config().get()
 
         assert isinstance(config, dict)
+        assert len(config) == 5
 
     def test_get_specific_config_value(self):
         lang_dir = Config().get('lang_dir')
@@ -20,6 +21,12 @@ class TestConfig:
 
         assert isinstance(to_langs, list)
         assert to_langs == ['fr', 'ar']
+
+    def test_required_config_keys_exist(self):
+        required_keys: dict = ['lang_dir', 'lang_files_ext', 'provider', 'origin_lang', 'to_langs']
+
+        for key in required_keys:
+            assert Config().get(key)
 
     def test_raise_exception_when_value_not_found(self):
         with pytest.raises(ConfigKeyNotFound):
