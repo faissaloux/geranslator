@@ -18,7 +18,7 @@ class AbstractProvider(ABC):
     @abstractmethod
     def translate_for(self, lang: str):
         pass
-        
+
     @abstractmethod
     def choose_languages(self, lang_from: str, lang_to: str):
         pass
