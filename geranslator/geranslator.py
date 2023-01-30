@@ -5,6 +5,7 @@ from .config.config import Config
 from .provider.provider import Provider
 from .files_manager.files_manager import FilesManager
 from .exceptions.OriginLangFileNotFound import OriginLangFileNotFound
+from .exceptions.MissingOriginLang import MissingOriginLang
 from .exceptions.MissingTargetLang import MissingTargetLang
 from .exceptions.MissingProvider import MissingProvider
 
@@ -41,6 +42,9 @@ class Geranslator:
         return self
 
     def set_origin_lang(self, lang: str):
+        if not len(lang):
+            raise MissingOriginLang()
+
         self.origin_lang = lang
 
         return self

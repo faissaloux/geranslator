@@ -6,6 +6,7 @@ from geranslator.geranslator import Geranslator
 from geranslator.config.config import Config
 from geranslator.exceptions.OriginLangFileNotFound import OriginLangFileNotFound
 from geranslator.exceptions.MissingProvider import MissingProvider
+from geranslator.exceptions.MissingOriginLang import MissingOriginLang
 from geranslator.exceptions.MissingTargetLang import MissingTargetLang
 
 @pytest.fixture(autouse=True)
@@ -65,6 +66,10 @@ class TestGeranslator:
         geranslator.set_origin_lang('en')
 
         assert geranslator.origin_lang == 'en'
+
+    def test_set_empty_origin_lang(self):
+        with pytest.raises(MissingOriginLang):
+            Geranslator().set_origin_lang('')
 
     def test_set_one_target_lang(self):
         geranslator = Geranslator()
