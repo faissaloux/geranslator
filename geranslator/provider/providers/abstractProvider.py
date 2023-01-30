@@ -26,11 +26,8 @@ class AbstractProvider(ABC):
             self.words_to_translate = words
 
             for lang in lang_to_files:
-                self.translation[lang] = {}
-
-                self.choose_languages(origin_lang, lang)
-
-                self.translate_for(lang)
+                if (self.choose_languages(origin_lang, lang)):
+                    self.translate_for(lang)
 
             return self.translation
         except WebDriverException as e:
@@ -42,11 +39,11 @@ class AbstractProvider(ABC):
         pass
 
     @abstractmethod
-    def choose_languages(self, lang_from: str, lang_to: str):
+    def choose_languages(self, lang_from: str, lang_to: str) -> bool:
         pass
 
     @abstractmethod
-    def search_language(self, language: str):
+    def search_language(self, language: str) -> bool:
         pass
 
     def open_browser(self):
