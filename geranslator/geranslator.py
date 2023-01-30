@@ -5,6 +5,10 @@ from .config.config import Config
 from .provider.provider import Provider
 from .files_manager.files_manager import FilesManager
 from .exceptions.OriginLangFileNotFound import OriginLangFileNotFound
+from .exceptions.MissingOriginLang import MissingOriginLang
+from .exceptions.MissingTargetLang import MissingTargetLang
+from .exceptions.MissingExtension import MissingExtension
+from .exceptions.MissingProvider import MissingProvider
 
 class Geranslator:
     provider: str
@@ -31,11 +35,17 @@ class Geranslator:
             FilesManager().set_langs_dir(self.lang_dir).set_data(translation[lang]).set_lang(lang).set_extension(self.lang_files_ext).insert()
 
     def set_provider(self, provider: str):
+        if not len(provider):
+            raise MissingProvider()
+
         self.provider = provider
 
         return self
 
     def set_origin_lang(self, lang: str):
+        if not len(lang):
+            raise MissingOriginLang()
+
         self.origin_lang = lang
 
         return self
@@ -52,6 +62,11 @@ class Geranslator:
         else:
             self.target_lang.append(target_lang[0])
 
+        self.target_lang = list(filter(lambda lang: lang.strip(), self.target_lang))
+
+        if not len(self.target_lang):
+            raise MissingTargetLang()
+
         return self
 
     def set_lang_dir(self, lang_dir: str):
@@ -60,6 +75,9 @@ class Geranslator:
         return self
 
     def set_lang_files_extension(self, extension: str):
+        if not len(extension):
+            raise MissingExtension()
+
         self.lang_files_ext = extension.lower()
 
         return self

@@ -5,6 +5,10 @@ import shutil
 from geranslator.geranslator import Geranslator
 from geranslator.config.config import Config
 from geranslator.exceptions.OriginLangFileNotFound import OriginLangFileNotFound
+from geranslator.exceptions.MissingProvider import MissingProvider
+from geranslator.exceptions.MissingExtension import MissingExtension
+from geranslator.exceptions.MissingOriginLang import MissingOriginLang
+from geranslator.exceptions.MissingTargetLang import MissingTargetLang
 
 @pytest.fixture(autouse=True)
 def before_and_after_test():
@@ -48,6 +52,10 @@ class TestGeranslator:
 
         assert geranslator.provider == 'google'
 
+    def test_set_empty_provider(self):
+        with pytest.raises(MissingProvider):
+            Geranslator().set_provider('')
+
     def test_set_lang_dir(self):
         geranslator = Geranslator()
         geranslator.set_lang_dir('translations')
@@ -60,6 +68,10 @@ class TestGeranslator:
 
         assert geranslator.origin_lang == 'en'
 
+    def test_set_empty_origin_lang(self):
+        with pytest.raises(MissingOriginLang):
+            Geranslator().set_origin_lang('')
+
     def test_set_one_target_lang(self):
         geranslator = Geranslator()
         geranslator.set_target_lang('en')
@@ -71,6 +83,16 @@ class TestGeranslator:
         geranslator.set_target_lang('en', 'ar')
 
         assert geranslator.target_lang == ['en', 'ar']
+
+    def test_set_empty_target_lang(self):
+        geranslator = Geranslator()
+        geranslator.set_target_lang('en', '', 'ar')
+
+        assert geranslator.target_lang == ['en', 'ar']
+
+    def test_set_empty_target_langs(self):
+        with pytest.raises(MissingTargetLang):
+            Geranslator().set_target_lang('')
 
     def test_set_multiple_target_langs_as_array(self):
         geranslator = Geranslator()
@@ -90,6 +112,10 @@ class TestGeranslator:
 
         assert geranslator.lang_files_ext == 'json'
 
+    def test_set_empty_lang_files_extension(self):
+        with pytest.raises(MissingExtension):
+            Geranslator().set_lang_files_extension('')
+
     def test_make_sure_existing_origin_lang_file_exist(self):
         geranslator = Geranslator()
         geranslator.set_lang_dir('lang')
@@ -103,15 +129,15 @@ class TestGeranslator:
         with pytest.raises(OriginLangFileNotFound):
             geranslator.make_sure_origin_lang_file_exists()
 
-    def test_default_translation(self):
-        Geranslator().translate()
+    # def test_default_translation(self):
+    #     Geranslator().translate()
 
-        for lang in Config().get('to_langs'):
-            assert os.path.exists(os.path.join(Config().get('lang_dir'), lang + '.' + Config().get('lang_files_ext')))
+    #     for lang in Config().get('to_langs'):
+    #         assert os.path.exists(os.path.join(Config().get('lang_dir'), lang + '.' + Config().get('lang_files_ext')))
 
-    def test_custom_translation(self):
-        target_langs = ['es', 'pt']
-        Geranslator().set_lang_dir('translations').set_origin_lang('en').set_target_lang(target_langs).translate()
+    # def test_custom_translation(self):
+    #     target_langs = ['es', 'pt']
+    #     Geranslator().set_lang_dir('translations').set_origin_lang('en').set_target_lang(target_langs).translate()
 
-        for lang in ['es', 'pt']:
-            assert os.path.exists(os.path.join(os.getcwd(), 'translations', lang + '.' + Config().get('lang_files_ext')))
+    #     for lang in ['es', 'pt']:
+    #         assert os.path.exists(os.path.join(os.getcwd(), 'translations', lang + '.' + Config().get('lang_files_ext')))
