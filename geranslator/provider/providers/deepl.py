@@ -5,14 +5,16 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
+from termspark import TermSpark
 from .abstractProvider import AbstractProvider
 from ...languages.languages import Languages
-from ...exceptions.UnsupportedLanguage import UnsupportedLanguage
 
 class Deepl(AbstractProvider):
     url: str = 'https://www.deepl.com/translator'
 
     def translate_for(self, lang: str):
+        self.translation[lang] = {}
+
         for word_to_translate in self.words_to_translate:
             source_text = WebDriverWait(self.driver, 15).until(
                 expected_conditions.presence_of_element_located((
@@ -34,7 +36,7 @@ class Deepl(AbstractProvider):
 
             source_text.clear()
 
-    def choose_languages(self, lang_from: str, lang_to: str):
+    def choose_languages(self, lang_from: str, lang_to: str) -> bool:
         self.__remove_advertisement()
 
         more_source_languages_btn = WebDriverWait(self.driver, 15).until(
@@ -43,7 +45,7 @@ class Deepl(AbstractProvider):
             ))
         )
         more_source_languages_btn.click()
-        self.search_language(Languages().get(lang_from))
+        origin_lang_found = self.search_language(Languages().get(lang_from))
 
         time.sleep(2)
 
@@ -53,9 +55,11 @@ class Deepl(AbstractProvider):
             ))
         )
         more_target_languages_btn.click()
-        self.search_language(Languages().get(lang_to))
+        target_lang_found = self.search_language(Languages().get(lang_to))
 
-    def search_language(self, language: str):
+        return all([origin_lang_found, target_lang_found])
+
+    def search_language(self, language: str) -> bool:
         WebDriverWait(self.driver, 15).until(
             expected_conditions.presence_of_element_located((
                 By.XPATH, "//input[@placeholder='Search languages']"
@@ -72,11 +76,13 @@ class Deepl(AbstractProvider):
                 unexisted_language = self.driver.find_elements(by=By.XPATH, value="//div[@class='lmt__sides_wrapper'][contains(., 'No results')]")
 
                 if len(unexisted_language):
-                    raise UnsupportedLanguage(language)
+                    TermSpark().spark_left([f" {language} ", 'white', 'red'], [f" language not supported ", 'red']).spark()
+                    return False
                 else:
                     ActionChains(self.driver).send_keys(Keys.RETURN).perform()
 
-                time.sleep(2)
+            time.sleep(2)
+        return True
 
     def __remove_advertisement(self):
         try:

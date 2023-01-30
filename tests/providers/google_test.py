@@ -40,3 +40,14 @@ class TestGoogleProvider:
         assert google_provider.translation['ar'] == {'Hello': 'مرحبًا', 'Bye': 'وداعا'}
         assert google_provider.translation['fr'] == {'Hello': 'Bonjour', 'Bye': 'Au revoir'}
         assert translation == {'ar': {'Hello': 'مرحبًا', 'Bye': 'وداعا'}, 'fr': {'Hello': 'Bonjour', 'Bye': 'Au revoir'}}
+
+    def test_language_not_found_doesnt_stop_the_process(self):
+        google_provider = Google()
+        translation = google_provider.translate(['Hello', 'Bye'], 'en', ['ar', 'not_exist', 'fr'])
+
+        assert list(google_provider.translation.keys()) == ['ar', 'fr']
+        assert list(google_provider.translation['ar'].keys()) == ['Hello', 'Bye']
+        assert list(google_provider.translation['fr'].keys()) == ['Hello', 'Bye']
+        assert google_provider.translation['ar'] == {'Hello': 'مرحبًا', 'Bye': 'وداعا'}
+        assert google_provider.translation['fr'] == {'Hello': 'Bonjour', 'Bye': 'Au revoir'}
+        assert translation == {'ar': {'Hello': 'مرحبًا', 'Bye': 'وداعا'}, 'fr': {'Hello': 'Bonjour', 'Bye': 'Au revoir'}}
