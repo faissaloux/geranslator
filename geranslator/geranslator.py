@@ -5,6 +5,7 @@ from .config.config import Config
 from .provider.provider import Provider
 from .files_manager.files_manager import FilesManager
 from .exceptions.OriginLangFileNotFound import OriginLangFileNotFound
+from .exceptions.MissingProvider import MissingProvider
 
 class Geranslator:
     provider: str
@@ -31,6 +32,9 @@ class Geranslator:
             FilesManager().set_langs_dir(self.lang_dir).set_data(translation[lang]).set_lang(lang).set_extension(self.lang_files_ext).insert()
 
     def set_provider(self, provider: str):
+        if not len(provider):
+            raise MissingProvider()
+
         self.provider = provider
 
         return self

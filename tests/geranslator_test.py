@@ -5,6 +5,7 @@ import shutil
 from geranslator.geranslator import Geranslator
 from geranslator.config.config import Config
 from geranslator.exceptions.OriginLangFileNotFound import OriginLangFileNotFound
+from geranslator.exceptions.MissingProvider import MissingProvider
 
 @pytest.fixture(autouse=True)
 def before_and_after_test():
@@ -47,6 +48,10 @@ class TestGeranslator:
         geranslator.set_provider('google')
 
         assert geranslator.provider == 'google'
+
+    def test_set_empty_provider(self):
+        with pytest.raises(MissingProvider):
+            Geranslator().set_provider('')
 
     def test_set_lang_dir(self):
         geranslator = Geranslator()
