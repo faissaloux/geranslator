@@ -7,6 +7,7 @@ from .files_manager.files_manager import FilesManager
 from .exceptions.OriginLangFileNotFound import OriginLangFileNotFound
 from .exceptions.MissingOriginLang import MissingOriginLang
 from .exceptions.MissingTargetLang import MissingTargetLang
+from .exceptions.MissingExtension import MissingExtension
 from .exceptions.MissingProvider import MissingProvider
 
 class Geranslator:
@@ -74,6 +75,9 @@ class Geranslator:
         return self
 
     def set_lang_files_extension(self, extension: str):
+        if not len(extension):
+            raise MissingExtension()
+
         self.lang_files_ext = extension.lower()
 
         return self
