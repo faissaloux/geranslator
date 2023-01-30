@@ -27,7 +27,7 @@ geranslator:
 
 > supported extensions: json, yaml, yml, po
 
-> supported providers: google
+> supported providers: google, deepl
 # Usage
 This will use the configuration as default
 ```python
