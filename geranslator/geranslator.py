@@ -5,6 +5,7 @@ from .config.config import Config
 from .provider.provider import Provider
 from .files_manager.files_manager import FilesManager
 from .exceptions.OriginLangFileNotFound import OriginLangFileNotFound
+from .exceptions.MissingTargetLang import MissingTargetLang
 from .exceptions.MissingProvider import MissingProvider
 
 class Geranslator:
@@ -55,6 +56,11 @@ class Geranslator:
                 self.target_lang.append(lang)
         else:
             self.target_lang.append(target_lang[0])
+
+        self.target_lang = list(filter(lambda lang: lang.strip(), self.target_lang))
+
+        if not len(self.target_lang):
+            raise MissingTargetLang()
 
         return self
 
