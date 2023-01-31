@@ -36,7 +36,7 @@ class Deepl(AbstractProvider):
 
             source_text.clear()
 
-    def choose_languages(self, lang_from: str, lang_to: str) -> bool:
+    def choose_languages(self, lang_from: str, target_lang: str) -> bool:
         self.__remove_advertisement()
 
         more_source_languages_btn = WebDriverWait(self.driver, 15).until(
@@ -55,7 +55,7 @@ class Deepl(AbstractProvider):
             ))
         )
         more_target_languages_btn.click()
-        target_lang_found = self.search_language(Languages().get(lang_to))
+        target_lang_found = self.search_language(Languages().get(target_lang))
 
         return all([origin_lang_found, target_lang_found])
 

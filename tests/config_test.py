@@ -17,13 +17,13 @@ class TestConfig:
         assert isinstance(lang_dir, str)
         assert lang_dir == 'lang'
 
-        to_langs = Config().get('to_langs')
+        target_langs = Config().get('target_langs')
 
-        assert isinstance(to_langs, list)
-        assert to_langs == ['fr', 'ar']
+        assert isinstance(target_langs, list)
+        assert target_langs == ['fr', 'ar']
 
     def test_required_config_keys_exist(self):
-        required_keys: dict = ['lang_dir', 'lang_files_ext', 'provider', 'origin_lang', 'to_langs']
+        required_keys: dict = ['lang_dir', 'lang_files_ext', 'provider', 'origin_lang', 'target_langs']
 
         for key in required_keys:
             assert Config().get(key)

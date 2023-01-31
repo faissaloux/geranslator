@@ -30,6 +30,6 @@ class TestProvider:
 
     def test_translation(self):
         provider = random.choice(self.supported_providers)
-        translation = Provider(provider).translate(['Hello'], 'en', ['es', 'pt'])
+        translation = Provider(provider).translate(['Hello'], 'en', ['es', 'fr'])
 
-        assert translation == {'es': {'Hello': 'Hola'}, 'pt': {'Hello': 'Olá'}}
+        assert translation == {'es': {'Hello': 'Hola'}, 'fr': {'Hello': 'Bonjour'}}

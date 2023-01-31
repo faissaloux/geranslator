@@ -20,7 +20,7 @@ class Geranslator:
     def __init__(self):
         self.set_lang_dir(Config().get('lang_dir'))
         self.set_origin_lang(Config().get('origin_lang'))
-        self.set_target_lang(Config().get('to_langs'))
+        self.set_target_lang(Config().get('target_langs'))
         self.set_lang_files_extension(Config().get('lang_files_ext'))
         self.set_provider(Config().get('provider'))
 

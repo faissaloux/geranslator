@@ -3,4 +3,4 @@ geranslator:
   lang_files_ext: json
   provider: google
   origin_lang: en
-  to_langs: [fr, ar]
+  target_langs: [fr, ar]
