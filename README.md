@@ -17,13 +17,13 @@ geranslator:
   lang_files_ext: json
   provider: google
   origin_lang: en
-  to_langs: [fr, ar]
+  target_langs: [fr, ar]
 ```
 - lang_dir: Where your translation files live.
 - lang_files_ext: Your translation files extension.
 - provider: Provider you want to translate your file.
 - origin_lang: The origin language you already have.
-- to_langs: Languages you want your file to get translated to.
+- target_langs: Languages you want your file to get translated to.
 
 > supported extensions: json, yaml, yml, po
 

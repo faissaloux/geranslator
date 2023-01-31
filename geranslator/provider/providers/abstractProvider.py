@@ -18,19 +18,19 @@ class AbstractProvider(ABC):
     def __init__(self):
         self.translation = {}
 
-    def translate(self, words: list, origin_lang: str, lang_to_files: List[str]) -> dict:
+    def translate(self, words: list, origin_lang: str, target_langs: List[str]) -> dict:
         try:
             self.open_browser()
             self.driver.get(self.url)
 
             self.words_to_translate = words
 
-            for lang in lang_to_files:
+            for lang in target_langs:
                 if (self.choose_languages(origin_lang, lang)):
                     self.translate_for(lang)
 
             return self.translation
-        except WebDriverException as e:
+        except WebDriverException:
             TermSpark().spark_left([' Please check your network and try again ', 'white', 'red']).spark()
             return {}
 
@@ -39,7 +39,7 @@ class AbstractProvider(ABC):
         pass
 
     @abstractmethod
-    def choose_languages(self, lang_from: str, lang_to: str) -> bool:
+    def choose_languages(self, lang_from: str, target_lang: str) -> bool:
         pass
 
     @abstractmethod
