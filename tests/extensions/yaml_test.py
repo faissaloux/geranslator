@@ -31,5 +31,5 @@ class TestYamlExtension:
         yaml_file = os.path.join(Config().get('lang_dir'), 'fr.yaml')
         Yaml().insert({"Hey": "Bonjour", "Bye": "Au revoir"}, yaml_file)
 
-
+        assert os.path.exists(os.path.join(os.getcwd(), yaml_file))
         assert yaml.load(open(yaml_file, "r"), Loader=yaml.Loader) == {'Bye': 'Au revoir', 'Hey': 'Bonjour'}

@@ -139,5 +139,5 @@ class TestGeranslator:
         target_langs = ['es', 'pt']
         Geranslator().set_lang_dir('translations').set_origin_lang('en').set_target_lang(target_langs).translate()
 
-        for lang in ['es', 'pt']:
+        for lang in target_langs:
             assert os.path.exists(os.path.join(os.getcwd(), 'translations', lang + '.' + Config().get('lang_files_ext')))

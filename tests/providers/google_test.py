@@ -24,16 +24,11 @@ class TestGoogleProvider:
     def test_url(self):
         assert Google().url == 'https://translate.google.com'
 
-    def test_words_to_translate(self):
-        google_provider = Google()
-        google_provider.translate(['Hello', 'Bye'], 'en', ['ar', 'fr'])
-
-        assert google_provider.words_to_translate == ['Hello', 'Bye']
-
     def test_translation_words(self):
         google_provider = Google()
         translation = google_provider.translate(['Hello', 'Bye'], 'en', ['ar', 'fr'])
 
+        assert google_provider.words_to_translate == ['Hello', 'Bye']
         assert list(google_provider.translation.keys()) == ['ar', 'fr']
         assert list(google_provider.translation['ar'].keys()) == ['Hello', 'Bye']
         assert list(google_provider.translation['fr'].keys()) == ['Hello', 'Bye']
@@ -45,6 +40,7 @@ class TestGoogleProvider:
         google_provider = Google()
         translation = google_provider.translate(['Hello', 'Bye'], 'en', ['ar', 'not_exist', 'fr'])
 
+        assert google_provider.words_to_translate == ['Hello', 'Bye']
         assert list(google_provider.translation.keys()) == ['ar', 'fr']
         assert list(google_provider.translation['ar'].keys()) == ['Hello', 'Bye']
         assert list(google_provider.translation['fr'].keys()) == ['Hello', 'Bye']
