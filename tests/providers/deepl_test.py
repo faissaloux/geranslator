@@ -24,16 +24,11 @@ class TestDeeplProvider:
     def test_url(self):
         assert Deepl().url == 'https://www.deepl.com/translator'
 
-    def test_words_to_translate(self):
-        deepl_provider = Deepl()
-        deepl_provider.translate(['Hello', 'Bye'], 'en', ['es', 'fr'])
-
-        assert deepl_provider.words_to_translate == ['Hello', 'Bye']
-
     def test_translation_words(self):
         deepl_provider = Deepl()
         translation = deepl_provider.translate(['Hello', 'Bye'], 'en', ['es', 'fr'])
 
+        assert deepl_provider.words_to_translate == ['Hello', 'Bye']
         assert list(deepl_provider.translation.keys()) == ['es', 'fr']
         assert list(deepl_provider.translation['es'].keys()) == ['Hello', 'Bye']
         assert list(deepl_provider.translation['fr'].keys()) == ['Hello', 'Bye']
@@ -45,6 +40,7 @@ class TestDeeplProvider:
         deepl_provider = Deepl()
         translation = deepl_provider.translate(['Hello', 'Bye'], 'en', ['es', 'not_exist', 'fr'])
 
+        assert deepl_provider.words_to_translate == ['Hello', 'Bye']
         assert list(deepl_provider.translation.keys()) == ['es', 'fr']
         assert list(deepl_provider.translation['es'].keys()) == ['Hello', 'Bye']
         assert list(deepl_provider.translation['fr'].keys()) == ['Hello', 'Bye']

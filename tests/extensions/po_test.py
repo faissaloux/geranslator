@@ -31,6 +31,7 @@ class TestPoExtension:
         po_file = os.path.join(Config().get('lang_dir'), 'fr.po')
         Po().insert({"Hello": "Bonjour", "Bye": "Au revoir"}, po_file)
 
+        assert os.path.exists(os.path.join(os.getcwd(), po_file))
         assert str(polib.pofile(po_file)) == '''#
 msgid ""
 msgstr ""

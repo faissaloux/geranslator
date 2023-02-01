@@ -31,4 +31,5 @@ class TestJsonExtension:
         json_file = os.path.join(Config().get('lang_dir'), 'fr.json')
         Json().insert({"Hey": "Bonjour", "Bye": "Au revoir"}, json_file)
 
+        assert os.path.exists(os.path.join(os.getcwd(), json_file))
         assert json.load(open(json_file, "r")) == {"Hey": "Bonjour", "Bye": "Au revoir"}

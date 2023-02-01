@@ -19,14 +19,15 @@ class AbstractProvider(ABC):
         self.translation = {}
 
     def translate(self, words: list, origin_lang: str, target_langs: List[str]) -> dict:
+        self.words_to_translate = words
+
         try:
             self.open_browser()
             self.driver.get(self.url)
 
-            self.words_to_translate = words
-
             for lang in target_langs:
                 if (self.choose_languages(origin_lang, lang)):
+                    self.translation[lang] = {}
                     self.translate_for(lang)
 
             return self.translation

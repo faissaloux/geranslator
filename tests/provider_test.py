@@ -1,6 +1,7 @@
 import pytest
 import random
 
+from importlib import import_module
 from geranslator.provider.provider import Provider
 from geranslator.exceptions.ProviderNotFound import ProviderNotFound
 
@@ -28,8 +29,11 @@ class TestProvider:
         with pytest.raises(ProviderNotFound):
             Provider('unexisted').translate(['Hello'], 'en', ['ar', 'fr'])
 
-    def test_translation(self):
+    def test_translation(self, mocker):
         provider = random.choice(self.supported_providers)
-        translation = Provider(provider).translate(['Hello'], 'en', ['es', 'fr'])
+        _provider_module = import_module(f"geranslator.provider.providers.{provider}")
+        _provider_class = getattr(_provider_module, provider.capitalize())
+        mocker.patch.object(_provider_class, "translate")
 
-        assert translation == {'es': {'Hello': 'Hola'}, 'fr': {'Hello': 'Bonjour'}}
+        Provider(provider).translate(['Hello'], 'en', ['es', 'fr'])
+        _provider_class.translate.assert_called_once_with(['Hello'], 'en', ['es', 'fr'])

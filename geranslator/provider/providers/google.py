@@ -13,8 +13,6 @@ class Google(AbstractProvider):
     url: str = 'https://translate.google.com'
 
     def translate_for(self, lang: str):
-        self.translation[lang] = {}
-
         for word_to_translate in self.words_to_translate:
             source_text = WebDriverWait(self.driver, 15).until(
                 expected_conditions.presence_of_element_located((
@@ -77,5 +75,5 @@ class Google(AbstractProvider):
                 else:
                     ActionChains(self.driver).send_keys(Keys.DOWN, Keys.RETURN).perform()
 
-            time.sleep(2)
+                time.sleep(2)
         return True

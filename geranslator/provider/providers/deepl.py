@@ -13,28 +13,28 @@ class Deepl(AbstractProvider):
     url: str = 'https://www.deepl.com/translator'
 
     def translate_for(self, lang: str):
-        self.translation[lang] = {}
-
         for word_to_translate in self.words_to_translate:
-            source_text = WebDriverWait(self.driver, 15).until(
+            source_text = WebDriverWait(self.driver, 60).until(
                 expected_conditions.presence_of_element_located((
-                    By.XPATH, "//textarea[@dl-test='translator-source-input']"
+                    By.XPATH, "//*[@dl-test='translator-source-input']"
                 ))
             )
             ActionChains(self.driver).move_to_element(source_text).click().send_keys(word_to_translate).perform()
 
-            time.sleep(2)
+            time.sleep(4)
 
-            WebDriverWait(self.driver, 15).until(
+            translated_element = WebDriverWait(self.driver, 60).until(
                 expected_conditions.presence_of_element_located((
-                    By.XPATH, "//textarea[@dl-test='translator-target-input']"
+                    By.XPATH, "//*[@dl-test='translator-target-input']"
                 ))
             )
 
-            translated_element = self.driver.find_element(by=By.XPATH, value="//textarea[@dl-test='translator-target-input']")
+            time.sleep(2)
+
             self.translation[lang][word_to_translate] = translated_element.get_attribute('value')
 
-            source_text.clear()
+            if self.driver.find_elements(By.XPATH, "//*[@dl-test='translator-source-input']//p"):
+                self.driver.find_element(By.XPATH, "//*[@dl-test='translator-source-input']//p").clear()
 
     def choose_languages(self, lang_from: str, target_lang: str) -> bool:
         self.__remove_advertisement()
@@ -46,8 +46,6 @@ class Deepl(AbstractProvider):
         )
         more_source_languages_btn.click()
         origin_lang_found = self.search_language(Languages().get(lang_from))
-
-        time.sleep(2)
 
         more_target_languages_btn = WebDriverWait(self.driver, 15).until(
             expected_conditions.presence_of_element_located((
@@ -81,7 +79,7 @@ class Deepl(AbstractProvider):
                 else:
                     ActionChains(self.driver).send_keys(Keys.RETURN).perform()
 
-            time.sleep(2)
+                time.sleep(2)
         return True
 
     def __remove_advertisement(self):
