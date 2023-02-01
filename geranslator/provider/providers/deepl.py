@@ -13,28 +13,27 @@ class Deepl(AbstractProvider):
     url: str = 'https://www.deepl.com/translator'
 
     def translate_for(self, lang: str):
-        self.translation[lang] = {}
-
         for word_to_translate in self.words_to_translate:
             source_text = WebDriverWait(self.driver, 15).until(
                 expected_conditions.presence_of_element_located((
-                    By.XPATH, "//textarea[@dl-test='translator-source-input']"
+                    By.XPATH, "//div[@id='source-dummydiv']"
                 ))
             )
             ActionChains(self.driver).move_to_element(source_text).click().send_keys(word_to_translate).perform()
 
             time.sleep(2)
 
-            WebDriverWait(self.driver, 15).until(
+            translated_element = WebDriverWait(self.driver, 15).until(
                 expected_conditions.presence_of_element_located((
                     By.XPATH, "//textarea[@dl-test='translator-target-input']"
                 ))
             )
 
-            translated_element = self.driver.find_element(by=By.XPATH, value="//textarea[@dl-test='translator-target-input']")
+            time.sleep(2)
+
             self.translation[lang][word_to_translate] = translated_element.get_attribute('value')
 
-            source_text.clear()
+            source_text.find_element(By.XPATH, "//textarea[@dl-test='translator-source-input']").clear()
 
     def choose_languages(self, lang_from: str, target_lang: str) -> bool:
         self.__remove_advertisement()
@@ -81,7 +80,7 @@ class Deepl(AbstractProvider):
                 else:
                     ActionChains(self.driver).send_keys(Keys.RETURN).perform()
 
-            time.sleep(2)
+                time.sleep(2)
         return True
 
     def __remove_advertisement(self):
