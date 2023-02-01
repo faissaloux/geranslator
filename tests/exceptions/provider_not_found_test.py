@@ -8,4 +8,4 @@ class TestProviderNotFoundException:
 
     def test_exception_message(self):
         exception = ProviderNotFound('not_found')
-        assert all(word in str(exception) for word in ['not_found', 'provider not found'])
+        assert all(text in str(exception) for text in ['not_found', 'provider not found'])

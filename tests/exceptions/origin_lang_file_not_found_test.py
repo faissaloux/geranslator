@@ -8,4 +8,4 @@ class TestOriginLangFileNotFoundException:
 
     def test_exception_message(self):
         exception = OriginLangFileNotFound('unexisted.json')
-        assert all(word in str(exception) for word in ['unexisted.json', 'not found'])
+        assert all(text in str(exception) for text in ['unexisted.json', 'not found'])

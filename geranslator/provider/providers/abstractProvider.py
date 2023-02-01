@@ -8,7 +8,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.common.exceptions import WebDriverException
 
 class AbstractProvider(ABC):
-    words_to_translate: list = []
+    text_to_translate: dict = {}
     translation: dict
 
     @abstractproperty
@@ -18,8 +18,8 @@ class AbstractProvider(ABC):
     def __init__(self):
         self.translation = {}
 
-    def translate(self, words: list, origin_lang: str, target_langs: List[str]) -> dict:
-        self.words_to_translate = words
+    def translate(self, text: dict, origin_lang: str, target_langs: List[str]) -> dict:
+        self.text_to_translate = text
 
         try:
             self.open_browser()

@@ -22,10 +22,10 @@ def before_and_after_test():
 
 class TestPoExtension:
 
-    def test_get_keys(self):
-        po_keys = Po().get_keys(os.path.join(Config().get('lang_dir'), 'en.po'))
+    def test_get(self):
+        po_keys = Po().get(os.path.join(Config().get('lang_dir'), 'en.po'))
 
-        assert po_keys == ['Hello', 'Bye']
+        assert po_keys == {"Hello": "hello", "Bye": "bye"}
 
     def test_insertion(self):
         po_file = os.path.join(Config().get('lang_dir'), 'fr.po')

@@ -22,10 +22,10 @@ def before_and_after_test():
 
 class TestJsonExtension:
 
-    def test_get_keys(self):
-        json_keys = Json().get_keys(os.path.join(Config().get('lang_dir'), 'en.json'))
+    def test_get(self):
+        json_keys = Json().get(os.path.join(Config().get('lang_dir'), 'en.json'))
 
-        assert json_keys == ['Hello', 'Bye']
+        assert json_keys == {"Hello": "hello", "Bye": "bye"}
 
     def test_insertion(self):
         json_file = os.path.join(Config().get('lang_dir'), 'fr.json')

@@ -48,12 +48,12 @@ class FilesManager:
 
         self.__ext_class().insert(self.data, lang_file)
 
-    def get_keys(self) -> list:
+    def get(self) -> list:
         lang_dir = os.path.join(os.getcwd(), self.langs_dir)
         lang_file = os.path.join(lang_dir, self.lang + '.' + self.extension)
 
         if os.path.exists(lang_file):
-            return self.__ext_class().get_keys(lang_file)
+            return self.__ext_class().get(lang_file)
         else:
             raise FileNotFound(lang_file)
 

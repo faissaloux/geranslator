@@ -13,13 +13,13 @@ class Google(AbstractProvider):
     url: str = 'https://translate.google.com'
 
     def translate_for(self, lang: str):
-        for word_to_translate in self.words_to_translate:
+        for key, value in self.text_to_translate.items():
             source_text = WebDriverWait(self.driver, 15).until(
                 expected_conditions.presence_of_element_located((
                     By.XPATH, "//textarea[@aria-label='Source text']"
                 ))
             )
-            ActionChains(self.driver).move_to_element(source_text).click().send_keys(word_to_translate).perform()
+            ActionChains(self.driver).move_to_element(source_text).click().send_keys(value).perform()
 
             time.sleep(2)
 
@@ -30,7 +30,7 @@ class Google(AbstractProvider):
             )
 
             translated_element = self.driver.find_element(by=By.XPATH, value="//span[@class='HwtZe']")
-            self.translation[lang][word_to_translate] = translated_element.text
+            self.translation[lang][key] = translated_element.text
             source_text.clear()
 
     def choose_languages(self, lang_from: str, target_lang: str) -> bool:

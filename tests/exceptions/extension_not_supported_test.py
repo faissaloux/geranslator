@@ -8,4 +8,4 @@ class TestExtensionNotSupportedException:
 
     def test_exception_message(self):
         exception = ExtensionNotSupported('pdf')
-        assert all(word in str(exception) for word in ['pdf', 'file format not supported'])
+        assert all(text in str(exception) for text in ['pdf', 'file format not supported'])

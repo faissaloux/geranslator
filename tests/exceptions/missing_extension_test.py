@@ -4,4 +4,4 @@ class TestMissingExtensionException:
 
     def test_exception_message(self):
         exception = MissingExtension()
-        assert all(word in str(exception) for word in ['Extension is missing'])
+        assert all(text in str(exception) for text in ['Extension is missing'])

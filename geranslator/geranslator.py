@@ -27,9 +27,9 @@ class Geranslator:
     def translate(self):
         self.make_sure_origin_lang_file_exists()
 
-        words = FilesManager().set_langs_dir(self.lang_dir).set_lang(self.origin_lang).set_extension(self.lang_files_ext).get_keys()
+        text = FilesManager().set_langs_dir(self.lang_dir).set_lang(self.origin_lang).set_extension(self.lang_files_ext).get()
 
-        translation = Provider(self.provider).translate(words, self.origin_lang, self.target_lang)
+        translation = Provider(self.provider).translate(text, self.origin_lang, self.target_lang)
 
         for lang in translation:
             FilesManager().set_langs_dir(self.lang_dir).set_data(translation[lang]).set_lang(lang).set_extension(self.lang_files_ext).insert()
