@@ -14,7 +14,7 @@ class Deepl(AbstractProvider):
 
     def translate_for(self, lang: str):
         for key, value in self.text_to_translate.items():
-            source_text = WebDriverWait(self.driver, 15).until(
+            source_text = WebDriverWait(self.driver, 40).until(
                 expected_conditions.presence_of_element_located((
                     By.XPATH, "//*[@dl-test='translator-source-input']"
                 ))
@@ -23,7 +23,7 @@ class Deepl(AbstractProvider):
 
             time.sleep(4)
 
-            translated_element = WebDriverWait(self.driver, 15).until(
+            translated_element = WebDriverWait(self.driver, 40).until(
                 expected_conditions.presence_of_element_located((
                     By.XPATH, "//*[@dl-test='translator-target-input']"
                 ))
