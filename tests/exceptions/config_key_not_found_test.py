@@ -8,4 +8,4 @@ class TestConfigKeyNotFoundException:
 
     def test_exception_message(self):
         exception = ConfigKeyNotFound('not_found')
-        assert all(word in str(exception) for word in ['not_found', 'not found in config file'])
+        assert all(text in str(exception) for text in ['not_found', 'not found in config file'])

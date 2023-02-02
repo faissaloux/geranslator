@@ -19,11 +19,11 @@ class Po(AbstractExtension):
 
         po.save()
 
-    def get_keys(self, file: str) -> list:
-        keys: list = []
+    def get(self, file: str) -> dict:
+        data: dict = {}
         po = polib.pofile(file)
 
         for entry in po:
-            keys.append(entry.msgid)
+            data[entry.msgid] = entry.msgstr
 
-        return keys
+        return data

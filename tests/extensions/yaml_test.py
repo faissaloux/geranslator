@@ -22,10 +22,10 @@ def before_and_after_test():
 
 class TestYamlExtension:
 
-    def test_get_keys(self):
-        json_keys = Yaml().get_keys(os.path.join(Config().get('lang_dir'), 'en.yaml'))
+    def test_get(self):
+        json_keys = Yaml().get(os.path.join(Config().get('lang_dir'), 'en.yaml'))
 
-        assert json_keys == ['Bye', 'Hello']
+        assert json_keys == {"Hello": "hello", "Bye": "bye"}
 
     def test_insertion(self):
         yaml_file = os.path.join(Config().get('lang_dir'), 'fr.yaml')

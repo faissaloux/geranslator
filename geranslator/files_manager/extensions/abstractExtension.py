@@ -7,5 +7,5 @@ class AbstractExtension(ABC):
         pass
 
     @abstractmethod
-    def get_keys(self, file: str) -> list:
+    def get(self, file: str) -> dict:
         pass
