@@ -21,7 +21,7 @@ class Google(AbstractProvider):
             )
             ActionChains(self.driver).move_to_element(source_text).click().send_keys(value).perform()
 
-            time.sleep(2)
+            time.sleep(4)
 
             WebDriverWait(self.driver, 15).until(
                 expected_conditions.presence_of_element_located((
