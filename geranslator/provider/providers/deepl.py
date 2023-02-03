@@ -23,7 +23,7 @@ class Deepl(AbstractProvider):
 
             time.sleep(4)
 
-            translated_element = WebDriverWait(self.driver, 40).until(
+            WebDriverWait(self.driver, 40).until(
                 expected_conditions.presence_of_element_located((
                     By.XPATH, "//*[@dl-test='translator-target-input']"
                 ))
@@ -31,6 +31,8 @@ class Deepl(AbstractProvider):
 
             time.sleep(4)
 
+            translated_element = self.driver.find_element(By.XPATH, "//*[@dl-test='translator-target-input']")
+            time.sleep(1)
             self.translation[lang][key] = translated_element.get_attribute('value')
 
             if self.driver.find_elements(By.XPATH, "//*[@dl-test='translator-source-input']//p"):
