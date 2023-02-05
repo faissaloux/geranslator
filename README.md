@@ -34,11 +34,13 @@ geranslator:
 geranslator
 ```
 ### Supported options
-- --provider        | -p : To specify provider.
-- --lang-dir        | -d : To specify translation files directory.
-- --extension       | -e : To specify translation files format.
-- --origin-lang     | -o : To specify the origin language.
-- --target-langs    | -t : To specify target languages.
+| option | short | description |
+|---|---|---|
+| --provider        | -p | To specify provider.|
+| --lang-dir        | -d | To specify translation files directory.|
+| --extension       | -e | To specify translation files format.|
+| --origin-lang     | -o | To specify the origin language.|
+| --target-langs    | -t | To specify target languages.|
 ```bash
 geranslator --provider=deepl --origin-lang=en --target-langs=es,pt
 ```
