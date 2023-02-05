@@ -1,4 +1,15 @@
-## [Unreleased](https://github.com/faissaloux/geranslator/compare/v0.2.0...main)
+## [Unreleased](https://github.com/faissaloux/geranslator/compare/v0.3.0...main)
+
+## [v0.3.0](https://github.com/faissaloux/termspark/compare/v0.2.0...v0.3.0) - 2023-02-05
+### ADDED
+- CLI ([#38](https://github.com/faissaloux/geranslator/pull/38))
+- Deepl support ([#28](https://github.com/faissaloux/geranslator/pull/28))
+- Po support ([#24](https://github.com/faissaloux/geranslator/pull/24))
+### CHANGED
+- Translate value instead of key ([#35](https://github.com/faissaloux/geranslator/pull/35))
+- Case unsensitive extensions ([#21](https://github.com/faissaloux/geranslator/pull/21))
+## FIXED
+- Fix deepl translation bug ([#37](https://github.com/faissaloux/geranslator/pull/37))
 
 ## [v0.2.0](https://github.com/faissaloux/termspark/compare/v0.1.0...v0.2.0) - 2023-01-27
 ### ADDED
