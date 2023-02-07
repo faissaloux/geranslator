@@ -8,8 +8,7 @@ from geranslator.exceptions.MissingExtension import MissingExtension
 from geranslator.exceptions.MissingOriginLang import MissingOriginLang
 from geranslator.exceptions.MissingProvider import MissingProvider
 from geranslator.exceptions.MissingTargetLang import MissingTargetLang
-from geranslator.exceptions.OriginLangFileNotFound import \
-    OriginLangFileNotFound
+from geranslator.exceptions.OriginLangFileNotFound import OriginLangFileNotFound
 from geranslator.geranslator import Geranslator
 
 
