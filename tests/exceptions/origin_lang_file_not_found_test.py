@@ -1,5 +1,4 @@
-from geranslator.exceptions.OriginLangFileNotFound import \
-    OriginLangFileNotFound
+from geranslator.exceptions.OriginLangFileNotFound import OriginLangFileNotFound
 
 
 class TestOriginLangFileNotFoundException:
