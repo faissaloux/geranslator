@@ -1,11 +1,12 @@
 import os
-import polib
 import shutil
+
+import polib
 
 from .abstractExtension import AbstractExtension
 
-class Po(AbstractExtension):
 
+class Po(AbstractExtension):
     def insert(self, data: dict, file: str):
         lang_directory = os.path.dirname(os.path.realpath(file))
         lang_file_sample = os.path.join(lang_directory, os.listdir(lang_directory)[0])

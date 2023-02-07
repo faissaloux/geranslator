@@ -1,17 +1,18 @@
 import os
-import pytest
 import shutil
+
+import pytest
 
 from geranslator.config.config import Config
 from geranslator.provider.providers.google import Google
 
+
 @pytest.fixture(autouse=True)
 def before_and_after_test():
-
-    lang_dir = Config().get('lang_dir')
+    lang_dir = Config().get("lang_dir")
 
     os.mkdir(lang_dir)
-    lang_file = open(f"{lang_dir}/en.json", 'w')
+    lang_file = open(f"{lang_dir}/en.json", "w")
     lang_file.write('{"text_1": "good morning", "text_2": "good night"}')
     lang_file.close()
 
@@ -19,31 +20,61 @@ def before_and_after_test():
 
     shutil.rmtree(lang_dir)
 
-class TestGoogleProvider:
 
+class TestGoogleProvider:
     def test_url(self):
-        assert Google().url == 'https://translate.google.com'
+        assert Google().url == "https://translate.google.com"
 
     def test_translation_text(self):
         google_provider = Google()
-        translation = google_provider.translate({"text_1": "good morning", "text_2": "good night"}, 'en', ['ar', 'fr'])
+        translation = google_provider.translate(
+            {"text_1": "good morning", "text_2": "good night"}, "en", ["ar", "fr"]
+        )
 
-        assert google_provider.text_to_translate == {"text_1": "good morning", "text_2": "good night"}
-        assert list(google_provider.translation.keys()) == ['ar', 'fr']
-        assert list(google_provider.translation['ar'].keys()) == ['text_1', 'text_2']
-        assert list(google_provider.translation['fr'].keys()) == ['text_1', 'text_2']
-        assert google_provider.translation['ar'] == {'text_1': 'صباح الخير', 'text_2': 'طاب مساؤك'}
-        assert google_provider.translation['fr'] == {'text_1': 'bonjour', 'text_2': 'bonne nuit'}
-        assert translation == {'ar': {'text_1': 'صباح الخير', 'text_2': 'طاب مساؤك'}, 'fr': {'text_1': 'bonjour', 'text_2': 'bonne nuit'}}
+        assert google_provider.text_to_translate == {
+            "text_1": "good morning",
+            "text_2": "good night",
+        }
+        assert list(google_provider.translation.keys()) == ["ar", "fr"]
+        assert list(google_provider.translation["ar"].keys()) == ["text_1", "text_2"]
+        assert list(google_provider.translation["fr"].keys()) == ["text_1", "text_2"]
+        assert google_provider.translation["ar"] == {
+            "text_1": "صباح الخير",
+            "text_2": "طاب مساؤك",
+        }
+        assert google_provider.translation["fr"] == {
+            "text_1": "bonjour",
+            "text_2": "bonne nuit",
+        }
+        assert translation == {
+            "ar": {"text_1": "صباح الخير", "text_2": "طاب مساؤك"},
+            "fr": {"text_1": "bonjour", "text_2": "bonne nuit"},
+        }
 
     def test_language_not_found_doesnt_stop_the_process(self):
         google_provider = Google()
-        translation = google_provider.translate({"text_1": "good morning", "text_2": "good night"}, 'en', ['ar', 'not_exist', 'fr'])
+        translation = google_provider.translate(
+            {"text_1": "good morning", "text_2": "good night"},
+            "en",
+            ["ar", "not_exist", "fr"],
+        )
 
-        assert google_provider.text_to_translate == {"text_1": "good morning", "text_2": "good night"}
-        assert list(google_provider.translation.keys()) == ['ar', 'fr']
-        assert list(google_provider.translation['ar'].keys()) == ['text_1', 'text_2']
-        assert list(google_provider.translation['fr'].keys()) == ['text_1', 'text_2']
-        assert google_provider.translation['ar'] == {'text_1': 'صباح الخير', 'text_2': 'طاب مساؤك'}
-        assert google_provider.translation['fr'] == {'text_1': 'bonjour', 'text_2': 'bonne nuit'}
-        assert translation == {'ar': {'text_1': 'صباح الخير', 'text_2': 'طاب مساؤك'}, 'fr': {'text_1': 'bonjour', 'text_2': 'bonne nuit'}}
+        assert google_provider.text_to_translate == {
+            "text_1": "good morning",
+            "text_2": "good night",
+        }
+        assert list(google_provider.translation.keys()) == ["ar", "fr"]
+        assert list(google_provider.translation["ar"].keys()) == ["text_1", "text_2"]
+        assert list(google_provider.translation["fr"].keys()) == ["text_1", "text_2"]
+        assert google_provider.translation["ar"] == {
+            "text_1": "صباح الخير",
+            "text_2": "طاب مساؤك",
+        }
+        assert google_provider.translation["fr"] == {
+            "text_1": "bonjour",
+            "text_2": "bonne nuit",
+        }
+        assert translation == {
+            "ar": {"text_1": "صباح الخير", "text_2": "طاب مساؤك"},
+            "fr": {"text_1": "bonjour", "text_2": "bonne nuit"},
+        }

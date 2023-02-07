@@ -1,14 +1,15 @@
 import os
-
 from typing import List
+
 from .config.config import Config
-from .provider.provider import Provider
-from .files_manager.files_manager import FilesManager
-from .exceptions.OriginLangFileNotFound import OriginLangFileNotFound
-from .exceptions.MissingOriginLang import MissingOriginLang
-from .exceptions.MissingTargetLang import MissingTargetLang
 from .exceptions.MissingExtension import MissingExtension
+from .exceptions.MissingOriginLang import MissingOriginLang
 from .exceptions.MissingProvider import MissingProvider
+from .exceptions.MissingTargetLang import MissingTargetLang
+from .exceptions.OriginLangFileNotFound import OriginLangFileNotFound
+from .files_manager.files_manager import FilesManager
+from .provider.provider import Provider
+
 
 class Geranslator:
     provider: str
@@ -18,21 +19,31 @@ class Geranslator:
     target_lang: List[str] = []
 
     def __init__(self):
-        self.set_lang_dir(Config().get('lang_dir'))
-        self.set_origin_lang(Config().get('origin_lang'))
-        self.set_target_lang(Config().get('target_langs'))
-        self.set_lang_files_extension(Config().get('lang_files_ext'))
-        self.set_provider(Config().get('provider'))
+        self.set_lang_dir(Config().get("lang_dir"))
+        self.set_origin_lang(Config().get("origin_lang"))
+        self.set_target_lang(Config().get("target_langs"))
+        self.set_lang_files_extension(Config().get("lang_files_ext"))
+        self.set_provider(Config().get("provider"))
 
     def translate(self):
         self.make_sure_origin_lang_file_exists()
 
-        text = FilesManager().set_langs_dir(self.lang_dir).set_lang(self.origin_lang).set_extension(self.lang_files_ext).get()
+        text = (
+            FilesManager()
+            .set_langs_dir(self.lang_dir)
+            .set_lang(self.origin_lang)
+            .set_extension(self.lang_files_ext)
+            .get()
+        )
 
-        translation = Provider(self.provider).translate(text, self.origin_lang, self.target_lang)
+        translation = Provider(self.provider).translate(
+            text, self.origin_lang, self.target_lang
+        )
 
         for lang in translation:
-            FilesManager().set_langs_dir(self.lang_dir).set_data(translation[lang]).set_lang(lang).set_extension(self.lang_files_ext).insert()
+            FilesManager().set_langs_dir(self.lang_dir).set_data(
+                translation[lang]
+            ).set_lang(lang).set_extension(self.lang_files_ext).insert()
 
     def set_provider(self, provider: str):
         if not len(provider):
@@ -53,7 +64,7 @@ class Geranslator:
     def set_target_lang(self, *target_lang: List[str]):
         self.target_lang = []
 
-        if (isinstance(target_lang[0], list)):
+        if isinstance(target_lang[0], list):
             for lang in target_lang[0]:
                 self.target_lang.append(lang)
         elif isinstance(target_lang, tuple):
@@ -83,10 +94,14 @@ class Geranslator:
         return self
 
     def origin_lang_file_exists(self) -> bool:
-        self.origin_lang_file = os.path.join(self.lang_dir, f"{self.origin_lang}.{self.lang_files_ext}")
+        self.origin_lang_file = os.path.join(
+            self.lang_dir, f"{self.origin_lang}.{self.lang_files_ext}"
+        )
 
         return os.path.exists(self.origin_lang_file)
 
     def make_sure_origin_lang_file_exists(self):
         if not self.origin_lang_file_exists():
-            raise OriginLangFileNotFound(os.path.join(self.lang_dir, f"{self.origin_lang}.{self.lang_files_ext}"))
+            raise OriginLangFileNotFound(
+                os.path.join(self.lang_dir, f"{self.origin_lang}.{self.lang_files_ext}")
+            )

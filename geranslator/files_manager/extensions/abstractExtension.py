@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
-class AbstractExtension(ABC):
 
+class AbstractExtension(ABC):
     @abstractmethod
     def insert(self, data: dict, file: str):
         pass
