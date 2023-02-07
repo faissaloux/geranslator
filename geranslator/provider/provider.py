@@ -1,8 +1,9 @@
 import os
-
-from typing import List
 from importlib import import_module
+from typing import List
+
 from ..exceptions.ProviderNotFound import ProviderNotFound
+
 
 class Provider:
     dir: str = os.path.dirname(os.path.realpath(__file__))
@@ -23,7 +24,7 @@ class Provider:
         self.provider = provider
 
     def provider_exists(self, provider: str) -> bool:
-        return os.path.exists(os.path.join(self.dir, 'providers', f"{provider}.py"))
+        return os.path.exists(os.path.join(self.dir, "providers", f"{provider}.py"))
 
     def __make_sure_provider_exists(self, provider: str) -> bool:
         if not self.provider_exists(provider):

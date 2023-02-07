@@ -24,3 +24,11 @@ repos:
   hooks:
   - id: mypy
     additional_dependencies: [types-PyYAML, types-polib]
+- repo: https://github.com/PyCQA/isort
+  rev: 5.11.5
+  hooks:
+  - id: isort
+- repo: https://github.com/psf/black
+  rev: 23.1.0
+  hooks:
+  - id: black

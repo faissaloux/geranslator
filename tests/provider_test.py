@@ -1,25 +1,27 @@
-import pytest
 import random
-
 from importlib import import_module
-from geranslator.provider.provider import Provider
+
+import pytest
+
 from geranslator.exceptions.ProviderNotFound import ProviderNotFound
+from geranslator.provider.provider import Provider
+
 
 class TestProvider:
     supported_providers: list = [
-        'google',
-        'deepl',
+        "google",
+        "deepl",
     ]
 
     def test_set_provider(self):
-        provider = Provider('google')
+        provider = Provider("google")
 
-        assert provider.provider == 'google'
+        assert provider.provider == "google"
 
     def test_case_unsensitivity_provider(self):
-        provider = Provider('GOOGLE')
+        provider = Provider("GOOGLE")
 
-        assert provider.provider == 'google'
+        assert provider.provider == "google"
 
     def test_supported_providers(self):
         for provider in self.supported_providers:
@@ -27,7 +29,7 @@ class TestProvider:
 
     def test_cant_translate_using_unexisted_provider(self):
         with pytest.raises(ProviderNotFound):
-            Provider('unexisted').translate(['Hello'], 'en', ['ar', 'fr'])
+            Provider("unexisted").translate(["Hello"], "en", ["ar", "fr"])
 
     def test_translation(self, mocker):
         provider = random.choice(self.supported_providers)
@@ -35,5 +37,5 @@ class TestProvider:
         _provider_class = getattr(_provider_module, provider.capitalize())
         mocker.patch.object(_provider_class, "translate")
 
-        Provider(provider).translate(['Hello'], 'en', ['es', 'fr'])
-        _provider_class.translate.assert_called_once_with(['Hello'], 'en', ['es', 'fr'])
+        Provider(provider).translate(["Hello"], "en", ["es", "fr"])
+        _provider_class.translate.assert_called_once_with(["Hello"], "en", ["es", "fr"])

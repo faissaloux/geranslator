@@ -22,8 +22,18 @@ test: clean
 
 lint: mypy
 
+format:
+	isort .
+	black .
+
 mypy:
 	mypy --show-error-codes $(NAME) tests
+
+black:
+	black . --check
+
+isort:
+	isort . --check-only
 
 precommit: clean
 	pre-commit run --all-files
