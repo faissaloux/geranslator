@@ -16,28 +16,46 @@ class Google(AbstractProvider):
 
     def translate_for(self, lang: str):
         for key, value in self.text_to_translate.items():
-            source_text = WebDriverWait(self.driver, 15).until(
-                expected_conditions.presence_of_element_located(
-                    (By.XPATH, "//textarea[@aria-label='Source text']")
-                )
-            )
-            ActionChains(self.driver).move_to_element(source_text).click().send_keys(
-                value
-            ).perform()
+            if isinstance(value, dict):
+                for hidden, texts in value.items():
+                    for text in texts:
+                        translation = self.__translate_text(text)
+                        try:
+                            self.translation[lang][key][hidden].append(translation)
+                        except KeyError:
+                            self.translation[lang][key] = {}
+                            self.translation[lang][key][hidden] = []
+                            self.translation[lang][key][hidden].append(translation)
+            else:
+                translation = self.__translate_text(value)
+                self.translation[lang][key] = translation
 
-            time.sleep(4)
-
-            WebDriverWait(self.driver, 15).until(
-                expected_conditions.presence_of_element_located(
-                    (By.XPATH, "//button[@aria-label='Copy translation']")
-                )
+    def __translate_text(self, text: str) -> str:
+        source_text = WebDriverWait(self.driver, 15).until(
+            expected_conditions.presence_of_element_located(
+                (By.XPATH, "//textarea[@aria-label='Source text']")
             )
+        )
 
-            translated_element = self.driver.find_element(
-                by=By.XPATH, value="//span[@class='HwtZe']"
+        ActionChains(self.driver).move_to_element(source_text).click().send_keys(
+            text
+        ).perform()
+
+        time.sleep(4)
+
+        WebDriverWait(self.driver, 15).until(
+            expected_conditions.presence_of_element_located(
+                (By.XPATH, "//button[@aria-label='Copy translation']")
             )
-            self.translation[lang][key] = translated_element.text
-            source_text.clear()
+        )
+
+        translated_element = self.driver.find_element(
+            by=By.XPATH, value="//span[@class='HwtZe']"
+        )
+
+        source_text.clear()
+
+        return translated_element.text
 
     def choose_languages(self, lang_from: str, target_lang: str) -> bool:
         more_source_languages_btn = WebDriverWait(self.driver, 15).until(

@@ -78,3 +78,55 @@ class TestGoogleProvider:
             "ar": {"text_1": "صباح الخير", "text_2": "طاب مساؤك"},
             "fr": {"text_1": "bonjour", "text_2": "bonne nuit"},
         }
+
+    def test_translation_text_incldes_hidden_values(self):
+        google_provider = Google()
+        translation = google_provider.translate(
+            {
+                "Hello": "hello",
+                "morning": {":attribute": ["good morning ", " , see you later!"]},
+                "Bye": "bye",
+            },
+            "en",
+            ["ar", "fr"],
+        )
+
+        assert google_provider.text_to_translate == {
+            "Hello": "hello",
+            "morning": {":attribute": ["good morning ", " , see you later!"]},
+            "Bye": "bye",
+        }
+        assert list(google_provider.translation.keys()) == ["ar", "fr"]
+        assert list(google_provider.translation["ar"].keys()) == [
+            "Hello",
+            "morning",
+            "Bye",
+        ]
+        assert list(google_provider.translation["fr"].keys()) == [
+            "Hello",
+            "morning",
+            "Bye",
+        ]
+
+        assert google_provider.translation["ar"] == {
+            "Hello": "مرحبًا",
+            "morning": "صباح الخير:attribute، أراك لاحقًا!",
+            "Bye": "الوداع",
+        }
+        assert google_provider.translation["fr"] == {
+            "Hello": "Bonjour",
+            "morning": "bonjour:attribute, à plus tard!",
+            "Bye": "au revoir",
+        }
+        assert translation == {
+            "ar": {
+                "Hello": "مرحبًا",
+                "morning": "صباح الخير:attribute، أراك لاحقًا!",
+                "Bye": "الوداع",
+            },
+            "fr": {
+                "Hello": "Bonjour",
+                "morning": "bonjour:attribute, à plus tard!",
+                "Bye": "au revoir",
+            },
+        }

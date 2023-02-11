@@ -31,6 +31,12 @@ class AbstractProvider(ABC):
                     self.translation[lang] = {}
                     self.translate_for(lang)
 
+            for lang, translations in self.translation.items():
+                for key, translation in translations.items():
+                    if isinstance(translation, dict):
+                        for hidden, translation_parts in translation.items():
+                            self.translation[lang][key] = hidden.join(translation_parts)
+
             return self.translation
         except WebDriverException:
             TermSpark().spark_left(
