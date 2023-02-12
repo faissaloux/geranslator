@@ -64,3 +64,55 @@ class TestDeeplProvider:
             "es": {"text_1": "hola", "text_2": "adiós"},
             "fr": {"text_1": "Bonjour", "text_2": "au revoir"},
         }
+
+    def test_translation_text_incldes_hidden_values(self):
+        deepl_provider = Deepl()
+        translation = deepl_provider.translate(
+            {
+                "Hello": "hello",
+                "morning": {":attribute": ["good morning ", " see you later!"]},
+                "Bye": "bye",
+            },
+            "en",
+            ["es", "fr"],
+        )
+
+        assert deepl_provider.text_to_translate == {
+            "Hello": "hello",
+            "morning": {":attribute": ["good morning ", " see you later!"]},
+            "Bye": "bye",
+        }
+        assert list(deepl_provider.translation.keys()) == ["es", "fr"]
+        assert list(deepl_provider.translation["es"].keys()) == [
+            "Hello",
+            "morning",
+            "Bye",
+        ]
+        assert list(deepl_provider.translation["fr"].keys()) == [
+            "Hello",
+            "morning",
+            "Bye",
+        ]
+
+        assert deepl_provider.translation["es"] == {
+            "Hello": "hola",
+            "morning": "buenos días :attribute ¡hasta luego!",
+            "Bye": "adiós",
+        }
+        assert deepl_provider.translation["fr"] == {
+            "Hello": "Bonjour",
+            "morning": "bonjour :attribute à plus tard !",
+            "Bye": "au revoir",
+        }
+        assert translation == {
+            "es": {
+                "Hello": "hola",
+                "morning": "buenos días :attribute ¡hasta luego!",
+                "Bye": "adiós",
+            },
+            "fr": {
+                "Hello": "Bonjour",
+                "morning": "bonjour :attribute à plus tard !",
+                "Bye": "au revoir",
+            },
+        }
