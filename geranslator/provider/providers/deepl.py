@@ -14,23 +14,7 @@ from .abstractProvider import AbstractProvider
 class Deepl(AbstractProvider):
     url: str = "https://www.deepl.com/translator"
 
-    def translate_for(self, lang: str):
-        for key, value in self.text_to_translate.items():
-            if isinstance(value, dict):
-                for hidden, texts in value.items():
-                    for text in texts:
-                        translation = self.__translate_text(text)
-                        try:
-                            self.translation[lang][key][hidden].append(translation)
-                        except KeyError:
-                            self.translation[lang][key] = {}
-                            self.translation[lang][key][hidden] = []
-                            self.translation[lang][key][hidden].append(translation)
-            else:
-                translation = self.__translate_text(value)
-                self.translation[lang][key] = translation
-
-    def __translate_text(self, text: str) -> str:
+    def translate_text(self, text: str) -> str:
         source_text = WebDriverWait(self.driver, 40).until(
             expected_conditions.presence_of_element_located(
                 (By.XPATH, "//*[@dl-test='translator-source-input']")
