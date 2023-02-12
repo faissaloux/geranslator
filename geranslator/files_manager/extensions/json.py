@@ -13,14 +13,17 @@ class Json(AbstractExtension):
     def get(self, file: str) -> dict:
         data: dict = {}
 
-        for hidden in self.hidden:
-            for key, value in json.load(open(file, "r")).items():
-                for word in value.split():
-                    if bool(re.search(hidden, word)):
-                        data[key] = {}
-                        data[key][word] = value.split(word)
-                        break
-                    else:
-                        data[key] = value
+        if self.hidden:
+            for hidden in self.hidden:
+                for key, value in json.load(open(file, "r")).items():
+                    for word in value.split():
+                        if bool(re.search(hidden, word)):
+                            data[key] = {}
+                            data[key][word] = value.split(word)
+                            break
+                        else:
+                            data[key] = value
+        else:
+            data = json.load(open(file, "r"))
 
         return data
