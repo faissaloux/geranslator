@@ -55,7 +55,7 @@ class Google(AbstractProvider):
 
         source_text.clear()
 
-        return translated_element.text
+        return translated_element.text.lower()
 
     def choose_languages(self, lang_from: str, target_lang: str) -> bool:
         more_source_languages_btn = WebDriverWait(self.driver, 15).until(

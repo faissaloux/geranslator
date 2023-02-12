@@ -51,6 +51,17 @@ class TestGoogleProvider:
             "fr": {"text_1": "bonjour", "text_2": "bonne nuit"},
         }
 
+    def test_translation_returns_lower_case(self):
+        google_provider = Google()
+        translation = google_provider.translate(
+            {"text_1": "GOOD MORNING", "text_2": "GOOD NIGHT"}, "en", ["es", "fr"]
+        )
+
+        assert translation == {
+            "es": {"text_1": "buen día", "text_2": "buenas noches"},
+            "fr": {"text_1": "bonjour", "text_2": "bonne nuit"},
+        }
+
     def test_language_not_found_doesnt_stop_the_process(self):
         google_provider = Google()
         translation = google_provider.translate(
@@ -114,7 +125,7 @@ class TestGoogleProvider:
             "Bye": "الوداع",
         }
         assert google_provider.translation["fr"] == {
-            "Hello": "Bonjour",
+            "Hello": "bonjour",
             "morning": "bonjour:attribute, à plus tard!",
             "Bye": "au revoir",
         }
@@ -125,7 +136,7 @@ class TestGoogleProvider:
                 "Bye": "الوداع",
             },
             "fr": {
-                "Hello": "Bonjour",
+                "Hello": "bonjour",
                 "morning": "bonjour:attribute, à plus tard!",
                 "Bye": "au revoir",
             },

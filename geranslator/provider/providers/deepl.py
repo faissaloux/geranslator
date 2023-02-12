@@ -64,7 +64,7 @@ class Deepl(AbstractProvider):
 
         time.sleep(2)
 
-        return translated_element.get_attribute("value")
+        return translated_element.get_attribute("value").lower()
 
     def choose_languages(self, lang_from: str, target_lang: str) -> bool:
         self.__remove_advertisement()
