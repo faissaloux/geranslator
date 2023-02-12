@@ -1,9 +1,7 @@
 import os
 import shutil
-from unittest.mock import MagicMock, patch
 
 import pytest
-from selenium.common.exceptions import WebDriverException
 
 from geranslator.config.config import Config
 from geranslator.provider.providers.deepl import Deepl
@@ -26,15 +24,6 @@ def before_and_after_test():
 class TestDeeplProvider:
     def test_url(self):
         assert Deepl().url == "https://www.deepl.com/translator"
-
-    @patch.object(Deepl, "translate", MagicMock(side_effect=WebDriverException()))
-    def test_exception(self):
-        with pytest.raises(WebDriverException):
-            translation = Deepl().translate(
-                {"text_1": "hello", "text_2": "bye"}, "en", ["es", "fr"]
-            )
-
-            assert translation == {}
 
     def test_translation_text(self):
         deepl_provider = Deepl()

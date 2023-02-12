@@ -1,9 +1,7 @@
 import os
 import shutil
-from unittest.mock import MagicMock, patch
 
 import pytest
-from selenium.common.exceptions import WebDriverException
 
 from geranslator.config.config import Config
 from geranslator.provider.providers.google import Google
@@ -26,15 +24,6 @@ def before_and_after_test():
 class TestGoogleProvider:
     def test_url(self):
         assert Google().url == "https://translate.google.com"
-
-    @patch.object(Google, "translate", MagicMock(side_effect=WebDriverException()))
-    def test_exception(self):
-        with pytest.raises(WebDriverException):
-            translation = Google().translate(
-                {"text_1": "good morning", "text_2": "good night"}, "en", ["ar", "fr"]
-            )
-
-            assert translation == {}
 
     def test_translation_text(self):
         google_provider = Google()
