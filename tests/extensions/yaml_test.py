@@ -24,9 +24,9 @@ def before_and_after_test():
 
 class TestYamlExtension:
     def test_get(self):
-        json_keys = Yaml().get(os.path.join(Config().get("lang_dir"), "en.yaml"))
+        yaml_data = Yaml().get(os.path.join(Config().get("lang_dir"), "en.yaml"))
 
-        assert json_keys == {"Hello": "hello", "Bye": "bye"}
+        assert yaml_data == {"Hello": "hello", "Bye": "bye"}
 
     def test_insertion(self):
         yaml_file = os.path.join(Config().get("lang_dir"), "fr.yaml")
@@ -36,4 +36,19 @@ class TestYamlExtension:
         assert yaml.load(open(yaml_file, "r"), Loader=yaml.Loader) == {
             "Bye": "Au revoir",
             "Hey": "Bonjour",
+        }
+
+    def test_skip_hidden(self):
+        lang_dir = Config().get("lang_dir")
+        lang_file = open(f"{lang_dir}/en.yaml", "w")
+        lang_file.write(
+            '{"Hello": "hello", "morning": "good morning %attribute% , see you later!","Bye": "bye"}'
+        )
+        lang_file.close()
+
+        yaml_data = Yaml().get(os.path.join(Config().get("lang_dir"), "en.yaml"))
+        assert yaml_data == {
+            "Hello": "hello",
+            "morning": {"%attribute%": ["good morning ", " , see you later!"]},
+            "Bye": "bye",
         }
