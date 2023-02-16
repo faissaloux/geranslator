@@ -19,7 +19,7 @@ class Yaml(AbstractExtension):
                 for word in value.split():
                     if bool(re.search(hidden, word)):
                         data[key] = {}
-                        data[key][word] = value.split(word)
+                        data[key][word] = self.ignore_hidden(value.split(word))
                         break
                     else:
                         data[key] = value

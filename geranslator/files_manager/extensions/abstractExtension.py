@@ -1,3 +1,4 @@
+import re
 from abc import ABC, abstractmethod
 
 
@@ -11,3 +12,27 @@ class AbstractExtension(ABC):
     @abstractmethod
     def get(self, file: str) -> dict:
         pass
+
+    def ignore_hidden(self, text_list: list) -> list:
+        result: list = []
+
+        for hidden in self.hidden:
+            for text in text_list:
+                for word in text.split():
+                    if bool(re.search(hidden, word)):
+                        result.append({word: self.ignore_hidden(text.split(word))})
+                        break
+                    else:
+                        if text not in result and not self.__hidden_in_text(text):
+                            result.append(text)
+                        continue
+
+        return result
+
+    def __hidden_in_text(self, text: str) -> bool:
+        for hidden in self.hidden:
+            for word in text.split():
+                if bool(re.search(hidden, word)):
+                    return True
+
+        return False

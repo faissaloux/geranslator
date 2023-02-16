@@ -32,7 +32,9 @@ class Po(AbstractExtension):
                 for word in entry.msgstr.split():
                     if bool(re.search(hidden, word)):
                         data[entry.msgid] = {}
-                        data[entry.msgid][word] = entry.msgstr.split(word)
+                        data[entry.msgid][word] = self.ignore_hidden(
+                            entry.msgstr.split(word)
+                        )
                         break
                     else:
                         data[entry.msgid] = entry.msgstr

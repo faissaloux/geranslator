@@ -52,3 +52,23 @@ class TestYamlExtension:
             "morning": {"%attribute%": ["good morning ", " , see you later!"]},
             "Bye": "bye",
         }
+
+    def test_skip_multiple_different_hidden(self):
+        lang_dir = Config().get("lang_dir")
+        lang_file = open(f"{lang_dir}/en.yaml", "w")
+        lang_file.write(
+            '{"Hello": "hello", "morning": "good morning %attribute1% , see you %attribute2% later!","Bye": "bye"}'
+        )
+        lang_file.close()
+
+        yaml_data = Yaml().get(os.path.join(Config().get("lang_dir"), "en.yaml"))
+        assert yaml_data == {
+            "Hello": "hello",
+            "morning": {
+                "%attribute1%": [
+                    "good morning ",
+                    {"%attribute2%": [" , see you ", " later!"]},
+                ]
+            },
+            "Bye": "bye",
+        }
