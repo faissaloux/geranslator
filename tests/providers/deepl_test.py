@@ -76,7 +76,7 @@ class TestDeeplProvider:
             "fr": {"text_1": "bonjour", "text_2": "au revoir"},
         }
 
-    def test_translation_text_incldes_hidden_values(self):
+    def test_translation_text_includes_hidden_value(self):
         deepl_provider = Deepl()
         translation = deepl_provider.translate(
             {
@@ -126,4 +126,44 @@ class TestDeeplProvider:
                 "morning": "bonjour :attribute passez une bonne journée",
                 "Bye": "au revoir",
             },
+        }
+
+    def test_translation_text_includes_multiple_hidden_values(self):
+        deepl_provider = Deepl()
+        translation = deepl_provider.translate(
+            {
+                "morning": {
+                    ":attribute1": [
+                        "good morning",
+                        {":attribute2": [" , see you ", " later!"]},
+                    ]
+                }
+            },
+            "en",
+            ["es", "fr"],
+        )
+
+        assert deepl_provider.text_to_translate == {
+            "morning": {
+                ":attribute1": [
+                    "good morning",
+                    {":attribute2": [" , see you ", " later!"]},
+                ]
+            }
+        }
+        assert list(deepl_provider.translation.keys()) == ["es", "fr"]
+        assert list(deepl_provider.translation["es"].keys()) == ["morning"]
+        assert list(deepl_provider.translation["fr"].keys()) == ["morning"]
+
+        assert deepl_provider.translation["es"] == {
+            "morning": "buenos días:attribute1 nos vemos. :attribute2 ¡más tarde!"
+        }
+        assert deepl_provider.translation["fr"] == {
+            "morning": "bonjour:attribute1 au revoir. :attribute2 plus tard !"
+        }
+        assert translation == {
+            "es": {
+                "morning": "buenos días:attribute1 nos vemos. :attribute2 ¡más tarde!"
+            },
+            "fr": {"morning": "bonjour:attribute1 au revoir. :attribute2 plus tard !"},
         }

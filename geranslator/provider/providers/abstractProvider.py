@@ -29,36 +29,89 @@ class AbstractProvider(ABC):
             for lang in target_langs:
                 if self.choose_languages(origin_lang, lang):
                     self.translation[lang] = {}
-                    self.translate_for(lang)
+                    self.__translate_to(lang)
 
-            for lang, translations in self.translation.items():
-                for key, translation in translations.items():
-                    if isinstance(translation, dict):
-                        for hidden, translation_parts in translation.items():
-                            self.translation[lang][key] = hidden.join(translation_parts)
+            self.__join_translations()
 
             return self.translation
         except WebDriverException:
             TermSpark().spark_left(
                 [" Please check your network and try again ", "white", "red"]
             ).spark()
+
             return {}
 
-    def translate_for(self, lang: str):
+    def __join_translations(self):
+        for lang, translations in self.translation.items():
+            for key, translation in translations.items():
+                if isinstance(translation, dict):
+                    self.translation[lang][key] = "".join(
+                        self.__join_translation_parts(translation)
+                    )
+                else:
+                    self.translation[lang][key] = translation
+
+    def __join_translation_parts(self, translation_parts_dict: dict) -> list:
+        joined: list = []
+
+        for hidden, translation_parts in translation_parts_dict.items():
+            for index, translation_part in enumerate(translation_parts):
+                if isinstance(translation_part, dict):
+                    joined.extend(self.__join_translation_parts(translation_part))
+                elif not self.__list_has_dict(translation_parts):
+                    joined.append(translation_part)
+                    if index != len(translation_parts) - 1:
+                        joined.append(hidden)
+                else:
+                    joined.append(translation_part)
+                    joined.append(hidden)
+
+        return joined
+
+    def __list_has_dict(self, list: list) -> bool:
+        for item in list:
+            if isinstance(item, dict):
+                return True
+
+        return False
+
+    def __translate_to(self, lang: str):
         for key, value in self.text_to_translate.items():
             if isinstance(value, dict):
                 for hidden, texts in value.items():
                     for text in texts:
-                        translation = self.translate_text(text)
-                        try:
-                            self.translation[lang][key][hidden].append(translation)
-                        except KeyError:
-                            self.translation[lang][key] = {}
-                            self.translation[lang][key][hidden] = []
-                            self.translation[lang][key][hidden].append(translation)
+                        if isinstance(text, dict):
+                            self.translation[lang][key][hidden].append(
+                                self.__translate_dict(text)
+                            )
+                        else:
+                            translation = self.translate_text(text)
+                            try:
+                                self.translation[lang][key][hidden].append(translation)
+                            except KeyError:
+                                self.translation[lang][key] = {}
+                                self.translation[lang][key][hidden] = []
+                                self.translation[lang][key][hidden].append(translation)
             else:
                 translation = self.translate_text(value)
                 self.translation[lang][key] = translation
+
+    def __translate_dict(self, text_dict: dict) -> dict:
+        result: dict = {}
+
+        for hidden, texts in text_dict.items():
+            for text in texts:
+                if isinstance(text, dict):
+                    result[hidden].append(self.__translate_dict(text))
+                else:
+                    translation = self.translate_text(text)
+                    try:
+                        result[hidden].append(translation)
+                    except KeyError:
+                        result[hidden] = []
+                        result[hidden].append(translation)
+
+        return result
 
     @abstractmethod
     def translate_text(self, text: str) -> str:
