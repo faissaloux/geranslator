@@ -173,9 +173,9 @@ class TestGoogleProvider:
             "morning": "صباح الخير:attribute1، أرك لاحقًا:attribute2لاحقاً!"
         }
         assert google_provider.translation["fr"] == {
-            "morning": "'bonjour:attribute1, à bientôt:attribute2plus tard!"
+            "morning": "bonjour:attribute1, à bientôt:attribute2plus tard!"
         }
         assert translation == {
             "ar": {"morning": "صباح الخير:attribute1، أرك لاحقًا:attribute2لاحقاً!"},
-            "fr": {"morning": "'bonjour:attribute1, à bientôt:attribute2plus tard!"},
+            "fr": {"morning": "bonjour:attribute1, à bientôt:attribute2plus tard!"},
         }
