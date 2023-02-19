@@ -85,7 +85,7 @@ class TestDeeplProvider:
                 "Bye": "bye",
             },
             "en",
-            ["es", "fr"],
+            ["es", "sv"],
         )
 
         assert deepl_provider.text_to_translate == {
@@ -93,13 +93,13 @@ class TestDeeplProvider:
             "morning": {":attribute": ["good morning ", " have a good day"]},
             "Bye": "bye",
         }
-        assert list(deepl_provider.translation.keys()) == ["es", "fr"]
+        assert list(deepl_provider.translation.keys()) == ["es", "sv"]
         assert list(deepl_provider.translation["es"].keys()) == [
             "Hello",
             "morning",
             "Bye",
         ]
-        assert list(deepl_provider.translation["fr"].keys()) == [
+        assert list(deepl_provider.translation["sv"].keys()) == [
             "Hello",
             "morning",
             "Bye",
@@ -110,10 +110,10 @@ class TestDeeplProvider:
             "morning": "buenos días :attribute que tenga un buen día",
             "Bye": "adiós",
         }
-        assert deepl_provider.translation["fr"] == {
-            "Hello": "bonjour",
-            "morning": "bonjour :attribute passez une bonne journée",
-            "Bye": "au revoir",
+        assert deepl_provider.translation["sv"] == {
+            "Hello": "hej",
+            "morning": "god morgon :attribute ha en bra dag",
+            "Bye": "hej då",
         }
         assert translation == {
             "es": {
@@ -121,10 +121,10 @@ class TestDeeplProvider:
                 "morning": "buenos días :attribute que tenga un buen día",
                 "Bye": "adiós",
             },
-            "fr": {
-                "Hello": "bonjour",
-                "morning": "bonjour :attribute passez une bonne journée",
-                "Bye": "au revoir",
+            "sv": {
+                "Hello": "hej",
+                "morning": "god morgon :attribute ha en bra dag",
+                "Bye": "hej då",
             },
         }
 
@@ -140,7 +140,7 @@ class TestDeeplProvider:
                 }
             },
             "en",
-            ["es", "fr"],
+            ["es", "sv"],
         )
 
         assert deepl_provider.text_to_translate == {
@@ -151,19 +151,19 @@ class TestDeeplProvider:
                 ]
             }
         }
-        assert list(deepl_provider.translation.keys()) == ["es", "fr"]
+        assert list(deepl_provider.translation.keys()) == ["es", "sv"]
         assert list(deepl_provider.translation["es"].keys()) == ["morning"]
-        assert list(deepl_provider.translation["fr"].keys()) == ["morning"]
+        assert list(deepl_provider.translation["sv"].keys()) == ["morning"]
 
         assert deepl_provider.translation["es"] == {
             "morning": "buenos días:attribute1 nos vemos. :attribute2 ¡más tarde!"
         }
-        assert deepl_provider.translation["fr"] == {
-            "morning": "bonjour:attribute1 au revoir. :attribute2 plus tard !"
+        assert deepl_provider.translation["sv"] == {
+            "morning": "god morgon:attribute1 , vi ses :attribute2 senare!"
         }
         assert translation == {
             "es": {
                 "morning": "buenos días:attribute1 nos vemos. :attribute2 ¡más tarde!"
             },
-            "fr": {"morning": "bonjour:attribute1 au revoir. :attribute2 plus tard !"},
+            "sv": {"morning": "god morgon:attribute1 , vi ses :attribute2 senare!"},
         }
