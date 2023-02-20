@@ -36,8 +36,6 @@ class Deepl(AbstractProvider):
             text
         ).perform()
 
-        time.sleep(4)
-
         WebDriverWait(self.driver, 40).until(
             expected_conditions.presence_of_element_located(
                 (By.XPATH, "//*[@dl-test='translator-target-input']")
@@ -49,7 +47,8 @@ class Deepl(AbstractProvider):
         translated_element = self.driver.find_element(
             By.XPATH, "//*[@dl-test='translator-target-input']"
         )
-        time.sleep(1)
+        time.sleep(2)
+        translation = translated_element.get_attribute("value").lower()
 
         if self.driver.find_elements(
             By.XPATH, "//*[@dl-test='translator-source-input']//p"
@@ -63,9 +62,7 @@ class Deepl(AbstractProvider):
                 self.driver.find_element(By.XPATH, "//*[@id='source-dummydiv']"),
             )
 
-        time.sleep(2)
-
-        return translated_element.get_attribute("value").lower()
+        return translation
 
     def choose_languages(self, lang_from: str, target_lang: str) -> bool:
         self.__remove_advertisement()
