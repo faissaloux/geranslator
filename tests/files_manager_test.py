@@ -82,6 +82,6 @@ class TestFilesManager:
         assert os.path.exists(os.path.join(os.getcwd(), "translations", "en.json"))
 
     def test_get(self):
-        keys = FilesManager().set_lang("en").get()
+        data = FilesManager().set_lang("en").get()
 
-        assert keys == {"Hello": "hello", "Bye": "bye"}
+        assert data == {"Hello": "hello", "Bye": "bye"}

@@ -14,39 +14,56 @@ from .abstractProvider import AbstractProvider
 class Deepl(AbstractProvider):
     url: str = "https://www.deepl.com/translator"
 
-    def translate_for(self, lang: str):
-        for key, value in self.text_to_translate.items():
-            source_text = WebDriverWait(self.driver, 40).until(
-                expected_conditions.presence_of_element_located(
-                    (By.XPATH, "//*[@dl-test='translator-source-input']")
-                )
-            )
-            ActionChains(self.driver).move_to_element(source_text).click().send_keys(
-                value
-            ).perform()
-
-            time.sleep(4)
-
-            WebDriverWait(self.driver, 40).until(
-                expected_conditions.presence_of_element_located(
-                    (By.XPATH, "//*[@dl-test='translator-target-input']")
-                )
+    def translate_text(self, text: str) -> str:
+        if self.driver.find_elements(
+            By.XPATH, "//*[@dl-test='translator-target-input']//p"
+        ):
+            self.driver.execute_script(
+                "arguments[0].innerHTML = ''",
+                self.driver.find_element(
+                    By.XPATH, "//*[@dl-test='translator-target-input']//p"
+                ),
             )
 
-            time.sleep(4)
+            time.sleep(2)
 
-            translated_element = self.driver.find_element(
-                By.XPATH, "//*[@dl-test='translator-target-input']"
+        source_text = WebDriverWait(self.driver, 40).until(
+            expected_conditions.presence_of_element_located(
+                (By.XPATH, "//*[@dl-test='translator-source-input']")
             )
-            time.sleep(1)
-            self.translation[lang][key] = translated_element.get_attribute("value")
+        )
+        ActionChains(self.driver).move_to_element(source_text).click().send_keys(
+            text
+        ).perform()
 
-            if self.driver.find_elements(
-                By.XPATH, "//*[@dl-test='translator-source-input']//p"
-            ):
+        WebDriverWait(self.driver, 40).until(
+            expected_conditions.presence_of_element_located(
+                (By.XPATH, "//*[@dl-test='translator-target-input']")
+            )
+        )
+
+        time.sleep(4)
+
+        translated_element = self.driver.find_element(
+            By.XPATH, "//*[@dl-test='translator-target-input']"
+        )
+        translation = translated_element.get_attribute("value").lower()
+
+        if self.driver.find_elements(
+            By.XPATH, "//*[@dl-test='translator-source-input']//p"
+        ):
+            self.driver.execute_script(
+                "arguments[0].innerHTML = ''",
                 self.driver.find_element(
                     By.XPATH, "//*[@dl-test='translator-source-input']//p"
-                ).clear()
+                ),
+            )
+        else:
+            self.driver.find_element(
+                By.XPATH, "//*[@dl-test='translator-source-input']"
+            ).clear()
+
+        return translation
 
     def choose_languages(self, lang_from: str, target_lang: str) -> bool:
         self.__remove_advertisement()

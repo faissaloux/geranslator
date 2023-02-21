@@ -14,30 +14,33 @@ from .abstractProvider import AbstractProvider
 class Google(AbstractProvider):
     url: str = "https://translate.google.com"
 
-    def translate_for(self, lang: str):
-        for key, value in self.text_to_translate.items():
-            source_text = WebDriverWait(self.driver, 15).until(
-                expected_conditions.presence_of_element_located(
-                    (By.XPATH, "//textarea[@aria-label='Source text']")
-                )
+    def translate_text(self, text: str) -> str:
+        source_text = WebDriverWait(self.driver, 15).until(
+            expected_conditions.presence_of_element_located(
+                (By.XPATH, "//textarea[@aria-label='Source text']")
             )
-            ActionChains(self.driver).move_to_element(source_text).click().send_keys(
-                value
-            ).perform()
+        )
 
-            time.sleep(4)
+        ActionChains(self.driver).move_to_element(source_text).click().send_keys(
+            text
+        ).perform()
 
-            WebDriverWait(self.driver, 15).until(
-                expected_conditions.presence_of_element_located(
-                    (By.XPATH, "//button[@aria-label='Copy translation']")
-                )
+        time.sleep(4)
+
+        WebDriverWait(self.driver, 15).until(
+            expected_conditions.presence_of_element_located(
+                (By.XPATH, "//button[@aria-label='Copy translation']")
             )
+        )
 
-            translated_element = self.driver.find_element(
-                by=By.XPATH, value="//span[@class='HwtZe']"
-            )
-            self.translation[lang][key] = translated_element.text
-            source_text.clear()
+        translated_element = self.driver.find_element(
+            by=By.XPATH, value="//span[@class='HwtZe']"
+        )
+        translation = translated_element.text.lower()
+
+        source_text.clear()
+
+        return translation
 
     def choose_languages(self, lang_from: str, target_lang: str) -> bool:
         more_source_languages_btn = WebDriverWait(self.driver, 15).until(

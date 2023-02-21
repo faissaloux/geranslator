@@ -24,9 +24,9 @@ def before_and_after_test():
 
 class TestPoExtension:
     def test_get(self):
-        po_keys = Po().get(os.path.join(Config().get("lang_dir"), "en.po"))
+        po_data = Po().get(os.path.join(Config().get("lang_dir"), "en.po"))
 
-        assert po_keys == {"Hello": "hello", "Bye": "bye"}
+        assert po_data == {"Hello": "hello", "Bye": "bye"}
 
     def test_insertion(self):
         po_file = os.path.join(Config().get("lang_dir"), "fr.po")
@@ -46,3 +46,38 @@ msgid "Bye"
 msgstr "Au revoir"
 """
         )
+
+    def test_skip_hidden(self):
+        lang_dir = Config().get("lang_dir")
+        lang_file = open(f"{lang_dir}/en.po", "w")
+        lang_file.write(
+            "msgid 'Hello'\n msgstr 'hello'\n\n msgid 'morning'\n msgstr 'good morning %attribute , see you later!'\n\n msgid 'Bye'\n msgstr 'bye'"
+        )
+        lang_file.close()
+
+        po_data = Po().get(os.path.join(Config().get("lang_dir"), "en.po"))
+        assert po_data == {
+            "Hello": "hello",
+            "morning": {"%attribute": ["good morning ", " , see you later!"]},
+            "Bye": "bye",
+        }
+
+    def test_skip_multiple_different_hidden(self):
+        lang_dir = Config().get("lang_dir")
+        lang_file = open(f"{lang_dir}/en.po", "w")
+        lang_file.write(
+            "msgid 'Hello'\n msgstr 'hello'\n\n msgid 'morning'\n msgstr 'good morning %attribute1 , see you %attribute2 later!'\n\n msgid 'Bye'\n msgstr 'bye'"
+        )
+        lang_file.close()
+
+        po_data = Po().get(os.path.join(Config().get("lang_dir"), "en.po"))
+        assert po_data == {
+            "Hello": "hello",
+            "morning": {
+                "%attribute1": [
+                    "good morning ",
+                    {"%attribute2": [" , see you ", " later!"]},
+                ]
+            },
+            "Bye": "bye",
+        }
