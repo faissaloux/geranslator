@@ -36,10 +36,11 @@ class Google(AbstractProvider):
         translated_element = self.driver.find_element(
             by=By.XPATH, value="//span[@class='HwtZe']"
         )
+        translation = translated_element.text.lower()
 
         source_text.clear()
 
-        return translated_element.text.lower()
+        return translation
 
     def choose_languages(self, lang_from: str, target_lang: str) -> bool:
         more_source_languages_btn = WebDriverWait(self.driver, 15).until(
