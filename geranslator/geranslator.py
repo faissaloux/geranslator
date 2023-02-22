@@ -1,6 +1,8 @@
 import os
 from typing import List
 
+from termspark import TermSpark
+
 from .config.config import Config
 from .exceptions.MissingExtension import MissingExtension
 from .exceptions.MissingOriginLang import MissingOriginLang
@@ -35,6 +37,8 @@ class Geranslator:
             .set_extension(self.lang_files_ext)
             .get()
         )
+
+        self.__print_config()
 
         translation = Provider(self.provider).translate(
             text, self.origin_lang, self.target_lang
@@ -105,3 +109,39 @@ class Geranslator:
             raise OriginLangFileNotFound(
                 os.path.join(self.lang_dir, f"{self.origin_lang}.{self.lang_files_ext}")
             )
+
+    def __print_config(self):
+        TermSpark().line().spark()
+        TermSpark().spark_left(["CONFIG ", "green"]).set_separator(".").spark()
+
+        languages_dir_line = TermSpark()
+        languages_dir_line.spark_left(["languages dir "])
+        languages_dir_line.spark_right([f" {self.lang_dir}"])
+        languages_dir_line.set_separator(".")
+        languages_dir_line.spark()
+
+        extension_line = TermSpark()
+        extension_line.spark_left(["extension "])
+        extension_line.spark_right([f" {self.lang_files_ext}"])
+        extension_line.set_separator(".")
+        extension_line.spark()
+
+        provider_line = TermSpark()
+        provider_line.spark_left(["provider "])
+        provider_line.spark_right([f" {self.provider}"])
+        provider_line.set_separator(".")
+        provider_line.spark()
+
+        origin_lang_line = TermSpark()
+        origin_lang_line.spark_left(["from "])
+        origin_lang_line.spark_right([f" {self.origin_lang}"])
+        origin_lang_line.set_separator(".")
+        origin_lang_line.spark()
+
+        target_langs_line = TermSpark()
+        target_langs_line.spark_left(["to "])
+        target_langs_line.spark_right([f" {' | '.join(self.target_lang)}"])
+        target_langs_line.set_separator(".")
+        target_langs_line.spark()
+
+        TermSpark().line().spark()

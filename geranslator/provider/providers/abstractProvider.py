@@ -25,15 +25,6 @@ class AbstractProvider(ABC):
     def translate(self, text: dict, origin_lang: str, target_langs: List[str]) -> dict:
         self.text_to_translate = text
 
-        TermSpark().line().spark()
-        TermSpark().spark_left(["from "]).spark_right(
-            [f" {origin_lang}"]
-        ).set_separator(".").spark()
-        TermSpark().spark_left(["to "]).spark_right(
-            [f" {' | '.join(target_langs)}", "blue"]
-        ).set_separator(".").spark()
-        TermSpark().line().spark()
-
         try:
             self.open_browser()
             self.driver.get(self.url)
@@ -48,6 +39,7 @@ class AbstractProvider(ABC):
                     ).set_separator(".").spark()
 
             self.__join_translations()
+            TermSpark().line().spark()
 
             return self.translation
         except WebDriverException:
