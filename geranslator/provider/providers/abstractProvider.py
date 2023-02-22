@@ -5,7 +5,10 @@ from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.chrome.service import Service
 from termspark import TermSpark
+from tqdm import tqdm
 from webdriver_manager.chrome import ChromeDriverManager
+
+from ...languages.languages import Languages
 
 
 class AbstractProvider(ABC):
@@ -22,6 +25,15 @@ class AbstractProvider(ABC):
     def translate(self, text: dict, origin_lang: str, target_langs: List[str]) -> dict:
         self.text_to_translate = text
 
+        TermSpark().line().spark()
+        TermSpark().spark_left(["from "]).spark_right(
+            [f" {origin_lang}"]
+        ).set_separator(".").spark()
+        TermSpark().spark_left(["to "]).spark_right(
+            [f" {' | '.join(target_langs)}", "blue"]
+        ).set_separator(".").spark()
+        TermSpark().line().spark()
+
         try:
             self.open_browser()
             self.driver.get(self.url)
@@ -30,6 +42,10 @@ class AbstractProvider(ABC):
                 if self.choose_languages(origin_lang, lang):
                     self.translation[lang] = {}
                     self.__translate_to(lang)
+
+                    TermSpark().spark_left([f"{Languages().get(lang)} "]).spark_right(
+                        [" DONE", "green"]
+                    ).set_separator(".").spark()
 
             self.__join_translations()
 
@@ -76,7 +92,11 @@ class AbstractProvider(ABC):
         return False
 
     def __translate_to(self, lang: str):
-        for key, value in self.text_to_translate.items():
+        for key, value in tqdm(
+            self.text_to_translate.items(),
+            desc=f"{Languages().get(lang)} translation",
+            leave=False,
+        ):
             if isinstance(value, dict):
                 for hidden, texts in value.items():
                     for text in texts:

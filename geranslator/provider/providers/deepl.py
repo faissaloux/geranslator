@@ -110,10 +110,9 @@ class Deepl(AbstractProvider):
                 )
 
                 if len(unexisted_language):
-                    TermSpark().spark_left(
-                        [f" {language} ", "white", "red"],
-                        [f" language not supported ", "red"],
-                    ).spark()
+                    TermSpark().spark_left([f"{language} "]).spark_right(
+                        [" language not supported by deepl", "red"]
+                    ).set_separator(".").spark()
                     return False
                 else:
                     ActionChains(self.driver).send_keys(Keys.RETURN).perform()
