@@ -1,3 +1,4 @@
+import time
 from abc import ABC, abstractmethod, abstractproperty
 from typing import List
 
@@ -23,6 +24,7 @@ class AbstractProvider(ABC):
         self.translation = {}
 
     def translate(self, text: dict, origin_lang: str, target_langs: List[str]) -> dict:
+        start = time.time()
         self.text_to_translate = text
 
         try:
@@ -39,7 +41,11 @@ class AbstractProvider(ABC):
                     ).set_separator(".").spark()
 
             self.__join_translations()
+            end = time.time()
             TermSpark().line().spark()
+            TermSpark().spark_right(
+                [f"{round(end - start, 2)} sec", "yellow"]
+            ).set_separator(".").spark()
 
             return self.translation
         except WebDriverException:
