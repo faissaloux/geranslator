@@ -1,4 +1,5 @@
 import os
+import time
 from typing import List
 
 from termspark import TermSpark
@@ -28,6 +29,7 @@ class Geranslator:
         self.set_provider(Config().get("provider"))
 
     def translate(self):
+        start = time.time()
         self.make_sure_origin_lang_file_exists()
 
         text = (
@@ -44,10 +46,20 @@ class Geranslator:
             text, self.origin_lang, self.target_lang
         )
 
+        TermSpark().line().spark()
+        TermSpark().spark_left(["TRANSLATION FILES ", "green"]).set_separator(
+            "."
+        ).spark()
         for lang in translation:
             FilesManager().set_langs_dir(self.lang_dir).set_data(
                 translation[lang]
             ).set_lang(lang).set_extension(self.lang_files_ext).insert()
+
+        end = time.time()
+        TermSpark().line().spark()
+        TermSpark().spark_right(
+            [f" {round(end - start, 2)} sec", "yellow"]
+        ).set_separator(".").spark()
 
     def set_provider(self, provider: str):
         if not len(provider):

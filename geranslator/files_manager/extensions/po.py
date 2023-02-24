@@ -23,6 +23,8 @@ class Po(AbstractExtension):
 
         po.save()
 
+        self.file_created(file)
+
     def get(self, file: str) -> dict:
         data: dict = {}
         po = polib.pofile(file)

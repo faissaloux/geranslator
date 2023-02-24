@@ -11,6 +11,8 @@ class Yaml(AbstractExtension):
     def insert(self, data: dict, file: str):
         yaml.dump(data, open(file, "w", encoding="utf-8"), allow_unicode=True)
 
+        self.file_created(file)
+
     def get(self, file: str) -> dict:
         data: dict = {}
 

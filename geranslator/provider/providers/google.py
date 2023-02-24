@@ -109,7 +109,7 @@ class Google(AbstractProvider):
                     ).perform()
                     TermSpark().spark_left(
                         [f"{Languages().get(language)} "]
-                    ).spark_right([" LANGUAGE SUPPORTED", "blue"]).set_separator(
+                    ).spark_right([" LANGUAGE IS SUPPORTED", "blue"]).set_separator(
                         "."
                     ).spark(
                         "\r"

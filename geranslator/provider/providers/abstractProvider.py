@@ -1,4 +1,3 @@
-import time
 from abc import ABC, abstractmethod, abstractproperty
 from typing import List
 
@@ -23,16 +22,26 @@ class AbstractProvider(ABC):
         self.translation = {}
 
     def translate(self, text: dict, origin_lang: str, target_langs: List[str]) -> dict:
-        start = time.time()
         self.text_to_translate = text
 
         try:
+            TermSpark().spark_left(
+                [
+                    "wait some seconds ... ",
+                ]
+            ).spark("\r")
             self.open_browser()
+            TermSpark().spark_left(
+                [
+                    "hold tight ... ",
+                ]
+            ).spark("\r")
             self.driver.get(self.url)
 
             if not self.choose_origin_language(origin_lang):
                 exit()
 
+            TermSpark().spark_left(["TRANSLATING ", "green"]).set_separator(".").spark()
             for lang in target_langs:
                 if self.choose_target_language(lang):
                     self.translation[lang] = {}
@@ -43,11 +52,7 @@ class AbstractProvider(ABC):
                     ).set_separator(".").spark()
 
             self.__join_translations()
-            end = time.time()
-            TermSpark().line().spark()
-            TermSpark().spark_right(
-                [f" {round(end - start, 2)} sec", "yellow"]
-            ).set_separator(".").spark()
+
             self.close_browser()
 
             return self.translation
