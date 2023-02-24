@@ -14,7 +14,7 @@ class Json(AbstractExtension):
         data: dict = {}
 
         for hidden in self.hidden:
-            for key, value in json.load(open(file, "r")).items():
+            for key, value in json.load(open(file, "r", encoding="utf-8")).items():
                 for word in value.split():
                     if bool(re.search(hidden, word)):
                         data[key] = {}
