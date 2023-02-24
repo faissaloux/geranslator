@@ -64,9 +64,10 @@ class Google(AbstractProvider):
 
         more_target_languages_btn = WebDriverWait(self.driver, 15).until(
             expected_conditions.presence_of_element_located(
-                (By.XPATH, "//button[@aria-label='More target languages']")
+                (By.XPATH, "(//button[@aria-label='More target languages'])[1]")
             )
         )
+        time.sleep(1)
         more_target_languages_btn.click()
         target_lang_found = self.search_language(Languages().get(target_lang))
 
@@ -100,6 +101,7 @@ class Google(AbstractProvider):
                     TermSpark().spark_left([f"{language} "]).spark_right(
                         [" language not supported by google", "red"]
                     ).set_separator(".").spark()
+                    ActionChains(self.driver).send_keys(Keys.ESCAPE).perform()
                     return False
                 else:
                     ActionChains(self.driver).send_keys(
