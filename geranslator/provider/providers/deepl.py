@@ -68,6 +68,10 @@ class Deepl(AbstractProvider):
     def choose_languages(self, lang_from: str, target_lang: str) -> bool:
         self.__remove_advertisement()
 
+        TermSpark().spark_left([f"{Languages().get(target_lang)} "]).spark_right(
+            [" CHECKING LANGUAGE", "yellow"]
+        ).set_separator(".").spark("\r")
+
         more_source_languages_btn = WebDriverWait(self.driver, 15).until(
             expected_conditions.presence_of_element_located(
                 (By.XPATH, "//button[@dl-test='translator-source-lang-btn']")
@@ -116,6 +120,13 @@ class Deepl(AbstractProvider):
                     return False
                 else:
                     ActionChains(self.driver).send_keys(Keys.RETURN).perform()
+                    TermSpark().spark_left(
+                        [f"{Languages().get(language)} "]
+                    ).spark_right([" LANGUAGE SUPPORTED", "blue"]).set_separator(
+                        "."
+                    ).spark(
+                        "\r"
+                    )
 
                 time.sleep(2)
         return True

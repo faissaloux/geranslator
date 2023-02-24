@@ -6,7 +6,6 @@ from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.chrome.service import Service
 from termspark import TermSpark
-from tqdm import tqdm
 from webdriver_manager.chrome import ChromeDriverManager
 
 from ...languages.languages import Languages
@@ -90,11 +89,12 @@ class AbstractProvider(ABC):
         return False
 
     def __translate_to(self, lang: str):
-        for key, value in tqdm(
-            self.text_to_translate.items(),
-            desc=f"{Languages().get(lang)} translation",
-            leave=False,
-        ):
+        counter = 1
+        for key, value in self.text_to_translate.items():
+            TermSpark().spark_left([f"{Languages().get(lang)} "]).spark_right(
+                [f" {counter}/{len(self.text_to_translate)} "],
+                [" TRANSLATING", "yellow"],
+            ).set_separator(".").spark("\r")
             if isinstance(value, dict):
                 for hidden, texts in value.items():
                     for text in texts:
@@ -113,6 +113,8 @@ class AbstractProvider(ABC):
             else:
                 translation = self.translate_text(value)
                 self.translation[lang][key] = translation
+
+            counter += 1
 
     def __translate_dict(self, text_dict: dict) -> dict:
         result: dict = {}
