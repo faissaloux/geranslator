@@ -48,6 +48,7 @@ class AbstractProvider(ABC):
             TermSpark().spark_right(
                 [f" {round(end - start, 2)} sec", "yellow"]
             ).set_separator(".").spark()
+            self.close_browser()
 
             return self.translation
         except WebDriverException:
