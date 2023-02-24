@@ -65,10 +65,10 @@ class Deepl(AbstractProvider):
 
         return translation
 
-    def choose_languages(self, lang_from: str, target_lang: str) -> bool:
+    def choose_origin_language(self, origin_lang: str) -> bool:
         self.__remove_advertisement()
 
-        TermSpark().spark_left([f"{Languages().get(target_lang)} "]).spark_right(
+        TermSpark().spark_left([f"{Languages().get(origin_lang)} "]).spark_right(
             [" CHECKING LANGUAGE", "yellow"]
         ).set_separator(".").spark("\r")
 
@@ -78,7 +78,14 @@ class Deepl(AbstractProvider):
             )
         )
         more_source_languages_btn.click()
-        origin_lang_found = self.search_language(Languages().get(lang_from))
+        origin_lang_found = self.search_language(Languages().get(origin_lang))
+
+        return origin_lang_found
+
+    def choose_target_language(self, target_lang: str) -> bool:
+        TermSpark().spark_left([f"{Languages().get(target_lang)} "]).spark_right(
+            [" CHECKING LANGUAGE", "yellow"]
+        ).set_separator(".").spark("\r")
 
         more_target_languages_btn = WebDriverWait(self.driver, 15).until(
             expected_conditions.presence_of_element_located(
@@ -88,7 +95,7 @@ class Deepl(AbstractProvider):
         more_target_languages_btn.click()
         target_lang_found = self.search_language(Languages().get(target_lang))
 
-        return all([origin_lang_found, target_lang_found])
+        return target_lang_found
 
     def search_language(self, language: str) -> bool:
         WebDriverWait(self.driver, 15).until(
@@ -117,6 +124,13 @@ class Deepl(AbstractProvider):
                     TermSpark().spark_left([f"{language} "]).spark_right(
                         [" language not supported by deepl", "red"]
                     ).set_separator(".").spark()
+
+                    close_btn = WebDriverWait(self.driver, 15).until(
+                        expected_conditions.presence_of_element_located(
+                            (By.XPATH, "//button[@dl-test='closeButton']")
+                        )
+                    )
+                    close_btn.click()
                     return False
                 else:
                     ActionChains(self.driver).send_keys(Keys.RETURN).perform()

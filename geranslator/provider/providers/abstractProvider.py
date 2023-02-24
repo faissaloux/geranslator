@@ -30,8 +30,11 @@ class AbstractProvider(ABC):
             self.open_browser()
             self.driver.get(self.url)
 
+            if not self.choose_origin_language(origin_lang):
+                exit()
+
             for lang in target_langs:
-                if self.choose_languages(origin_lang, lang):
+                if self.choose_target_language(lang):
                     self.translation[lang] = {}
                     self.__translate_to(lang)
 
@@ -43,7 +46,7 @@ class AbstractProvider(ABC):
             end = time.time()
             TermSpark().line().spark()
             TermSpark().spark_right(
-                [f"{round(end - start, 2)} sec", "yellow"]
+                [f" {round(end - start, 2)} sec", "yellow"]
             ).set_separator(".").spark()
 
             return self.translation
@@ -138,7 +141,11 @@ class AbstractProvider(ABC):
         pass
 
     @abstractmethod
-    def choose_languages(self, lang_from: str, target_lang: str) -> bool:
+    def choose_origin_language(self, origin_lang: str) -> bool:
+        pass
+
+    @abstractmethod
+    def choose_target_language(self, target_lang: str) -> bool:
         pass
 
     @abstractmethod
