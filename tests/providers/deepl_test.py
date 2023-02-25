@@ -25,6 +25,14 @@ class TestDeeplProvider:
     def test_url(self):
         assert Deepl().url == "https://www.deepl.com/translator"
 
+    def test_exit_when_origin_lang_is_not_supported(self):
+        with pytest.raises(SystemExit):
+            Deepl().translate(
+                {"text_1": "good morning", "text_2": "good night"},
+                "not_supported",
+                ["ar", "fr"],
+            )
+
     def test_translation_text(self):
         deepl_provider = Deepl()
         translation = deepl_provider.translate(

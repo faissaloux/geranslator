@@ -25,6 +25,14 @@ class TestGoogleProvider:
     def test_url(self):
         assert Google().url == "https://translate.google.com"
 
+    def test_exit_when_origin_lang_is_not_supported(self):
+        with pytest.raises(SystemExit):
+            Google().translate(
+                {"text_1": "good morning", "text_2": "good night"},
+                "not_supported",
+                ["ar", "fr"],
+            )
+
     def test_translation_text(self):
         google_provider = Google()
         translation = google_provider.translate(
