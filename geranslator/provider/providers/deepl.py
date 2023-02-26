@@ -15,18 +15,6 @@ class Deepl(AbstractProvider):
     url: str = "https://www.deepl.com/translator"
 
     def translate_text(self, text: str) -> str:
-        if self.driver.find_elements(
-            By.XPATH, "//*[@dl-test='translator-target-input']//p"
-        ):
-            self.driver.execute_script(
-                "arguments[0].innerHTML = ''",
-                self.driver.find_element(
-                    By.XPATH, "//*[@dl-test='translator-target-input']//p"
-                ),
-            )
-
-            time.sleep(2)
-
         source_text = WebDriverWait(self.driver, 40).until(
             expected_conditions.presence_of_element_located(
                 (By.XPATH, "//*[@dl-test='translator-source-input']")
