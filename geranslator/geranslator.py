@@ -58,9 +58,11 @@ class Geranslator:
 
         end = time.time()
         TermSpark().line().spark()
-        TermSpark().spark_right(
-            [f" {round(end - start, 2)} sec", "yellow"]
-        ).set_separator(".").spark()
+        TermSpark().spark_left(
+            [f"{len(translation)} lang, {len(text)} text ", "gray"]
+        ).spark_right([f" {round(end - start, 2)} sec", "yellow"]).set_separator(
+            "."
+        ).spark()
 
     def set_provider(self, provider: str):
         if not len(provider):
