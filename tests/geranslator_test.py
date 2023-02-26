@@ -84,6 +84,12 @@ class TestGeranslator:
 
         assert geranslator.target_lang == ["en", "ar"]
 
+    def test_unify_target_langs(self):
+        geranslator = Geranslator()
+        geranslator.set_target_lang("en", "ar", "en", "pt")
+
+        assert geranslator.target_lang == ["en", "ar", "pt"]
+
     def test_set_empty_target_lang(self):
         geranslator = Geranslator()
         geranslator.set_target_lang("en", "", "ar")

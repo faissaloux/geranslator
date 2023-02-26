@@ -91,6 +91,7 @@ class Geranslator:
             self.target_lang.append(target_lang[0])
 
         self.target_lang = list(filter(lambda lang: lang.strip(), self.target_lang))
+        self.target_lang = list(dict.fromkeys(self.target_lang))
 
         if not len(self.target_lang):
             raise MissingTargetLang()
