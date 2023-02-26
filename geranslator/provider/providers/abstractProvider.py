@@ -158,6 +158,10 @@ class AbstractProvider(ABC):
     def search_language(self, language: str) -> bool:
         pass
 
+    @abstractmethod
+    def clear_source_text(self):
+        pass
+
     def open_browser(self):
         options = webdriver.ChromeOptions()
         options.add_argument("headless")

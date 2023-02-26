@@ -38,12 +38,7 @@ class Google(AbstractProvider):
         )
         translation = translated_element.text.lower()
 
-        clear_source_text_btn = WebDriverWait(self.driver, 15).until(
-            expected_conditions.presence_of_element_located(
-                (By.XPATH, "//button[@aria-label='Clear source text']")
-            )
-        )
-        clear_source_text_btn.click()
+        self.clear_source_text()
 
         return translation
 
@@ -122,3 +117,11 @@ class Google(AbstractProvider):
 
                 time.sleep(2)
         return True
+
+    def clear_source_text(self):
+        clear_source_text_btn = WebDriverWait(self.driver, 15).until(
+            expected_conditions.presence_of_element_located(
+                (By.XPATH, "//button[@aria-label='Clear source text']")
+            )
+        )
+        clear_source_text_btn.click()

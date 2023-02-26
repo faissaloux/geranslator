@@ -49,12 +49,7 @@ class Deepl(AbstractProvider):
         )
         translation = translated_element.get_attribute("value").lower()
 
-        clear_source_text_btn = WebDriverWait(self.driver, 15).until(
-            expected_conditions.presence_of_element_located(
-                (By.XPATH, "//button[@dl-test='translator-source-clear-button']")
-            )
-        )
-        clear_source_text_btn.click()
+        self.clear_source_text()
 
         return translation
 
@@ -151,3 +146,11 @@ class Deepl(AbstractProvider):
             close_advertisement_popup_btn.click()
         except:
             pass
+
+    def clear_source_text(self):
+        clear_source_text_btn = WebDriverWait(self.driver, 15).until(
+            expected_conditions.presence_of_element_located(
+                (By.XPATH, "//button[@dl-test='translator-source-clear-button']")
+            )
+        )
+        clear_source_text_btn.click()
