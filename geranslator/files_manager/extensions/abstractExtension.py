@@ -1,6 +1,8 @@
 import re
 from abc import ABC, abstractmethod
 
+from termspark import TermSpark
+
 
 class AbstractExtension(ABC):
     hidden: list = []
@@ -12,6 +14,11 @@ class AbstractExtension(ABC):
     @abstractmethod
     def get(self, file: str) -> dict:
         pass
+
+    def file_created(self, file: str):
+        TermSpark().spark_left([f"{file} "]).spark_right(
+            [" CREATED", "green"]
+        ).set_separator(".").spark()
 
     def ignore_hidden(self, text_list: list) -> list:
         result: list = []

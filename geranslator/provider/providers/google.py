@@ -38,28 +38,40 @@ class Google(AbstractProvider):
         )
         translation = translated_element.text.lower()
 
-        source_text.clear()
+        self.clear_source_text()
 
         return translation
 
-    def choose_languages(self, lang_from: str, target_lang: str) -> bool:
+    def choose_origin_language(self, origin_lang: str) -> bool:
+        TermSpark().spark_left([f"{Languages().get(origin_lang)} "]).spark_right(
+            [" CHECKING LANGUAGE", "yellow"]
+        ).set_separator(".").spark("\r")
+
         more_source_languages_btn = WebDriverWait(self.driver, 15).until(
             expected_conditions.presence_of_element_located(
                 (By.XPATH, "//button[@aria-label='More source languages']")
             )
         )
         more_source_languages_btn.click()
-        origin_lang_found = self.search_language(Languages().get(lang_from))
+        origin_lang_found = self.search_language(Languages().get(origin_lang))
+
+        return origin_lang_found
+
+    def choose_target_language(self, target_lang: str) -> bool:
+        TermSpark().spark_left([f"{Languages().get(target_lang)} "]).spark_right(
+            [" CHECKING LANGUAGE", "yellow"]
+        ).set_separator(".").spark("\r")
 
         more_target_languages_btn = WebDriverWait(self.driver, 15).until(
             expected_conditions.presence_of_element_located(
-                (By.XPATH, "//button[@aria-label='More target languages']")
+                (By.XPATH, "(//button[@aria-label='More target languages'])[1]")
             )
         )
+        time.sleep(1)
         more_target_languages_btn.click()
         target_lang_found = self.search_language(Languages().get(target_lang))
 
-        return all([origin_lang_found, target_lang_found])
+        return target_lang_found
 
     def search_language(self, language: str) -> bool:
         WebDriverWait(self.driver, 15).until(
@@ -86,15 +98,30 @@ class Google(AbstractProvider):
                 ).is_displayed()
 
                 if unexisted_language:
-                    TermSpark().spark_left(
-                        [f" {language} ", "white", "red"],
-                        [f" language not supported ", "red"],
-                    ).spark()
+                    TermSpark().spark_left([f"{language} "]).spark_right(
+                        [" language not supported by google", "red"]
+                    ).set_separator(".").spark()
+                    ActionChains(self.driver).send_keys(Keys.ESCAPE).perform()
                     return False
                 else:
                     ActionChains(self.driver).send_keys(
                         Keys.DOWN, Keys.RETURN
                     ).perform()
+                    TermSpark().spark_left(
+                        [f"{Languages().get(language)} "]
+                    ).spark_right([" LANGUAGE IS SUPPORTED", "blue"]).set_separator(
+                        "."
+                    ).spark(
+                        "\r"
+                    )
 
                 time.sleep(2)
         return True
+
+    def clear_source_text(self):
+        clear_source_text_btn = WebDriverWait(self.driver, 15).until(
+            expected_conditions.presence_of_element_located(
+                (By.XPATH, "//button[@aria-label='Clear source text']")
+            )
+        )
+        clear_source_text_btn.click()

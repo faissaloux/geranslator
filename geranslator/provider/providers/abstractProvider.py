@@ -1,3 +1,4 @@
+import time
 from abc import ABC, abstractmethod, abstractproperty
 from typing import List
 
@@ -6,6 +7,8 @@ from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.chrome.service import Service
 from termspark import TermSpark
 from webdriver_manager.chrome import ChromeDriverManager
+
+from ...languages.languages import Languages
 
 
 class AbstractProvider(ABC):
@@ -23,15 +26,38 @@ class AbstractProvider(ABC):
         self.text_to_translate = text
 
         try:
+            TermSpark().spark_left(
+                [
+                    "wait some seconds ... ",
+                ]
+            ).spark("\r")
             self.open_browser()
+            TermSpark().spark_left(
+                [
+                    "hold tight ... ",
+                ]
+            ).spark("\r")
             self.driver.get(self.url)
 
+            if not self.choose_origin_language(origin_lang):
+                exit()
+
+            TermSpark().spark_left(["TRANSLATING ", "green"]).set_separator(".").spark()
             for lang in target_langs:
-                if self.choose_languages(origin_lang, lang):
+                exec_start = time.time()
+                if self.choose_target_language(lang):
                     self.translation[lang] = {}
                     self.__translate_to(lang)
+                    exec_end = time.time()
+
+                    TermSpark().spark_left([f"{Languages().get(lang)} "]).spark_right(
+                        [f" {round(exec_end - exec_start, 2)} sec", "gray"],
+                        [" DONE", "green"],
+                    ).set_separator(".").spark()
 
             self.__join_translations()
+
+            self.close_browser()
 
             return self.translation
         except WebDriverException:
@@ -76,7 +102,12 @@ class AbstractProvider(ABC):
         return False
 
     def __translate_to(self, lang: str):
+        counter = 1
         for key, value in self.text_to_translate.items():
+            TermSpark().spark_left([f"{Languages().get(lang)} "]).spark_right(
+                [f" {counter}/{len(self.text_to_translate)} "],
+                [" TRANSLATING", "yellow"],
+            ).set_separator(".").spark("\r")
             if isinstance(value, dict):
                 for hidden, texts in value.items():
                     for text in texts:
@@ -95,6 +126,8 @@ class AbstractProvider(ABC):
             else:
                 translation = self.translate_text(value)
                 self.translation[lang][key] = translation
+
+            counter += 1
 
     def __translate_dict(self, text_dict: dict) -> dict:
         result: dict = {}
@@ -118,17 +151,26 @@ class AbstractProvider(ABC):
         pass
 
     @abstractmethod
-    def choose_languages(self, lang_from: str, target_lang: str) -> bool:
+    def choose_origin_language(self, origin_lang: str) -> bool:
+        pass
+
+    @abstractmethod
+    def choose_target_language(self, target_lang: str) -> bool:
         pass
 
     @abstractmethod
     def search_language(self, language: str) -> bool:
         pass
 
+    @abstractmethod
+    def clear_source_text(self):
+        pass
+
     def open_browser(self):
         options = webdriver.ChromeOptions()
         options.add_argument("headless")
         options.add_argument("--window-size=1920,1080")
+        options.add_experimental_option("excludeSwitches", ["enable-logging"])
 
         self.driver = webdriver.Chrome(
             service=Service(ChromeDriverManager().install()), options=options

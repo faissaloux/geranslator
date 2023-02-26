@@ -84,6 +84,12 @@ class TestGeranslator:
 
         assert geranslator.target_lang == ["en", "ar"]
 
+    def test_unify_target_langs(self):
+        geranslator = Geranslator()
+        geranslator.set_target_lang("en", "ar", "en", "pt")
+
+        assert geranslator.target_lang == ["en", "ar", "pt"]
+
     def test_set_empty_target_lang(self):
         geranslator = Geranslator()
         geranslator.set_target_lang("en", "", "ar")
@@ -128,6 +134,15 @@ class TestGeranslator:
 
         with pytest.raises(OriginLangFileNotFound):
             geranslator.make_sure_origin_lang_file_exists()
+
+    def test_remove_origin_lang_from_target_langs_if_exists(self):
+        geranslator = Geranslator()
+        geranslator.set_origin_lang("en")
+        geranslator.set_target_lang("ar", "en", "es")
+
+        geranslator.remove_origin_lang_from_target_langs_if_exists()
+
+        assert geranslator.target_lang == ["ar", "es"]
 
     def test_default_translation(self):
         Geranslator().translate()

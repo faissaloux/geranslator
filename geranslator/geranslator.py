@@ -1,5 +1,8 @@
 import os
+import time
 from typing import List
+
+from termspark import TermSpark
 
 from .config.config import Config
 from .exceptions.MissingExtension import MissingExtension
@@ -26,7 +29,9 @@ class Geranslator:
         self.set_provider(Config().get("provider"))
 
     def translate(self):
+        start = time.time()
         self.make_sure_origin_lang_file_exists()
+        self.remove_origin_lang_from_target_langs_if_exists()
 
         text = (
             FilesManager()
@@ -36,14 +41,28 @@ class Geranslator:
             .get()
         )
 
+        self.__print_config()
+
         translation = Provider(self.provider).translate(
             text, self.origin_lang, self.target_lang
         )
 
+        TermSpark().line().spark()
+        TermSpark().spark_left(["TRANSLATION FILES ", "green"]).set_separator(
+            "."
+        ).spark()
         for lang in translation:
             FilesManager().set_langs_dir(self.lang_dir).set_data(
                 translation[lang]
             ).set_lang(lang).set_extension(self.lang_files_ext).insert()
+
+        end = time.time()
+        TermSpark().line().spark()
+        TermSpark().spark_left(
+            [f"{len(translation)} lang, {len(text)} text ", "gray"]
+        ).spark_right([f" {round(end - start, 2)} sec", "yellow"]).set_separator(
+            "."
+        ).spark()
 
     def set_provider(self, provider: str):
         if not len(provider):
@@ -74,6 +93,7 @@ class Geranslator:
             self.target_lang.append(target_lang[0])
 
         self.target_lang = list(filter(lambda lang: lang.strip(), self.target_lang))
+        self.target_lang = list(dict.fromkeys(self.target_lang))
 
         if not len(self.target_lang):
             raise MissingTargetLang()
@@ -105,3 +125,43 @@ class Geranslator:
             raise OriginLangFileNotFound(
                 os.path.join(self.lang_dir, f"{self.origin_lang}.{self.lang_files_ext}")
             )
+
+    def remove_origin_lang_from_target_langs_if_exists(self):
+        if self.origin_lang in self.target_lang:
+            self.target_lang.remove(self.origin_lang)
+
+    def __print_config(self):
+        TermSpark().line().spark()
+        TermSpark().spark_left(["CONFIG ", "green"]).set_separator(".").spark()
+
+        languages_dir_line = TermSpark()
+        languages_dir_line.spark_left(["languages dir "])
+        languages_dir_line.spark_right([f" {self.lang_dir}"])
+        languages_dir_line.set_separator(".")
+        languages_dir_line.spark()
+
+        extension_line = TermSpark()
+        extension_line.spark_left(["extension "])
+        extension_line.spark_right([f" {self.lang_files_ext}"])
+        extension_line.set_separator(".")
+        extension_line.spark()
+
+        provider_line = TermSpark()
+        provider_line.spark_left(["provider "])
+        provider_line.spark_right([f" {self.provider}"])
+        provider_line.set_separator(".")
+        provider_line.spark()
+
+        origin_lang_line = TermSpark()
+        origin_lang_line.spark_left(["from "])
+        origin_lang_line.spark_right([f" {self.origin_lang}"])
+        origin_lang_line.set_separator(".")
+        origin_lang_line.spark()
+
+        target_langs_line = TermSpark()
+        target_langs_line.spark_left(["to "])
+        target_langs_line.spark_right([f" {' | '.join(self.target_lang)}"])
+        target_langs_line.set_separator(".")
+        target_langs_line.spark()
+
+        TermSpark().line().spark()
