@@ -49,19 +49,12 @@ class Deepl(AbstractProvider):
         )
         translation = translated_element.get_attribute("value").lower()
 
-        if self.driver.find_elements(
-            By.XPATH, "//*[@dl-test='translator-source-input']//p"
-        ):
-            self.driver.execute_script(
-                "arguments[0].innerHTML = ''",
-                self.driver.find_element(
-                    By.XPATH, "//*[@dl-test='translator-source-input']//p"
-                ),
+        clear_source_text_btn = WebDriverWait(self.driver, 15).until(
+            expected_conditions.presence_of_element_located(
+                (By.XPATH, "//button[@dl-test='translator-source-clear-button']")
             )
-        else:
-            self.driver.find_element(
-                By.XPATH, "//*[@dl-test='translator-source-input']"
-            ).clear()
+        )
+        clear_source_text_btn.click()
 
         return translation
 
