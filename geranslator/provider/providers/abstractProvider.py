@@ -1,3 +1,4 @@
+import time
 from abc import ABC, abstractmethod, abstractproperty
 from typing import List
 
@@ -43,12 +44,15 @@ class AbstractProvider(ABC):
 
             TermSpark().spark_left(["TRANSLATING ", "green"]).set_separator(".").spark()
             for lang in target_langs:
+                exec_start = time.time()
                 if self.choose_target_language(lang):
                     self.translation[lang] = {}
                     self.__translate_to(lang)
+                    exec_end = time.time()
 
                     TermSpark().spark_left([f"{Languages().get(lang)} "]).spark_right(
-                        [" DONE", "green"]
+                        [f" {round(exec_end - exec_start, 2)} sec", "gray"],
+                        [" DONE", "green"],
                     ).set_separator(".").spark()
 
             self.__join_translations()
