@@ -31,6 +31,7 @@ class Geranslator:
     def translate(self):
         start = time.time()
         self.make_sure_origin_lang_file_exists()
+        self.remove_origin_lang_from_target_langs_if_exists()
 
         text = (
             FilesManager()
@@ -121,6 +122,10 @@ class Geranslator:
             raise OriginLangFileNotFound(
                 os.path.join(self.lang_dir, f"{self.origin_lang}.{self.lang_files_ext}")
             )
+
+    def remove_origin_lang_from_target_langs_if_exists(self):
+        if self.origin_lang in self.target_lang:
+            self.target_lang.remove(self.origin_lang)
 
     def __print_config(self):
         TermSpark().line().spark()
