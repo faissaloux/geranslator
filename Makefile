@@ -17,6 +17,9 @@ install: clean
 install_docs: clean
 	pip install -e ."[docs]"
 
+build_docs: clean
+	mkdocs build -d build
+
 build: clean
 	$(PYTHON) setup.py bdist_wheel
 
