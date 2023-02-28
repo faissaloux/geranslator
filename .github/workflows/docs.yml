@@ -7,7 +7,7 @@ on:
 
 jobs:
   docs-deploy:
-    name: Deploy
+    name: Deploy docs
     runs-on: ubuntu-latest
     steps:
     - name: Get latest code
@@ -26,4 +26,3 @@ jobs:
         server: ${{ secrets.FTP_HOST }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
-        server-dir: ${{ secrets.FTP_DIRECTORY }}
