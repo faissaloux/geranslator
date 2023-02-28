@@ -1,0 +1,57 @@
+site_name: Geranslator
+site_description: Translate your translation files.
+site_url: https://geranslator.faissaloux.com
+
+theme:
+  features:
+  - header.autohide
+  - content.code.copy
+  - search.suggest
+  - search.highlight
+  - content.tabs.link
+  name: material
+  palette:
+  - scheme: default
+    primary: green
+    accent: orange
+    toggle:
+      icon: material/lightbulb
+      name: Switch to dark mode
+  - scheme: slate
+    primary: green
+    accent: orange
+    toggle:
+      icon: material/lightbulb-outline
+      name: Switch to light mode
+  favicon: assets/favicon.png
+  logo: assets/logo.png
+  icon:
+    repo: fontawesome/brands/github-alt
+
+repo_name: faissaloux/geranslator
+repo_url: https://github.com/faissaloux/geranslator
+
+nav:
+- About: index.md
+- Installation: installation.md
+- Configuration: configuration.md
+- Usage:
+  - CLI: usage/cli.md
+  - IDE: usage/ide.md
+- Changelog: changelog.md
+- License: license.md
+
+markdown_extensions:
+- pymdownx.highlight
+- pymdownx.superfences
+
+extra:
+  social:
+  - icon: fontawesome/brands/github-alt
+    link: https://github.com/faissaloux
+  - icon: fontawesome/brands/twitter
+    link: https://twitter.com/faissaloux
+  - icon: fontawesome/brands/linkedin
+    link: https://www.linkedin.com/in/faissaloux
+  - icon: fontawesome/solid/globe
+    link: https://faissaloux.com
