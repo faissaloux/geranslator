@@ -26,3 +26,17 @@ jobs:
         server: ${{ secrets.FTP_HOST }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
+        exclude: |
+          **/.git*
+          **/.git*/**
+          **/geranslator/**
+          **/tests/**
+          **/docs/**
+          *.example
+          *.yaml
+          *.yml
+          *.md
+          *.ini
+          LICENSE
+          Makefile
+          setup.*
