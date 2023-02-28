@@ -1,4 +1,9 @@
-## [Unreleased](https://github.com/faissaloux/geranslator/compare/v0.3.0...main)
+## [Unreleased](https://github.com/faissaloux/geranslator/compare/v1.0.0...main)
+
+## [v1.0.0](https://github.com/faissaloux/termspark/compare/v0.3.0...v1.0.0) - 2023-02-28
+### ADDED
+- Translation progress ([#46](https://github.com/faissaloux/geranslator/pull/46))
+- Skip `hidden` words from each file format ([#41](https://github.com/faissaloux/geranslator/pull/41))
 
 ## [v0.3.0](https://github.com/faissaloux/termspark/compare/v0.2.0...v0.3.0) - 2023-02-05
 ### ADDED
