@@ -13,7 +13,7 @@ def before_and_after_test():
 
     os.mkdir(lang_dir)
     lang_file = open(f"{lang_dir}/en.json", "w")
-    lang_file.write('{"text_1": "hello", "text_2": "bye"}')
+    lang_file.write('{"text_1": "two", "text_2": "three"}')
     lang_file.close()
 
     yield
@@ -28,7 +28,7 @@ class TestDeeplProvider:
     def test_exit_when_origin_lang_is_not_supported(self):
         with pytest.raises(SystemExit):
             Deepl().translate(
-                {"text_1": "good morning", "text_2": "good night"},
+                {"text_1": "two", "text_2": "three"},
                 "not_supported",
                 ["ar", "fr"],
             )
@@ -36,52 +36,52 @@ class TestDeeplProvider:
     def test_translation_text(self):
         deepl_provider = Deepl()
         translation = deepl_provider.translate(
-            {"text_1": "hello", "text_2": "bye"}, "en", ["es", "fr"]
+            {"text_1": "two", "text_2": "three"}, "en", ["es", "fr"]
         )
 
-        assert deepl_provider.text_to_translate == {"text_1": "hello", "text_2": "bye"}
+        assert deepl_provider.text_to_translate == {"text_1": "two", "text_2": "three"}
         assert list(deepl_provider.translation.keys()) == ["es", "fr"]
         assert list(deepl_provider.translation["es"].keys()) == ["text_1", "text_2"]
         assert list(deepl_provider.translation["fr"].keys()) == ["text_1", "text_2"]
-        assert deepl_provider.translation["es"] == {"text_1": "hola", "text_2": "adiós"}
+        assert deepl_provider.translation["es"] == {"text_1": "dos", "text_2": "tres"}
         assert deepl_provider.translation["fr"] == {
-            "text_1": "bonjour",
-            "text_2": "au revoir",
+            "text_1": "deux",
+            "text_2": "trois",
         }
         assert translation == {
-            "es": {"text_1": "hola", "text_2": "adiós"},
-            "fr": {"text_1": "bonjour", "text_2": "au revoir"},
+            "es": {"text_1": "dos", "text_2": "tres"},
+            "fr": {"text_1": "deux", "text_2": "trois"},
         }
 
     def test_translation_returns_lower_case(self):
         deepl_provider = Deepl()
         translation = deepl_provider.translate(
-            {"text_1": "GOOD MORNING", "text_2": "GOOD NIGHT"}, "en", ["es", "fr"]
+            {"text_1": "TWO", "text_2": "THREE"}, "en", ["es", "fr"]
         )
 
         assert translation == {
-            "es": {"text_1": "buenos días", "text_2": "buenas noches"},
-            "fr": {"text_1": "bon matin", "text_2": "bonne nuit"},
+            "es": {"text_1": "dos", "text_2": "tres"},
+            "fr": {"text_1": "deux", "text_2": "trois"},
         }
 
     def test_language_not_found_doesnt_stop_the_process(self):
         deepl_provider = Deepl()
         translation = deepl_provider.translate(
-            {"text_1": "hello", "text_2": "bye"}, "en", ["es", "not_exist", "fr"]
+            {"text_1": "two", "text_2": "three"}, "en", ["es", "not_exist", "fr"]
         )
 
-        assert deepl_provider.text_to_translate == {"text_1": "hello", "text_2": "bye"}
+        assert deepl_provider.text_to_translate == {"text_1": "two", "text_2": "three"}
         assert list(deepl_provider.translation.keys()) == ["es", "fr"]
         assert list(deepl_provider.translation["es"].keys()) == ["text_1", "text_2"]
         assert list(deepl_provider.translation["fr"].keys()) == ["text_1", "text_2"]
-        assert deepl_provider.translation["es"] == {"text_1": "hola", "text_2": "adiós"}
+        assert deepl_provider.translation["es"] == {"text_1": "dos", "text_2": "tres"}
         assert deepl_provider.translation["fr"] == {
-            "text_1": "bonjour",
-            "text_2": "au revoir",
+            "text_1": "deux",
+            "text_2": "trois",
         }
         assert translation == {
-            "es": {"text_1": "hola", "text_2": "adiós"},
-            "fr": {"text_1": "bonjour", "text_2": "au revoir"},
+            "es": {"text_1": "dos", "text_2": "tres"},
+            "fr": {"text_1": "deux", "text_2": "trois"},
         }
 
     def test_translation_text_includes_hidden_value(self):
