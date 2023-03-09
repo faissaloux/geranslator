@@ -43,11 +43,7 @@ class TestDeeplProvider:
         assert list(deepl_provider.translation.keys()) == ["es", "fr"]
         assert list(deepl_provider.translation["es"].keys()) == ["text_1", "text_2"]
         assert list(deepl_provider.translation["fr"].keys()) == ["text_1", "text_2"]
-        assert deepl_provider.translation["es"] == {"text_1": "dos", "text_2": "tres"}
-        assert deepl_provider.translation["fr"] == {
-            "text_1": "deux",
-            "text_2": "trois",
-        }
+        assert translation == deepl_provider.translation
         assert translation == {
             "es": {"text_1": "dos", "text_2": "tres"},
             "fr": {"text_1": "deux", "text_2": "trois"},
@@ -74,11 +70,7 @@ class TestDeeplProvider:
         assert list(deepl_provider.translation.keys()) == ["es", "fr"]
         assert list(deepl_provider.translation["es"].keys()) == ["text_1", "text_2"]
         assert list(deepl_provider.translation["fr"].keys()) == ["text_1", "text_2"]
-        assert deepl_provider.translation["es"] == {"text_1": "dos", "text_2": "tres"}
-        assert deepl_provider.translation["fr"] == {
-            "text_1": "deux",
-            "text_2": "trois",
-        }
+        assert translation == deepl_provider.translation
         assert translation == {
             "es": {"text_1": "dos", "text_2": "tres"},
             "fr": {"text_1": "deux", "text_2": "trois"},
@@ -112,17 +104,7 @@ class TestDeeplProvider:
             "morning",
             "Bye",
         ]
-
-        assert deepl_provider.translation["es"] == {
-            "Hello": "hola",
-            "morning": "buenos días :attribute que tenga un buen día",
-            "Bye": "adiós",
-        }
-        assert deepl_provider.translation["sv"] == {
-            "Hello": "hej",
-            "morning": "god morgon :attribute ha en bra dag",
-            "Bye": "hej då",
-        }
+        assert translation == deepl_provider.translation
         assert translation == {
             "es": {
                 "Hello": "hola",
@@ -162,13 +144,7 @@ class TestDeeplProvider:
         assert list(deepl_provider.translation.keys()) == ["es", "sv"]
         assert list(deepl_provider.translation["es"].keys()) == ["morning"]
         assert list(deepl_provider.translation["sv"].keys()) == ["morning"]
-
-        assert deepl_provider.translation["es"] == {
-            "morning": "buenos días:attribute1 nos vemos. :attribute2 ¡más tarde!"
-        }
-        assert deepl_provider.translation["sv"] == {
-            "morning": "god morgon:attribute1 , vi ses :attribute2 senare!"
-        }
+        assert translation == deepl_provider.translation
         assert translation == {
             "es": {
                 "morning": "buenos días:attribute1 nos vemos. :attribute2 ¡más tarde!"
