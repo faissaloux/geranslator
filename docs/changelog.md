@@ -1,4 +1,8 @@
-## [Unreleased](https://github.com/faissaloux/geranslator/compare/v1.0.3...main)
+## [Unreleased](https://github.com/faissaloux/geranslator/compare/v1.0.4...main)
+
+## [v1.0.4](https://github.com/faissaloux/termspark/compare/v1.0.3...v1.0.4) - 2023-03-15
+### FIXED
+- Fix cmd arguments with `=` sign ([#58](https://github.com/faissaloux/geranslator/pull/58))
 
 ## [v1.0.3](https://github.com/faissaloux/termspark/compare/v1.0.2...v1.0.3) - 2023-03-14
 ### FIXED
