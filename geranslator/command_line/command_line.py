@@ -13,8 +13,8 @@ class CommandLine:
         self.app()
 
     @app.command()
-    @staticmethod
     def translate(
+        self=None,  # type: ignore
         provider: str = typer.Option(Config().get("provider"), "--provider", "-p"),
         lang_dir: str = typer.Option(Config().get("lang_dir"), "--lang-dir", "-d"),
         extension: str = typer.Option(
