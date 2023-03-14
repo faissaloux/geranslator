@@ -38,8 +38,8 @@ class CommandLine:
                     if val.startswith("="):
                         arguments[arg] = val[1:]
 
-        if "," in target_langs[0]:
-            target_langs = target_langs[0].split(",")
+        if "," in arguments["target_langs"][0]:
+            arguments["target_langs"] = arguments["target_langs"][0].split(",")
 
         geranslator = Geranslator()
         geranslator.set_provider(arguments["provider"])
