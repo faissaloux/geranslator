@@ -11,7 +11,7 @@ class Config:
     dir: str = os.path.dirname(os.path.realpath(__file__))
     config_file_name: str = ".geranslator-config.yaml"
     config_sample_file_name: str = ".geranslator-config.example"
-    config_sample_relative_path: str = os.path.join("..", "..", config_sample_file_name)
+    config_sample_relative_path: str = os.path.join("..", config_sample_file_name)
     config_sample_path: str = os.path.join(dir, config_sample_relative_path)
     config_path: str = os.path.join(os.getcwd(), config_file_name)
 
