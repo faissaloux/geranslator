@@ -1,4 +1,8 @@
-## [Unreleased](https://github.com/faissaloux/geranslator/compare/v1.0.0...main)
+## [Unreleased](https://github.com/faissaloux/geranslator/compare/v1.0.1...main)
+
+## [v1.0.1](https://github.com/faissaloux/termspark/compare/v1.0.0...v1.0.1) - 2023-03-14
+### FIXED
+- Fix Config Example File not included on build ([#54](https://github.com/faissaloux/geranslator/pull/54))
 
 ## [v1.0.0](https://github.com/faissaloux/termspark/compare/v0.3.0...v1.0.0) - 2023-02-28
 ### ADDED
