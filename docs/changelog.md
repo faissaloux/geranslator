@@ -1,4 +1,9 @@
-## [Unreleased](https://github.com/faissaloux/geranslator/compare/v1.0.1...main)
+## [Unreleased](https://github.com/faissaloux/geranslator/compare/v1.0.2...main)
+
+## [v1.0.2](https://github.com/faissaloux/termspark/compare/v1.0.1...v1.0.2) - 2023-03-14
+### FIXED
+- Fix `extensions` directory not included on build ([#56](https://github.com/faissaloux/geranslator/pull/56))
+- Fix `AttributeError: 'staticmethod' object has no attribute '__name__'` ([#55](https://github.com/faissaloux/geranslator/pull/55))
 
 ## [v1.0.1](https://github.com/faissaloux/termspark/compare/v1.0.0...v1.0.1) - 2023-03-14
 ### FIXED
