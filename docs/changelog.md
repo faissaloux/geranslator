@@ -1,4 +1,8 @@
-## [Unreleased](https://github.com/faissaloux/geranslator/compare/v1.0.2...main)
+## [Unreleased](https://github.com/faissaloux/geranslator/compare/v1.0.3...main)
+
+## [v1.0.3](https://github.com/faissaloux/termspark/compare/v1.0.2...v1.0.3) - 2023-03-14
+### FIXED
+- Fix `dictionary` file not included on build ([#57](https://github.com/faissaloux/geranslator/pull/57))
 
 ## [v1.0.2](https://github.com/faissaloux/termspark/compare/v1.0.1...v1.0.2) - 2023-03-14
 ### FIXED
