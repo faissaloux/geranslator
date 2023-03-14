@@ -27,13 +27,24 @@ class CommandLine:
             Config().get("target_langs"), "--target-langs", "-t"
         ),
     ):
+        arguments: dict = locals()
+
+        for arg, val in arguments.items():
+            if val != None:
+                if isinstance(val, list):
+                    if val[0].startswith("="):
+                        arguments[arg] = [val[0][1:]]
+                else:
+                    if val.startswith("="):
+                        arguments[arg] = val[1:]
+
         if "," in target_langs[0]:
             target_langs = target_langs[0].split(",")
 
         geranslator = Geranslator()
-        geranslator.set_provider(provider)
-        geranslator.set_lang_dir(lang_dir)
-        geranslator.set_lang_files_extension(extension)
-        geranslator.set_origin_lang(origin_lang)
-        geranslator.set_target_lang(target_langs)
+        geranslator.set_provider(arguments["provider"])
+        geranslator.set_lang_dir(arguments["lang_dir"])
+        geranslator.set_lang_files_extension(arguments["extension"])
+        geranslator.set_origin_lang(arguments["origin_lang"])
+        geranslator.set_target_lang(arguments["target_langs"])
         geranslator.translate()
