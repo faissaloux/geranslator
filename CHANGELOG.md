@@ -1,4 +1,10 @@
-## [Unreleased](https://github.com/faissaloux/geranslator/compare/v1.0.4...main)
+## [Unreleased](https://github.com/faissaloux/geranslator/compare/v1.0.5...main)
+
+## [v1.0.5](https://github.com/faissaloux/termspark/compare/v1.0.4...v1.0.5) - 2023-03-15
+### FIXED
+- Fix multiple target langs CLI parameter ([#59](https://github.com/faissaloux/geranslator/pull/59))
+### INTERNAL
+- Add `update_docs_changelog` Makefile target ([#60](https://github.com/faissaloux/geranslator/pull/60))
 
 ## [v1.0.4](https://github.com/faissaloux/termspark/compare/v1.0.3...v1.0.4) - 2023-03-15
 ### FIXED
