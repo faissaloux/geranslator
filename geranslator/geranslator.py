@@ -17,6 +17,7 @@ from .provider.provider import Provider
 class Geranslator:
     provider: str
     lang_dir: str
+    lang_file_prefix: str = ""
     lang_files_ext: str
     origin_lang: str
     target_lang: List[str] = []
@@ -35,8 +36,7 @@ class Geranslator:
 
         text = (
             FilesManager()
-            .set_langs_dir(self.lang_dir)
-            .set_lang(self.origin_lang)
+            .set_lang_file(self.origin_lang_file)
             .set_extension(self.lang_files_ext)
             .get()
         )
@@ -54,7 +54,9 @@ class Geranslator:
         for lang in translation:
             FilesManager().set_langs_dir(self.lang_dir).set_data(
                 translation[lang]
-            ).set_lang(lang).set_extension(self.lang_files_ext).insert()
+            ).set_lang_file(f"{self.lang_file_prefix}{lang}").set_extension(
+                self.lang_files_ext
+            ).insert()
 
         end = time.time()
         TermSpark().line().spark()
@@ -118,7 +120,21 @@ class Geranslator:
             self.lang_dir, f"{self.origin_lang}.{self.lang_files_ext}"
         )
 
-        return os.path.exists(self.origin_lang_file)
+        if not os.path.exists(self.lang_dir):
+            return False
+
+        if not os.path.exists(self.origin_lang_file):
+            for file in os.listdir(self.lang_dir):
+                if file.endswith(f"{self.origin_lang}.{self.lang_files_ext}"):
+                    self.origin_lang_file = os.path.join(self.lang_dir, file)
+                    self.lang_file_prefix = file.split(
+                        f"{self.origin_lang}.{self.lang_files_ext}"
+                    )[0]
+                    return True
+        else:
+            return True
+
+        return False
 
     def make_sure_origin_lang_file_exists(self):
         if not self.origin_lang_file_exists():
