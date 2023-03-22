@@ -49,11 +49,13 @@ class TestFilesManager:
 
         assert files_manager.data == {"Hello": "Bonjour", "Bye": "Au revoir"}
 
-    def test_set_lang(self):
+    def test_set_lang_file(self):
         files_manager = FilesManager()
-        files_manager.set_lang("en")
+        files_manager.set_lang_file(os.path.join(Config().get("lang_dir"), "en.yaml"))
 
-        assert files_manager.lang == "en"
+        assert files_manager.lang_file == os.path.join(
+            Config().get("lang_dir"), "en.yaml"
+        )
 
     def test_set_langs_dir(self):
         files_manager = FilesManager()
@@ -62,7 +64,7 @@ class TestFilesManager:
         assert files_manager.langs_dir == "translations"
 
     def test_data_insertion_default_extension(self):
-        FilesManager().set_data({"Hello": "Bonjour", "Bye": "Au revoir"}).set_lang(
+        FilesManager().set_data({"Hello": "Bonjour", "Bye": "Au revoir"}).set_lang_file(
             "en"
         ).insert()
 
@@ -77,11 +79,15 @@ class TestFilesManager:
     def test_data_insertion(self):
         FilesManager().set_langs_dir("translations").set_data(
             {"Hello": "Bonjour", "Bye": "Au revoir"}
-        ).set_lang("en").set_extension("json").insert()
+        ).set_lang_file("en").set_extension("json").insert()
 
         assert os.path.exists(os.path.join(os.getcwd(), "translations", "en.json"))
 
     def test_get(self):
-        data = FilesManager().set_lang("en").get()
+        data = (
+            FilesManager()
+            .set_lang_file(os.path.join(Config().get("lang_dir"), "en.json"))
+            .get()
+        )
 
         assert data == {"Hello": "hello", "Bye": "bye"}

@@ -3,7 +3,6 @@ from importlib import import_module
 
 from ..config.config import Config
 from ..exceptions.ExtensionNotSupported import ExtensionNotSupported
-from ..exceptions.FileNotFound import FileNotFound
 
 
 class FilesManager:
@@ -11,7 +10,7 @@ class FilesManager:
     dir: str = os.path.dirname(os.path.realpath(__file__))
     langs_dir: str = Config().get("lang_dir")
     data: dict
-    lang: str
+    lang_file: str
     ext_aliases: dict = {
         "yaml": ["yml"],
     }
@@ -30,8 +29,8 @@ class FilesManager:
 
         return self
 
-    def set_lang(self, lang: str):
-        self.lang = lang
+    def set_lang_file(self, file: str):
+        self.lang_file = file
 
         return self
 
@@ -42,7 +41,7 @@ class FilesManager:
 
     def insert(self):
         lang_dir = os.path.join(os.getcwd(), self.langs_dir)
-        lang_file = os.path.join(lang_dir, self.lang + "." + self.extension)
+        lang_file = os.path.join(lang_dir, f"{self.lang_file}.{self.extension}")
 
         if not os.path.exists(lang_dir):
             os.makedirs(lang_dir)
@@ -50,13 +49,7 @@ class FilesManager:
         self.__ext_class().insert(self.data, lang_file)
 
     def get(self) -> list:
-        lang_dir = os.path.join(os.getcwd(), self.langs_dir)
-        lang_file = os.path.join(lang_dir, self.lang + "." + self.extension)
-
-        if os.path.exists(lang_file):
-            return self.__ext_class().get(lang_file)
-        else:
-            raise FileNotFound(lang_file)
+        return self.__ext_class().get(self.lang_file)
 
     def __make_sure_extension_is_supported(self, extension) -> bool:
         self.ext_reference = extension
