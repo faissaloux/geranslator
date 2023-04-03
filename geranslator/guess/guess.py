@@ -22,4 +22,4 @@ class Guess:
 
                 return [application, application_version]
 
-        return ["default", application_version]
+        return ["sample", application_version]
