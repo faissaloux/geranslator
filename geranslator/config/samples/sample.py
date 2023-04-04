@@ -1,5 +1,8 @@
+from typing import Union
+
+
 class Sample:
-    lang_dir: str = "lang"
+    lang_dir: Union[str, dict] = "lang"
     lang_files_ext: str = "json"
     provider: str = "google"
     origin_lang: str = "en"
@@ -23,3 +26,6 @@ class Sample:
                 pass
 
         return attributes
+
+    def version(self, app_version: str):
+        return self

@@ -37,6 +37,6 @@ class Config:
         _module = import_module(f"geranslator.config.samples.{application[0].lower()}")
         _class = getattr(_module, application[0].capitalize())
 
-        config = _class().make()
+        config = _class().version(application[1]).make()
 
         Yaml().insert({"geranslator": config}, self.config_path)
