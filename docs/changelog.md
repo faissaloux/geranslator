@@ -1,4 +1,11 @@
-## [Unreleased](https://github.com/faissaloux/geranslator/compare/v1.1.0...main)
+## [Unreleased](https://github.com/faissaloux/geranslator/compare/v1.1.1...main)
+
+## [v1.1.1](https://github.com/faissaloux/termspark/compare/v1.1.0...v1.1.1) - 2023-04-05
+### FIXED
+- Update deepl changed elements ([#64](https://github.com/faissaloux/geranslator/pull/64))
+
+### ADDED
+- Support lang files names with prefix ([#62](https://github.com/faissaloux/geranslator/pull/62))
 
 ## [v1.1.0](https://github.com/faissaloux/termspark/compare/v1.0.5...v1.1.0) - 2023-03-22
 ### ADDED
