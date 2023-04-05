@@ -17,7 +17,7 @@ class Deepl(AbstractProvider):
     def translate_text(self, text: str) -> str:
         source_text = WebDriverWait(self.driver, 40).until(
             expected_conditions.presence_of_element_located(
-                (By.XPATH, "//*[@dl-test='translator-source-input']")
+                (By.XPATH, "//*[@data-testid='translator-source-input']")
             )
         )
         ActionChains(self.driver).move_to_element(source_text).click().send_keys(
@@ -26,14 +26,14 @@ class Deepl(AbstractProvider):
 
         WebDriverWait(self.driver, 40).until(
             expected_conditions.presence_of_element_located(
-                (By.XPATH, "//*[@dl-test='translator-target-input']")
+                (By.XPATH, "//*[@data-testid='translator-target-input']")
             )
         )
 
         time.sleep(4)
 
         translated_element = self.driver.find_element(
-            By.XPATH, "//*[@dl-test='translator-target-input']"
+            By.XPATH, "//*[@data-testid='translator-target-input']"
         )
         translation = translated_element.get_attribute("value").lower()
 
@@ -50,7 +50,7 @@ class Deepl(AbstractProvider):
 
         more_source_languages_btn = WebDriverWait(self.driver, 15).until(
             expected_conditions.presence_of_element_located(
-                (By.XPATH, "//button[@dl-test='translator-source-lang-btn']")
+                (By.XPATH, "//button[@data-testid='translator-source-lang-btn']")
             )
         )
         more_source_languages_btn.click()
@@ -65,7 +65,7 @@ class Deepl(AbstractProvider):
 
         more_target_languages_btn = WebDriverWait(self.driver, 15).until(
             expected_conditions.presence_of_element_located(
-                (By.XPATH, "//button[@dl-test='translator-target-lang-btn']")
+                (By.XPATH, "//button[@data-testid='translator-target-lang-btn']")
             )
         )
         more_target_languages_btn.click()
@@ -103,7 +103,7 @@ class Deepl(AbstractProvider):
 
                     close_btn = WebDriverWait(self.driver, 15).until(
                         expected_conditions.presence_of_element_located(
-                            (By.XPATH, "//button[@dl-test='closeButton']")
+                            (By.XPATH, "//button[@data-testid='closeButton']")
                         )
                     )
                     close_btn.click()
@@ -138,7 +138,7 @@ class Deepl(AbstractProvider):
     def clear_source_text(self):
         clear_source_text_btn = WebDriverWait(self.driver, 15).until(
             expected_conditions.presence_of_element_located(
-                (By.XPATH, "//button[@dl-test='translator-source-clear-button']")
+                (By.XPATH, "//button[@data-testid='translator-source-clear-button']")
             )
         )
         clear_source_text_btn.click()
