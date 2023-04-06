@@ -26,6 +26,6 @@ class Laravel(Sample):
                 if operation and operation(
                     version.parse(app_version), version.parse(ver)
                 ):
-                    self.lang_files_ext = directory
+                    self.lang_dir = directory
 
         return self
