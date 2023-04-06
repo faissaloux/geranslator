@@ -1,8 +1,11 @@
 import os
-import shutil
+from importlib import import_module
 from typing import Optional
 
 import yaml
+
+from geranslator.files_manager.extensions.yaml import Yaml
+from geranslator.guess.guess import Guess
 
 from ..exceptions.ConfigKeyNotFound import ConfigKeyNotFound
 
@@ -10,9 +13,6 @@ from ..exceptions.ConfigKeyNotFound import ConfigKeyNotFound
 class Config:
     dir: str = os.path.dirname(os.path.realpath(__file__))
     config_file_name: str = ".geranslator-config.yaml"
-    config_sample_file_name: str = ".geranslator-config.example"
-    config_sample_relative_path: str = os.path.join("..", config_sample_file_name)
-    config_sample_path: str = os.path.join(dir, config_sample_relative_path)
     config_path: str = os.path.join(os.getcwd(), config_file_name)
 
     def get(self, key: Optional[str] = None):
@@ -27,6 +27,16 @@ class Config:
                 else:
                     return config["geranslator"]
         else:
-            shutil.copy(self.config_sample_path, self.config_path)
+            self.__create_config_file()
 
             return self.get(key)
+
+    def __create_config_file(self):
+        application = Guess().application()
+
+        _module = import_module(f"geranslator.config.samples.{application[0].lower()}")
+        _class = getattr(_module, application[0].capitalize())
+
+        config = _class().version(application[1]).make()
+
+        Yaml().insert({"geranslator": config}, self.config_path)
