@@ -31,12 +31,18 @@ class TestGoogleProvider:
                 {"text_1": "good morning", "text_2": "good night"},
                 "not_supported",
                 ["ar", "fr"],
+                Config().get("lang_dir"),
+                "json",
             )
 
     def test_translation_text(self):
         google_provider = Google()
         translation = google_provider.translate(
-            {"text_1": "good morning", "text_2": "good night"}, "en", ["ar", "fr"]
+            {"text_1": "good morning", "text_2": "good night"},
+            "en",
+            ["ar", "fr"],
+            Config().get("lang_dir"),
+            "json",
         )
 
         assert google_provider.text_to_translate == {
@@ -55,7 +61,11 @@ class TestGoogleProvider:
     def test_translation_returns_lower_case(self):
         google_provider = Google()
         translation = google_provider.translate(
-            {"text_1": "GOOD MORNING", "text_2": "GOOD NIGHT"}, "en", ["es", "fr"]
+            {"text_1": "GOOD MORNING", "text_2": "GOOD NIGHT"},
+            "en",
+            ["es", "fr"],
+            Config().get("lang_dir"),
+            "json",
         )
 
         assert translation == {
@@ -69,6 +79,8 @@ class TestGoogleProvider:
             {"text_1": "good morning", "text_2": "good night"},
             "en",
             ["ar", "not_exist", "fr"],
+            Config().get("lang_dir"),
+            "json",
         )
 
         assert google_provider.text_to_translate == {
@@ -94,6 +106,8 @@ class TestGoogleProvider:
             },
             "en",
             ["ar", "fr"],
+            Config().get("lang_dir"),
+            "json",
         )
 
         assert google_provider.text_to_translate == {
@@ -139,6 +153,8 @@ class TestGoogleProvider:
             },
             "en",
             ["ar", "fr"],
+            Config().get("lang_dir"),
+            "json",
         )
 
         assert google_provider.text_to_translate == {

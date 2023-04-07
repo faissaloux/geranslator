@@ -31,12 +31,18 @@ class TestDeeplProvider:
                 {"text_1": "two", "text_2": "three"},
                 "not_supported",
                 ["ar", "fr"],
+                Config().get("lang_dir"),
+                "json",
             )
 
     def test_translation_text(self):
         deepl_provider = Deepl()
         translation = deepl_provider.translate(
-            {"text_1": "two", "text_2": "three"}, "en", ["es", "fr"]
+            {"text_1": "two", "text_2": "three"},
+            "en",
+            ["es", "fr"],
+            Config().get("lang_dir"),
+            "json",
         )
 
         assert deepl_provider.text_to_translate == {"text_1": "two", "text_2": "three"}
@@ -52,7 +58,11 @@ class TestDeeplProvider:
     def test_translation_returns_lower_case(self):
         deepl_provider = Deepl()
         translation = deepl_provider.translate(
-            {"text_1": "TWO", "text_2": "THREE"}, "en", ["es", "fr"]
+            {"text_1": "TWO", "text_2": "THREE"},
+            "en",
+            ["es", "fr"],
+            Config().get("lang_dir"),
+            "json",
         )
 
         assert translation == {
@@ -63,7 +73,11 @@ class TestDeeplProvider:
     def test_language_not_found_doesnt_stop_the_process(self):
         deepl_provider = Deepl()
         translation = deepl_provider.translate(
-            {"text_1": "two", "text_2": "three"}, "en", ["es", "not_exist", "fr"]
+            {"text_1": "two", "text_2": "three"},
+            "en",
+            ["es", "not_exist", "fr"],
+            Config().get("lang_dir"),
+            "json",
         )
 
         assert deepl_provider.text_to_translate == {"text_1": "two", "text_2": "three"}
@@ -86,6 +100,8 @@ class TestDeeplProvider:
             },
             "en",
             ["es", "sv"],
+            Config().get("lang_dir"),
+            "json",
         )
 
         assert deepl_provider.text_to_translate == {
@@ -131,6 +147,8 @@ class TestDeeplProvider:
             },
             "en",
             ["es", "sv"],
+            Config().get("lang_dir"),
+            "json",
         )
 
         assert deepl_provider.text_to_translate == {
