@@ -1,3 +1,4 @@
+import os
 import time
 from abc import ABC, abstractmethod, abstractproperty
 from typing import List
@@ -8,6 +9,7 @@ from selenium.webdriver.chrome.service import Service
 from termspark import TermSpark
 from webdriver_manager.chrome import ChromeDriverManager
 
+from ...files_manager.files_manager import FilesManager
 from ...languages.languages import Languages
 
 
@@ -22,9 +24,14 @@ class AbstractProvider(ABC):
     def __init__(self):
         self.translation = {}
 
-    def translate(self, text: dict, origin_lang: str, target_langs: List[str]) -> dict:
-        self.text_to_translate = text
-
+    def translate(
+        self,
+        text: dict,
+        origin_lang: str,
+        target_langs: List[str],
+        langs_dir: str,
+        langs_files_ext: str,
+    ) -> dict:
         try:
             TermSpark().spark_left(
                 [
@@ -44,6 +51,17 @@ class AbstractProvider(ABC):
 
             TermSpark().spark_left(["TRANSLATING ", "green"]).set_separator(".").spark()
             for lang in target_langs:
+                self.text_to_translate: dict = text.copy()
+
+                self.__skip_translated_keys(lang, langs_dir, langs_files_ext)
+
+                if not len(self.text_to_translate):
+                    TermSpark().spark_left([f"{Languages().get(lang)} "]).spark_right(
+                        [" SKIPPED", "yellow"],
+                    ).set_separator(".").spark()
+
+                    continue
+
                 exec_start = time.time()
                 if self.choose_target_language(lang):
                     self.translation[lang] = {}
@@ -145,6 +163,23 @@ class AbstractProvider(ABC):
                         result[hidden].append(translation)
 
         return result
+
+    def __skip_translated_keys(self, lang: str, langs_dir: str, langs_files_ext: str):
+        target_lang_file = os.path.join(
+            os.getcwd(), langs_dir, f"{lang}." + langs_files_ext
+        )
+
+        if os.path.exists(target_lang_file):
+            target_lang_text = (
+                FilesManager()
+                .set_lang_file(target_lang_file)
+                .set_extension(langs_files_ext)
+                .get()
+            )
+
+            for key in list(self.text_to_translate.keys()):
+                if key in target_lang_text.keys():
+                    self.text_to_translate.pop(key)
 
     @abstractmethod
     def translate_text(self, text: str) -> str:

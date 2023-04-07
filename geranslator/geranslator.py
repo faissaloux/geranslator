@@ -44,7 +44,7 @@ class Geranslator:
         self.__print_config()
 
         translation = Provider(self.provider).translate(
-            text, self.origin_lang, self.target_lang
+            text, self.origin_lang, self.target_lang, self.lang_dir, self.lang_files_ext
         )
 
         TermSpark().line().spark()
