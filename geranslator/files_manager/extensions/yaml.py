@@ -9,7 +9,11 @@ class Yaml(AbstractExtension):
     hidden: list = ["^%.+%$"]
 
     def insert(self, data: dict, file: str):
-        yaml.dump(data, open(file, "w", encoding="utf-8"), allow_unicode=True)
+        yaml.dump(
+            self.append_data(data, file),
+            open(file, "w", encoding="utf-8"),
+            allow_unicode=True,
+        )
 
         self.file_created(file)
 

@@ -1,6 +1,5 @@
 import os
 import re
-import shutil
 
 import polib
 
@@ -11,17 +10,13 @@ class Po(AbstractExtension):
     hidden: list = ["^%"]
 
     def insert(self, data: dict, file: str):
-        lang_directory = os.path.dirname(os.path.realpath(file))
-        lang_file_sample = os.path.join(lang_directory, os.listdir(lang_directory)[0])
+        if os.path.exists(file):
+            data = self.append_data(data, file)
 
-        shutil.copy(lang_file_sample, file)
-
-        po = polib.pofile(file)
-
-        for entry in po:
-            entry.msgstr = data[entry.msgid]
-
-        po.save()
+        with open(file, "w", encoding="utf-8") as f:
+            for key, sentence in data.items():
+                f.write(f"msgid '{key}'\n")
+                f.write(f"msgstr '{sentence}'\n\n")
 
         self.file_created(file)
 
