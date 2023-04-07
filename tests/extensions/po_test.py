@@ -47,6 +47,27 @@ msgstr "Au revoir"
 """
         )
 
+    def test_prevent_override(self):
+        po_file = os.path.join(Config().get("lang_dir"), "fr.po")
+        lang_file = open(po_file, "w")
+        lang_file.write("msgid 'Hello'\n msgstr 'Bonjour'\n\n")
+        lang_file.close()
+
+        Po().insert({"Bye": "Au revoir"}, po_file)
+        assert (
+            str(polib.pofile(po_file))
+            == """#
+msgid ""
+msgstr ""
+
+msgid "Bye"
+msgstr "Au revoir"
+
+msgid "Hello"
+msgstr "Bonjour"
+"""
+        )
+
     def test_skip_hidden(self):
         lang_dir = Config().get("lang_dir")
         lang_file = open(f"{lang_dir}/en.po", "w")

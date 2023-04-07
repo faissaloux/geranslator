@@ -38,6 +38,17 @@ class TestJsonExtension:
         assert os.path.exists(os.path.join(os.getcwd(), json_file))
         assert json.load(open(json_file, "r")) == {"Hey": "Bonjour", "Bye": "Au revoir"}
 
+    def test_prevent_override(self):
+        json_file = os.path.join(Config().get("lang_dir"), "fr.json")
+        lang_file = open(json_file, "w")
+        lang_file.write('{"Hey": "Bonjour"}')
+        lang_file.close()
+
+        Json().insert({"Bye": "Au revoir"}, json_file)
+
+        assert os.path.exists(os.path.join(os.getcwd(), json_file))
+        assert json.load(open(json_file, "r")) == {"Hey": "Bonjour", "Bye": "Au revoir"}
+
     def test_skip_hidden(self):
         lang_dir = Config().get("lang_dir")
         lang_file = open(f"{lang_dir}/en.json", "w")
