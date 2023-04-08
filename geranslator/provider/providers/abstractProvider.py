@@ -16,6 +16,7 @@ from ...languages.languages import Languages
 class AbstractProvider(ABC):
     text_to_translate: dict = {}
     translation: dict
+    translated_elements_counter: int = 0
 
     @abstractproperty
     def url(self) -> str:
@@ -77,7 +78,10 @@ class AbstractProvider(ABC):
 
             self.close_browser()
 
-            return self.translation
+            return {
+                "translation": self.translation,
+                "translated_elements_counter": self.translated_elements_counter,
+            }
         except WebDriverException:
             TermSpark().spark_left(
                 [" Please check your network and try again ", "white", "red"]
@@ -146,6 +150,7 @@ class AbstractProvider(ABC):
                 self.translation[lang][key] = translation
 
             counter += 1
+            self.translated_elements_counter += 1
 
     def __translate_dict(self, text_dict: dict) -> dict:
         result: dict = {}

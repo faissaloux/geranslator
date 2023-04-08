@@ -52,8 +52,11 @@ class TestGoogleProvider:
         assert list(google_provider.translation.keys()) == ["ar", "fr"]
         assert list(google_provider.translation["ar"].keys()) == ["text_1", "text_2"]
         assert list(google_provider.translation["fr"].keys()) == ["text_1", "text_2"]
-        assert translation == google_provider.translation
         assert translation == {
+            "translation": google_provider.translation,
+            "translated_elements_counter": google_provider.translated_elements_counter,
+        }
+        assert translation["translation"] == {
             "ar": {"text_1": "صباح الخير", "text_2": "طاب مساؤك"},
             "fr": {"text_1": "bonjour", "text_2": "bonne nuit"},
         }
@@ -68,7 +71,7 @@ class TestGoogleProvider:
             "json",
         )
 
-        assert translation == {
+        assert translation["translation"] == {
             "es": {"text_1": "buen día", "text_2": "buenas noches"},
             "fr": {"text_1": "bonjour", "text_2": "bonne nuit"},
         }
@@ -90,8 +93,11 @@ class TestGoogleProvider:
         assert list(google_provider.translation.keys()) == ["ar", "fr"]
         assert list(google_provider.translation["ar"].keys()) == ["text_1", "text_2"]
         assert list(google_provider.translation["fr"].keys()) == ["text_1", "text_2"]
-        assert translation == google_provider.translation
         assert translation == {
+            "translation": google_provider.translation,
+            "translated_elements_counter": google_provider.translated_elements_counter,
+        }
+        assert translation["translation"] == {
             "ar": {"text_1": "صباح الخير", "text_2": "طاب مساؤك"},
             "fr": {"text_1": "bonjour", "text_2": "bonne nuit"},
         }
@@ -126,8 +132,11 @@ class TestGoogleProvider:
             "morning",
             "Bye",
         ]
-        assert translation == google_provider.translation
         assert translation == {
+            "translation": google_provider.translation,
+            "translated_elements_counter": google_provider.translated_elements_counter,
+        }
+        assert translation["translation"] == {
             "ar": {
                 "Hello": "مرحبًا",
                 "morning": "صباح الخير:attribute، أراك لاحقًا!",
@@ -168,8 +177,11 @@ class TestGoogleProvider:
         assert list(google_provider.translation.keys()) == ["ar", "fr"]
         assert list(google_provider.translation["ar"].keys()) == ["morning"]
         assert list(google_provider.translation["fr"].keys()) == ["morning"]
-        assert translation == google_provider.translation
         assert translation == {
+            "translation": google_provider.translation,
+            "translated_elements_counter": google_provider.translated_elements_counter,
+        }
+        assert translation["translation"] == {
             "ar": {"morning": "صباح الخير:attribute1، أرك لاحقًا:attribute2لاحقاً!"},
             "fr": {"morning": "bonjour:attribute1, à bientôt:attribute2plus tard!"},
         }
