@@ -44,16 +44,16 @@ class Geranslator:
         self.__print_config()
 
         translation = Provider(self.provider).translate(
-            text, self.origin_lang, self.target_lang
+            text, self.origin_lang, self.target_lang, self.lang_dir, self.lang_files_ext
         )
 
         TermSpark().line().spark()
         TermSpark().spark_left(["TRANSLATION FILES ", "green"]).set_separator(
             "."
         ).spark()
-        for lang in translation:
+        for lang in translation["translation"]:
             FilesManager().set_langs_dir(self.lang_dir).set_data(
-                translation[lang]
+                translation["translation"][lang]
             ).set_lang_file(f"{self.lang_file_prefix}{lang}").set_extension(
                 self.lang_files_ext
             ).insert()
@@ -61,7 +61,10 @@ class Geranslator:
         end = time.time()
         TermSpark().line().spark()
         TermSpark().spark_left(
-            [f"{len(translation)} lang, {len(text)} text ", "gray"]
+            [
+                f"{len(translation['translation'])} lang, {translation['translated_elements_counter']} text ",
+                "gray",
+            ]
         ).spark_right([f" {round(end - start, 2)} sec", "yellow"]).set_separator(
             "."
         ).spark()

@@ -1,3 +1,4 @@
+import os
 import re
 from abc import ABC, abstractmethod
 
@@ -14,6 +15,12 @@ class AbstractExtension(ABC):
     @abstractmethod
     def get(self, file: str) -> dict:
         pass
+
+    def append_data(self, data: dict, file: str) -> dict:
+        if os.path.exists(file):
+            data.update(self.get(file))
+
+        return data
 
     def file_created(self, file: str):
         TermSpark().spark_left([f"{file} "]).spark_right(

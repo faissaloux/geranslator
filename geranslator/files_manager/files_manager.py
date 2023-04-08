@@ -48,7 +48,7 @@ class FilesManager:
 
         self.__ext_class().insert(self.data, lang_file)
 
-    def get(self) -> list:
+    def get(self) -> dict:
         return self.__ext_class().get(self.lang_file)
 
     def __make_sure_extension_is_supported(self, extension) -> bool:

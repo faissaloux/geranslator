@@ -12,11 +12,20 @@ class Provider:
     def __init__(self, provider: str):
         self.__set_provider(provider.lower())
 
-    def translate(self, text: dict, origin_lang: str, target_langs: List[str]) -> dict:
+    def translate(
+        self,
+        text: dict,
+        origin_lang: str,
+        target_langs: List[str],
+        langs_dir: str,
+        langs_files_ext: str,
+    ) -> dict:
         _module = import_module(f"geranslator.provider.providers.{self.provider}")
         _class = getattr(_module, self.provider.capitalize())
 
-        return _class().translate(text, origin_lang, target_langs)
+        return _class().translate(
+            text, origin_lang, target_langs, langs_dir, langs_files_ext
+        )
 
     def __set_provider(self, provider: str):
         self.__make_sure_provider_exists(provider)

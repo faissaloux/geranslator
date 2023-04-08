@@ -8,7 +8,12 @@ class Json(AbstractExtension):
     hidden: list = ["^:"]
 
     def insert(self, data: dict, file: str):
-        json.dump(data, open(file, "w", encoding="utf-8"), indent=4, ensure_ascii=False)
+        json.dump(
+            self.append_data(data, file),
+            open(file, "w", encoding="utf-8"),
+            indent=4,
+            ensure_ascii=False,
+        )
 
         self.file_created(file)
 

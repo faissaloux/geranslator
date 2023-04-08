@@ -38,6 +38,20 @@ class TestYamlExtension:
             "Hey": "Bonjour",
         }
 
+    def test_prevent_override(self):
+        yaml_file = os.path.join(Config().get("lang_dir"), "fr.yaml")
+        lang_file = open(yaml_file, "w")
+        yaml.dump({"Hey": "Bonjour"}, lang_file, allow_unicode=True)
+        lang_file.close()
+
+        Yaml().insert({"Bye": "Au revoir"}, yaml_file)
+
+        assert os.path.exists(os.path.join(os.getcwd(), yaml_file))
+        assert yaml.load(open(yaml_file, "r"), Loader=yaml.Loader) == {
+            "Hey": "Bonjour",
+            "Bye": "Au revoir",
+        }
+
     def test_skip_hidden(self):
         lang_dir = Config().get("lang_dir")
         lang_file = open(f"{lang_dir}/en.yaml", "w")
