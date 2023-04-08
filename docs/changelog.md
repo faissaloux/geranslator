@@ -1,4 +1,10 @@
-## [Unreleased](https://github.com/faissaloux/geranslator/compare/v1.1.1...main)
+## [Unreleased](https://github.com/faissaloux/geranslator/compare/v1.2.0...main)
+
+## [v1.2.0](https://github.com/faissaloux/termspark/compare/v1.1.1...v1.2.0) - 2023-04-08
+### ADDED
+- Config file depending on application ([#65](https://github.com/faissaloux/geranslator/pull/65))
+### FIXED
+- Prevent translations override ([#67](https://github.com/faissaloux/geranslator/pull/67))
 
 ## [v1.1.1](https://github.com/faissaloux/termspark/compare/v1.1.0...v1.1.1) - 2023-04-05
 ### FIXED
