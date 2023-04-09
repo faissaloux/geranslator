@@ -33,6 +33,7 @@ class TestDeeplProvider:
                 ["ar", "fr"],
                 Config().get("lang_dir"),
                 "json",
+                "",
             )
 
     def test_translation_text(self):
@@ -43,6 +44,7 @@ class TestDeeplProvider:
             ["es", "fr"],
             Config().get("lang_dir"),
             "json",
+            "",
         )
 
         assert deepl_provider.text_to_translate == {"text_1": "two", "text_2": "three"}
@@ -66,6 +68,7 @@ class TestDeeplProvider:
             ["es", "fr"],
             Config().get("lang_dir"),
             "json",
+            "",
         )
 
         assert translation["translation"] == {
@@ -81,6 +84,7 @@ class TestDeeplProvider:
             ["es", "not_exist", "fr"],
             Config().get("lang_dir"),
             "json",
+            "",
         )
 
         assert deepl_provider.text_to_translate == {"text_1": "two", "text_2": "three"}
@@ -108,6 +112,7 @@ class TestDeeplProvider:
             ["es", "sv"],
             Config().get("lang_dir"),
             "json",
+            "",
         )
 
         assert deepl_provider.text_to_translate == {
@@ -158,6 +163,7 @@ class TestDeeplProvider:
             ["es", "sv"],
             Config().get("lang_dir"),
             "json",
+            "",
         )
 
         assert deepl_provider.text_to_translate == {

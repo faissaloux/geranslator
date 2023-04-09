@@ -32,6 +32,7 @@ class AbstractProvider(ABC):
         target_langs: List[str],
         langs_dir: str,
         langs_files_ext: str,
+        lang_file_prefix: str,
     ) -> dict:
         try:
             TermSpark().spark_left(
@@ -54,7 +55,9 @@ class AbstractProvider(ABC):
             for lang in target_langs:
                 self.text_to_translate: dict = text.copy()
 
-                self.__skip_translated_keys(lang, langs_dir, langs_files_ext)
+                self.__skip_translated_keys(
+                    lang, langs_dir, langs_files_ext, lang_file_prefix
+                )
 
                 if not len(self.text_to_translate):
                     TermSpark().spark_left([f"{Languages().get(lang)} "]).spark_right(
@@ -169,9 +172,11 @@ class AbstractProvider(ABC):
 
         return result
 
-    def __skip_translated_keys(self, lang: str, langs_dir: str, langs_files_ext: str):
+    def __skip_translated_keys(
+        self, lang: str, langs_dir: str, langs_files_ext: str, lang_file_prefix: str
+    ):
         target_lang_file = os.path.join(
-            os.getcwd(), langs_dir, f"{lang}." + langs_files_ext
+            os.getcwd(), langs_dir, f"{lang_file_prefix}{lang}." + langs_files_ext
         )
 
         if os.path.exists(target_lang_file):

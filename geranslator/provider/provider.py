@@ -19,12 +19,18 @@ class Provider:
         target_langs: List[str],
         langs_dir: str,
         langs_files_ext: str,
+        lang_file_prefix: str = "",
     ) -> dict:
         _module = import_module(f"geranslator.provider.providers.{self.provider}")
         _class = getattr(_module, self.provider.capitalize())
 
         return _class().translate(
-            text, origin_lang, target_langs, langs_dir, langs_files_ext
+            text,
+            origin_lang,
+            target_langs,
+            langs_dir,
+            langs_files_ext,
+            lang_file_prefix,
         )
 
     def __set_provider(self, provider: str):
