@@ -33,6 +33,7 @@ class TestGoogleProvider:
                 ["ar", "fr"],
                 Config().get("lang_dir"),
                 "json",
+                "",
             )
 
     def test_translation_text(self):
@@ -43,6 +44,7 @@ class TestGoogleProvider:
             ["ar", "fr"],
             Config().get("lang_dir"),
             "json",
+            "",
         )
 
         assert google_provider.text_to_translate == {
@@ -69,6 +71,7 @@ class TestGoogleProvider:
             ["es", "fr"],
             Config().get("lang_dir"),
             "json",
+            "",
         )
 
         assert translation["translation"] == {
@@ -84,6 +87,7 @@ class TestGoogleProvider:
             ["ar", "not_exist", "fr"],
             Config().get("lang_dir"),
             "json",
+            "",
         )
 
         assert google_provider.text_to_translate == {
@@ -114,6 +118,7 @@ class TestGoogleProvider:
             ["ar", "fr"],
             Config().get("lang_dir"),
             "json",
+            "",
         )
 
         assert google_provider.text_to_translate == {
@@ -164,6 +169,7 @@ class TestGoogleProvider:
             ["ar", "fr"],
             Config().get("lang_dir"),
             "json",
+            "",
         )
 
         assert google_provider.text_to_translate == {
