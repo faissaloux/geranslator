@@ -1,4 +1,8 @@
-## [Unreleased](https://github.com/faissaloux/geranslator/compare/v1.2.0...main)
+## [Unreleased](https://github.com/faissaloux/geranslator/compare/v1.2.1...main)
+
+## [v1.2.1](https://github.com/faissaloux/termspark/compare/v1.2.0...v1.2.1) - 2023-04-09
+### FIXED
+- Fix update prefixed files ([#69](https://github.com/faissaloux/geranslator/pull/69))
 
 ## [v1.2.0](https://github.com/faissaloux/termspark/compare/v1.1.1...v1.2.0) - 2023-04-08
 ### ADDED
