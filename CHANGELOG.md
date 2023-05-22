@@ -1,55 +1,55 @@
 ## [Unreleased](https://github.com/faissaloux/geranslator/compare/v1.2.1...main)
 
-## [v1.2.1](https://github.com/faissaloux/termspark/compare/v1.2.0...v1.2.1) - 2023-04-09
+## [v1.2.1](https://github.com/faissaloux/geranslator/compare/v1.2.0...v1.2.1) - 2023-04-09
 ### FIXED
 - Fix update prefixed files ([#69](https://github.com/faissaloux/geranslator/pull/69))
 
-## [v1.2.0](https://github.com/faissaloux/termspark/compare/v1.1.1...v1.2.0) - 2023-04-08
+## [v1.2.0](https://github.com/faissaloux/geranslator/compare/v1.1.1...v1.2.0) - 2023-04-08
 ### ADDED
 - Config file depending on application ([#65](https://github.com/faissaloux/geranslator/pull/65))
 ### FIXED
 - Prevent translations override ([#67](https://github.com/faissaloux/geranslator/pull/67))
 
-## [v1.1.1](https://github.com/faissaloux/termspark/compare/v1.1.0...v1.1.1) - 2023-04-05
+## [v1.1.1](https://github.com/faissaloux/geranslator/compare/v1.1.0...v1.1.1) - 2023-04-05
 ### FIXED
 - Update deepl changed elements ([#64](https://github.com/faissaloux/geranslator/pull/64))
 
 ### ADDED
 - Support lang files names with prefix ([#62](https://github.com/faissaloux/geranslator/pull/62))
 
-## [v1.1.0](https://github.com/faissaloux/termspark/compare/v1.0.5...v1.1.0) - 2023-03-22
+## [v1.1.0](https://github.com/faissaloux/geranslator/compare/v1.0.5...v1.1.0) - 2023-03-22
 ### ADDED
 - Support lang files names with prefix ([#62](https://github.com/faissaloux/geranslator/pull/62))
 
-## [v1.0.5](https://github.com/faissaloux/termspark/compare/v1.0.4...v1.0.5) - 2023-03-15
+## [v1.0.5](https://github.com/faissaloux/geranslator/compare/v1.0.4...v1.0.5) - 2023-03-15
 ### FIXED
 - Fix multiple target langs CLI parameter ([#59](https://github.com/faissaloux/geranslator/pull/59))
 ### INTERNAL
 - Add `update_docs_changelog` Makefile target ([#60](https://github.com/faissaloux/geranslator/pull/60))
 
-## [v1.0.4](https://github.com/faissaloux/termspark/compare/v1.0.3...v1.0.4) - 2023-03-15
+## [v1.0.4](https://github.com/faissaloux/geranslator/compare/v1.0.3...v1.0.4) - 2023-03-15
 ### FIXED
 - Fix cmd arguments with `=` sign ([#58](https://github.com/faissaloux/geranslator/pull/58))
 
-## [v1.0.3](https://github.com/faissaloux/termspark/compare/v1.0.2...v1.0.3) - 2023-03-14
+## [v1.0.3](https://github.com/faissaloux/geranslator/compare/v1.0.2...v1.0.3) - 2023-03-14
 ### FIXED
 - Fix `dictionary` file not included on build ([#57](https://github.com/faissaloux/geranslator/pull/57))
 
-## [v1.0.2](https://github.com/faissaloux/termspark/compare/v1.0.1...v1.0.2) - 2023-03-14
+## [v1.0.2](https://github.com/faissaloux/geranslator/compare/v1.0.1...v1.0.2) - 2023-03-14
 ### FIXED
 - Fix `extensions` directory not included on build ([#56](https://github.com/faissaloux/geranslator/pull/56))
 - Fix `AttributeError: 'staticmethod' object has no attribute '__name__'` ([#55](https://github.com/faissaloux/geranslator/pull/55))
 
-## [v1.0.1](https://github.com/faissaloux/termspark/compare/v1.0.0...v1.0.1) - 2023-03-14
+## [v1.0.1](https://github.com/faissaloux/geranslator/compare/v1.0.0...v1.0.1) - 2023-03-14
 ### FIXED
 - Fix Config Example File not included on build ([#54](https://github.com/faissaloux/geranslator/pull/54))
 
-## [v1.0.0](https://github.com/faissaloux/termspark/compare/v0.3.0...v1.0.0) - 2023-02-28
+## [v1.0.0](https://github.com/faissaloux/geranslator/compare/v0.3.0...v1.0.0) - 2023-02-28
 ### ADDED
 - Translation progress ([#46](https://github.com/faissaloux/geranslator/pull/46))
 - Skip `hidden` words from each file format ([#41](https://github.com/faissaloux/geranslator/pull/41))
 
-## [v0.3.0](https://github.com/faissaloux/termspark/compare/v0.2.0...v0.3.0) - 2023-02-05
+## [v0.3.0](https://github.com/faissaloux/geranslator/compare/v0.2.0...v0.3.0) - 2023-02-05
 ### ADDED
 - CLI ([#38](https://github.com/faissaloux/geranslator/pull/38))
 - Deepl support ([#28](https://github.com/faissaloux/geranslator/pull/28))
@@ -60,7 +60,7 @@
 ## FIXED
 - Fix deepl translation bug ([#37](https://github.com/faissaloux/geranslator/pull/37))
 
-## [v0.2.0](https://github.com/faissaloux/termspark/compare/v0.1.0...v0.2.0) - 2023-01-27
+## [v0.2.0](https://github.com/faissaloux/geranslator/compare/v0.1.0...v0.2.0) - 2023-01-27
 ### ADDED
 - Yaml support ([#20](https://github.com/faissaloux/geranslator/pull/20))
 - Choosing provider ([#15](https://github.com/faissaloux/geranslator/pull/15))
