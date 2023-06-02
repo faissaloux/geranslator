@@ -1,5 +1,6 @@
 import time
 
+from selenium.common.exceptions import WebDriverException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -27,15 +28,29 @@ class Google(AbstractProvider):
 
         time.sleep(4)
 
-        WebDriverWait(self.driver, 15).until(
-            expected_conditions.presence_of_element_located(
-                (By.XPATH, "//button[@aria-label='Copy translation']")
+        try:
+            WebDriverWait(self.driver, 15).until(
+                expected_conditions.presence_of_element_located(
+                    (By.XPATH, "//button[@aria-label='Copy translation']")
+                )
             )
-        )
+        except WebDriverException:
+            while True:
+                try_again = self.driver.find_element(
+                    by=By.XPATH,
+                    value="//button[contains(@class, 'VfPpkd-LgbsSe')][contains(.,'Try again')]",
+                )
+
+                if try_again.is_displayed():
+                    try_again.click()
+                    time.sleep(6)
+                else:
+                    break
 
         translated_element = self.driver.find_element(
             by=By.XPATH, value="//span[@class='HwtZe']"
         )
+
         translation = translated_element.text.lower()
 
         self.clear_source_text()
@@ -95,9 +110,9 @@ class Google(AbstractProvider):
                 unexisted_language = self.driver.find_element(
                     by=By.XPATH,
                     value="//div[@class='G3Fn7c'][contains(.,'No results')]",
-                ).is_displayed()
+                )
 
-                if unexisted_language:
+                if unexisted_language.is_displayed():
                     TermSpark().spark_left([f"{language} "]).spark_right(
                         [" language not supported by google", "red"]
                     ).set_separator(".").spark()
