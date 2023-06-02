@@ -1,4 +1,8 @@
-## [Unreleased](https://github.com/faissaloux/geranslator/compare/v1.2.1...main)
+## [Unreleased](https://github.com/faissaloux/geranslator/compare/v1.2.2...main)
+
+## [v1.2.2](https://github.com/faissaloux/geranslator/compare/v1.2.1...v1.2.2) - 2023-06-02
+### FIXED
+- Fix google provider ([#75](https://github.com/faissaloux/geranslator/pull/75))
 
 ## [v1.2.1](https://github.com/faissaloux/geranslator/compare/v1.2.0...v1.2.1) - 2023-04-09
 ### FIXED
