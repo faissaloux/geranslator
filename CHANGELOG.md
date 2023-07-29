@@ -1,4 +1,8 @@
-## [Unreleased](https://github.com/faissaloux/geranslator/compare/v1.2.2...main)
+## [Unreleased](https://github.com/faissaloux/geranslator/compare/v1.2.3...main)
+
+## [v1.2.3](https://github.com/faissaloux/geranslator/compare/v1.2.2...v1.2.3) - 2023-07-29
+### FIXED
+- Fix Chrome Driver after v115 url not found ([#81](https://github.com/faissaloux/geranslator/pull/81))
 
 ## [v1.2.2](https://github.com/faissaloux/geranslator/compare/v1.2.1...v1.2.2) - 2023-06-02
 ### FIXED
