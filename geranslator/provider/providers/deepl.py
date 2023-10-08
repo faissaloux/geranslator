@@ -103,7 +103,10 @@ class Deepl(AbstractProvider):
 
                     close_btn = WebDriverWait(self.driver, 15).until(
                         expected_conditions.presence_of_element_located(
-                            (By.XPATH, "//button[@data-testid='closeButton']")
+                            (
+                                By.XPATH,
+                                "//button[@data-testid='closeButton']|//div[@aria-labelledby='headlessui-tabs-tab-1']//button[contains(., 'Close')]",
+                            )
                         )
                     )
                     close_btn.click()
