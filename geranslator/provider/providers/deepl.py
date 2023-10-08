@@ -93,7 +93,7 @@ class Deepl(AbstractProvider):
                 time.sleep(2)
                 unexisted_language = self.driver.find_elements(
                     by=By.XPATH,
-                    value="//div[@class='lmt__sides_wrapper'][contains(., 'No results')]",
+                    value="//div[@class='lmt__sides_wrapper'][contains(., 'No results')]|//section[@aria-labelledby='text-translator-section-heading'][contains(., 'No results')]",
                 )
 
                 if len(unexisted_language):
@@ -103,7 +103,10 @@ class Deepl(AbstractProvider):
 
                     close_btn = WebDriverWait(self.driver, 15).until(
                         expected_conditions.presence_of_element_located(
-                            (By.XPATH, "//button[@data-testid='closeButton']")
+                            (
+                                By.XPATH,
+                                "//button[@data-testid='closeButton']|//div[@aria-labelledby='headlessui-tabs-tab-1']//button[contains(., 'Close')]",
+                            )
                         )
                     )
                     close_btn.click()
