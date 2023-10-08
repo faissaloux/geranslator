@@ -1,4 +1,8 @@
-## [Unreleased](https://github.com/faissaloux/geranslator/compare/v1.2.3...main)
+## [Unreleased](https://github.com/faissaloux/geranslator/compare/v1.2.4...main)
+
+## [v1.2.4](https://github.com/faissaloux/geranslator/compare/v1.2.3...v1.2.4) - 2023-10-08
+### FIXED
+- Fix unexisted language detection ([#88](https://github.com/faissaloux/geranslator/pull/88))
 
 ## [v1.2.3](https://github.com/faissaloux/geranslator/compare/v1.2.2...v1.2.3) - 2023-07-29
 ### FIXED
