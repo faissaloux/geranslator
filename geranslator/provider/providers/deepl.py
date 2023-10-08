@@ -93,7 +93,7 @@ class Deepl(AbstractProvider):
                 time.sleep(2)
                 unexisted_language = self.driver.find_elements(
                     by=By.XPATH,
-                    value="//div[@class='lmt__sides_wrapper'][contains(., 'No results')]",
+                    value="//div[@class='lmt__sides_wrapper'][contains(., 'No results')]|//section[@aria-labelledby='text-translator-section-heading'][contains(., 'No results')]",
                 )
 
                 if len(unexisted_language):
