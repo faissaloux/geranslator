@@ -1,4 +1,8 @@
-## [Unreleased](https://github.com/faissaloux/geranslator/compare/v1.2.4...main)
+## [Unreleased](https://github.com/faissaloux/geranslator/compare/v1.3.0...main)
+
+## [v1.3.0](https://github.com/faissaloux/geranslator/compare/v1.2.4...v1.3.0) - 2023-10-22
+### ADDED
+- Py3.12 support ([#92](https://github.com/faissaloux/geranslator/pull/92))
 
 ## [v1.2.4](https://github.com/faissaloux/geranslator/compare/v1.2.3...v1.2.4) - 2023-10-08
 ### FIXED
