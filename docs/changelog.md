@@ -1,4 +1,8 @@
-## [Unreleased](https://github.com/faissaloux/geranslator/compare/v1.3.0...main)
+## [Unreleased](https://github.com/faissaloux/geranslator/compare/v1.3.1...main)
+
+## [v1.3.1](https://github.com/faissaloux/geranslator/compare/v1.3.0...v1.3.1) - 2023-11-29
+### FIXED
+- Fix dependencies conflict ([#96](https://github.com/faissaloux/geranslator/pull/96))
 
 ## [v1.3.0](https://github.com/faissaloux/geranslator/compare/v1.2.4...v1.3.0) - 2023-10-22
 ### ADDED
