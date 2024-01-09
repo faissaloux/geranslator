@@ -47,7 +47,7 @@ geranslator --provider=deepl --origin-lang=en --target-langs=es,pt
 ```bash
 geranslator -p deepl -o en -t es,pt
 ```
-> **Note**
+> [!NOTE]
 > Keep in mind that default values are on `.geranslator-config.yaml`
 ## IDE
 This will use the configuration as default
