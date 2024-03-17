@@ -46,7 +46,7 @@ Run all tests:
 make test
 ```
 
-> **Note**
+> [!NOTE]
 > Make sure tests cover not decreasing.
 
 ## Format after stage
