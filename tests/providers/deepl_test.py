@@ -183,7 +183,7 @@ class TestDeeplProvider:
         }
         assert translation["translation"] == {
             "es": {
-                "morning": "buenos días:attribute1 nos vemos. :attribute2 ¡más tarde!"
+                "morning": "buenos días:attribute1, nos vemos. :attribute2 ¡más tarde!"
             },
-            "sv": {"morning": "god morgon:attribute1 , vi ses :attribute2 senare!"},
+            "sv": {"morning": "god morgon:attribute1, vi ses :attribute2 senare!"},
         }

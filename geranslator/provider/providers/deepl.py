@@ -35,7 +35,10 @@ class Deepl(AbstractProvider):
         translated_element = self.driver.find_element(
             By.XPATH, "//*[@data-testid='translator-target-input']"
         )
+
         translation = translated_element.get_attribute("value").lower()
+        if text.strip().startswith(","):
+            translation = "," + translation
 
         self.clear_source_text()
 
