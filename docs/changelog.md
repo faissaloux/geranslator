@@ -1,4 +1,8 @@
-## [Unreleased](https://github.com/faissaloux/geranslator/compare/v1.4.0...main)
+## [Unreleased](https://github.com/faissaloux/geranslator/compare/v1.4.1...main)
+
+## [v1.4.1](https://github.com/faissaloux/geranslator/compare/v1.4.0...v1.4.1) - 2024-04-28
+### FIXED
+- Fix Deepl translations that starts with comma ([#113](https://github.com/faissaloux/geranslator/pull/113))
 
 ## [v1.4.0](https://github.com/faissaloux/geranslator/compare/v1.3.1...v1.4.0) - 2024-04-21
 ### ADDED
