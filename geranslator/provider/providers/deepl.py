@@ -106,15 +106,7 @@ class Deepl(AbstractProvider):
                         [" language not supported by deepl", "red"]
                     ).set_separator(".").spark()
 
-                    close_btn = WebDriverWait(self.driver, 15).until(
-                        expected_conditions.presence_of_element_located(
-                            (
-                                By.XPATH,
-                                "//button[@data-testid='closeButton']|//div[@aria-labelledby='headlessui-tabs-tab-1']//button[contains(., 'Close')]",
-                            )
-                        )
-                    )
-                    close_btn.click()
+                    ActionChains(self.driver).send_keys(Keys.ESCAPE).perform()
                     return False
                 else:
                     ActionChains(self.driver).send_keys(Keys.RETURN).perform()
