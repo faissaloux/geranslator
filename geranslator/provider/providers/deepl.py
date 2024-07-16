@@ -61,10 +61,6 @@ class Deepl(AbstractProvider):
         more_source_languages_btn.click()
         origin_lang_found = self.search_language(Languages().get(origin_lang))
 
-        print("==== START origin_lang_found ====")
-        print(origin_lang_found)
-        print("==== END origin_lang_found ====")
-
         return origin_lang_found
 
     def choose_target_language(self, target_lang: str) -> bool:
