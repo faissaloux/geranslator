@@ -1,4 +1,8 @@
-## [Unreleased](https://github.com/faissaloux/geranslator/compare/v1.4.1...main)
+## [Unreleased](https://github.com/faissaloux/geranslator/compare/v1.4.2...main)
+
+## [v1.4.2](https://github.com/faissaloux/geranslator/compare/v1.4.1...v1.4.2) - 2024-07-16
+### FIXED
+- Fix `deepl` does not close languages ([#117](https://github.com/faissaloux/geranslator/pull/117))
 
 ## [v1.4.1](https://github.com/faissaloux/geranslator/compare/v1.4.0...v1.4.1) - 2024-04-28
 ### FIXED
