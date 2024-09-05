@@ -1,4 +1,8 @@
-## [Unreleased](https://github.com/faissaloux/geranslator/compare/v1.4.2...main)
+## [Unreleased](https://github.com/faissaloux/geranslator/compare/v1.4.3...main)
+
+## [v1.4.3](https://github.com/faissaloux/geranslator/compare/v1.4.2...v1.4.3) - 2024-09-05
+### FIXED
+- Fix webdriver ([#121](https://github.com/faissaloux/geranslator/pull/121))
 
 ## [v1.4.2](https://github.com/faissaloux/geranslator/compare/v1.4.1...v1.4.2) - 2024-07-16
 ### FIXED
