@@ -21,9 +21,10 @@ jobs:
     - name: Build docs
       run: make build_docs
     - name: Deploy docs
-      uses: SamKirkland/FTP-Deploy-Action@4.1.0
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
         server: ${{ secrets.FTP_HOST }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: docs_build/
+        protocol: ftps
