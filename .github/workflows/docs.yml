@@ -30,4 +30,3 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: docs_build/
         protocol: ftps
-        timeout: 60000
