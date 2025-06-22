@@ -42,6 +42,11 @@ class Deepl(AbstractProvider):
         if lstriped_text.startswith(","):
             translation = " " * whitespace_striped_len + "," + translation
 
+        # deepl removes spaces at the end of text,
+        # so we need to add it back.
+        if (space := len(text) - len(text.rstrip())) > 0:
+            translation = translation + " " * space
+
         self.clear_source_text()
 
         return translation
@@ -142,3 +147,4 @@ class Deepl(AbstractProvider):
             )
         )
         clear_source_text_btn.click()
+        time.sleep(2)
