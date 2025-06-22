@@ -1,4 +1,8 @@
-## [Unreleased](https://github.com/faissaloux/geranslator/compare/v1.4.3...main)
+## [Unreleased](https://github.com/faissaloux/geranslator/compare/v1.4.4...main)
+
+## [v1.4.4](https://github.com/faissaloux/geranslator/compare/v1.4.3...v1.4.4) - 2025-06-22
+### FIXED
+- Fix deepl translation ([#133](https://github.com/faissaloux/geranslator/pull/133))
 
 ## [v1.4.3](https://github.com/faissaloux/geranslator/compare/v1.4.2...v1.4.3) - 2024-09-05
 ### FIXED
