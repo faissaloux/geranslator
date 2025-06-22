@@ -1,4 +1,8 @@
-## [Unreleased](https://github.com/faissaloux/geranslator/compare/v1.4.4...main)
+## [Unreleased](https://github.com/faissaloux/geranslator/compare/v1.4.5...main)
+
+## [v1.4.5](https://github.com/faissaloux/geranslator/compare/v1.4.4...v1.4.5) - 2025-06-22
+### FIXED
+- Fix docs workflow ([#134](https://github.com/faissaloux/geranslator/pull/134))
 
 ## [v1.4.4](https://github.com/faissaloux/geranslator/compare/v1.4.3...v1.4.4) - 2025-06-22
 ### FIXED
