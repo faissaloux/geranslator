@@ -52,6 +52,14 @@ class Deepl(AbstractProvider):
         return translation
 
     def choose_origin_language(self, origin_lang: str) -> bool:
+        # Wait for the page to load,
+        # so we can interact with language search.
+        WebDriverWait(self.driver, 120).until(
+            expected_conditions.visibility_of_element_located(
+                (By.XPATH, "//a[@data-testid='start-free-trial-button']")
+            )
+        )
+
         self.__remove_advertisement()
 
         TermSpark().spark_left([f"{Languages().get(origin_lang)} "]).spark_right(
