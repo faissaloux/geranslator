@@ -90,13 +90,15 @@ class Deepl(AbstractProvider):
         return target_lang_found
 
     def search_language(self, language: str) -> bool:
-        WebDriverWait(self.driver, 15).until(
+        WebDriverWait(self.driver, 30).until(
             expected_conditions.presence_of_element_located(
-                (By.XPATH, "//input[@placeholder='Search languages']")
+                (
+                    By.XPATH,
+                    "//button[starts-with(@data-testid, 'translator-lang-option')]",
+                )
             )
         )
 
-        time.sleep(2)
         search_language_elements = self.driver.find_elements(
             by=By.XPATH, value="//input[@placeholder='Search languages']"
         )
