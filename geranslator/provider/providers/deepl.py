@@ -56,11 +56,9 @@ class Deepl(AbstractProvider):
         # so we can interact with language search.
         WebDriverWait(self.driver, 120).until(
             expected_conditions.visibility_of_element_located(
-                (By.XPATH, "//a[@data-testid='start-free-trial-button']")
+                (By.XPATH, "//div[@data-testid='toolbar-item-glossary']")
             )
         )
-
-        self.__remove_advertisement()
 
         TermSpark().spark_left([f"{Languages().get(origin_lang)} "]).spark_right(
             [" CHECKING LANGUAGE", "yellow"]
@@ -133,20 +131,6 @@ class Deepl(AbstractProvider):
 
                 time.sleep(2)
         return True
-
-    def __remove_advertisement(self):
-        try:
-            close_advertisement_popup_btn = WebDriverWait(self.driver, 15).until(
-                expected_conditions.presence_of_element_located(
-                    (
-                        By.XPATH,
-                        "//div[@data-testid='write-advertisement-popup']/button[@aria-label='Close']",
-                    )
-                )
-            )
-            close_advertisement_popup_btn.click()
-        except:
-            pass
 
     def clear_source_text(self):
         clear_source_text_btn = WebDriverWait(self.driver, 15).until(
