@@ -39,11 +39,6 @@ class Deepl(AbstractProvider):
         translation = translated_element.get_attribute("value").lower()
         translation = self.__removePunctuationMarkIfNotDemanded(text, translation)
 
-        lstriped_text = text.lstrip()
-        whitespace_striped_len = len(text) - len(lstriped_text)
-        if lstriped_text.startswith(","):
-            translation = " " * whitespace_striped_len + "," + translation
-
         # deepl removes spaces at the end of text,
         # so we need to add it back.
         if (space := len(text) - len(text.rstrip())) > 0:
