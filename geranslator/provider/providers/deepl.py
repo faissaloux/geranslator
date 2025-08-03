@@ -37,6 +37,8 @@ class Deepl(AbstractProvider):
         )
 
         translation = translated_element.get_attribute("value").lower()
+        translation = self.__removePunctuationMarkIfNotDemanded(text, translation)
+
         lstriped_text = text.lstrip()
         whitespace_striped_len = len(text) - len(lstriped_text)
         if lstriped_text.startswith(","):
@@ -142,3 +144,12 @@ class Deepl(AbstractProvider):
         )
         clear_source_text_btn.click()
         time.sleep(2)
+
+    def __removePunctuationMarkIfNotDemanded(
+        self, source: str, translation: str
+    ) -> str:
+        if (punctuation := translation[-1]) in [".", "?", "!"]:
+            if source[-1] != punctuation:
+                translation = translation[:-1]
+
+        return translation

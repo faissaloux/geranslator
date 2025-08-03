@@ -138,7 +138,7 @@ class TestDeeplProvider:
         assert translation["translation"] == {
             "es": {
                 "Hello": "hola",
-                "morning": "buenos días :attribute que tenga un buen día",
+                "morning": "buenos días :attribute que tengas un buen día",
                 "Bye": "adiós",
             },
             "sv": {
