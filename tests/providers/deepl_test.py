@@ -105,7 +105,7 @@ class TestDeeplProvider:
         translation = deepl_provider.translate(
             {
                 "Hello": "hello",
-                "morning": {":attribute": ["good morning ", " have a good day"]},
+                "morning": {":attribute": ["good morning ", " nice to meet you"]},
                 "Bye": "bye",
             },
             "en",
@@ -117,7 +117,7 @@ class TestDeeplProvider:
 
         assert deepl_provider.text_to_translate == {
             "Hello": "hello",
-            "morning": {":attribute": ["good morning ", " have a good day"]},
+            "morning": {":attribute": ["good morning ", " nice to meet you"]},
             "Bye": "bye",
         }
         assert list(deepl_provider.translation.keys()) == ["es", "sv"]
@@ -138,12 +138,12 @@ class TestDeeplProvider:
         assert translation["translation"] == {
             "es": {
                 "Hello": "hola",
-                "morning": "buenos días :attribute que tengas un buen día",
+                "morning": "buenos días :attribute encantado de conocerte",
                 "Bye": "adiós",
             },
             "sv": {
                 "Hello": "hej",
-                "morning": "god morgon :attribute ha en bra dag",
+                "morning": "god morgon :attribute trevligt att träffa dig",
                 "Bye": "hej då",
             },
         }
@@ -155,7 +155,7 @@ class TestDeeplProvider:
                 "morning": {
                     ":attribute1": [
                         "good morning",
-                        {":attribute2": [" , see you ", " later!"]},
+                        {":attribute2": [" , you looking good ", " see you later!"]},
                     ]
                 }
             },
@@ -170,7 +170,7 @@ class TestDeeplProvider:
             "morning": {
                 ":attribute1": [
                     "good morning",
-                    {":attribute2": [" , see you ", " later!"]},
+                    {":attribute2": [" , you looking good ", " see you later!"]},
                 ]
             }
         }
@@ -183,9 +183,9 @@ class TestDeeplProvider:
         }
         assert translation["translation"] == {
             "es": {
-                "morning": "buenos días:attribute1 , nos vemos :attribute2 ¡hasta luego!"
+                "morning": "buenos días:attribute1 , te ves bien :attribute2 ¡hasta luego!"
             },
             "sv": {
-                "morning": "god morgon:attribute1 , vi ses :attribute2 vi ses senare!"
+                "morning": "god morgon:attribute1 , du ser bra ut :attribute2 vi ses senare!"
             },
         }
