@@ -37,10 +37,7 @@ class Deepl(AbstractProvider):
         )
 
         translation = translated_element.get_attribute("value").lower()
-        lstriped_text = text.lstrip()
-        whitespace_striped_len = len(text) - len(lstriped_text)
-        if lstriped_text.startswith(","):
-            translation = " " * whitespace_striped_len + "," + translation
+        translation = self.__removePunctuationMarkIfNotDemanded(text, translation)
 
         # deepl removes spaces at the end of text,
         # so we need to add it back.
@@ -52,7 +49,13 @@ class Deepl(AbstractProvider):
         return translation
 
     def choose_origin_language(self, origin_lang: str) -> bool:
-        self.__remove_advertisement()
+        # Wait for the page to load,
+        # so we can interact with language search.
+        WebDriverWait(self.driver, 120).until(
+            expected_conditions.visibility_of_element_located(
+                (By.XPATH, "//div[@data-testid='toolbar-item-glossary']")
+            )
+        )
 
         TermSpark().spark_left([f"{Languages().get(origin_lang)} "]).spark_right(
             [" CHECKING LANGUAGE", "yellow"]
@@ -84,13 +87,15 @@ class Deepl(AbstractProvider):
         return target_lang_found
 
     def search_language(self, language: str) -> bool:
-        WebDriverWait(self.driver, 15).until(
+        WebDriverWait(self.driver, 30).until(
             expected_conditions.presence_of_element_located(
-                (By.XPATH, "//input[@placeholder='Search languages']")
+                (
+                    By.XPATH,
+                    "//button[starts-with(@data-testid, 'translator-lang-option')]",
+                )
             )
         )
 
-        time.sleep(2)
         search_language_elements = self.driver.find_elements(
             by=By.XPATH, value="//input[@placeholder='Search languages']"
         )
@@ -126,20 +131,6 @@ class Deepl(AbstractProvider):
                 time.sleep(2)
         return True
 
-    def __remove_advertisement(self):
-        try:
-            close_advertisement_popup_btn = WebDriverWait(self.driver, 15).until(
-                expected_conditions.presence_of_element_located(
-                    (
-                        By.XPATH,
-                        "//div[@data-testid='write-advertisement-popup']/button[@aria-label='Close']",
-                    )
-                )
-            )
-            close_advertisement_popup_btn.click()
-        except:
-            pass
-
     def clear_source_text(self):
         clear_source_text_btn = WebDriverWait(self.driver, 15).until(
             expected_conditions.presence_of_element_located(
@@ -148,3 +139,12 @@ class Deepl(AbstractProvider):
         )
         clear_source_text_btn.click()
         time.sleep(2)
+
+    def __removePunctuationMarkIfNotDemanded(
+        self, source: str, translation: str
+    ) -> str:
+        if (punctuation := translation[-1]) in [".", "?", "!"]:
+            if source[-1] != punctuation:
+                translation = translation[:-1]
+
+        return translation
