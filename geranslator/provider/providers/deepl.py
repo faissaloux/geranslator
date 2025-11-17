@@ -40,7 +40,9 @@ class Deepl(AbstractProvider):
         translation = self.__removePunctuationMarkIfNotDemanded(text, translation)
 
         # Add missing spaces at the end of translation.
-        if (space := len(text) - len(text.rstrip())) > 0 and len(translation) == len(translation.rstrip()):
+        if (space := len(text) - len(text.rstrip())) > 0 and len(translation) == len(
+            translation.rstrip()
+        ):
             translation = translation + " " * space
 
         self.clear_source_text()
