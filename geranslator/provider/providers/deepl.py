@@ -53,9 +53,10 @@ class Deepl(AbstractProvider):
         # so we can interact with language search.
         WebDriverWait(self.driver, 120).until(
             expected_conditions.visibility_of_element_located(
-                (By.XPATH, "//div[@data-testid='toolbar-item-glossary']")
+                (By.XPATH, "//div[@data-layout-id='configurationBarLanguagesRow']")
             )
         )
+        time.sleep(4)
 
         TermSpark().spark_left([f"{Languages().get(origin_lang)} "]).spark_right(
             [" CHECKING LANGUAGE", "yellow"]
@@ -108,7 +109,7 @@ class Deepl(AbstractProvider):
                 time.sleep(2)
                 unexisted_language = self.driver.find_elements(
                     by=By.XPATH,
-                    value="//div[@class='lmt__sides_wrapper'][contains(., 'No results')]|//section[@aria-labelledby='text-translator-section-heading'][contains(., 'No results')]",
+                    value="//div[@data-radix-popper-content-wrapper=''][contains(., 'No results')]",
                 )
 
                 if len(unexisted_language):
