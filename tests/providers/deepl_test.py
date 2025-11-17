@@ -144,7 +144,7 @@ class TestDeeplProvider:
             "sv": {
                 "Hello": "hej",
                 "morning": "god morgon :attribute trevligt att träffas",
-                "Bye": "hej då",
+                "Bye": "hejdå",
             },
         }
 

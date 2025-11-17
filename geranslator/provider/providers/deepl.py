@@ -39,9 +39,8 @@ class Deepl(AbstractProvider):
         translation = translated_element.get_attribute("value").lower()
         translation = self.__removePunctuationMarkIfNotDemanded(text, translation)
 
-        # deepl removes spaces at the end of text,
-        # so we need to add it back.
-        if (space := len(text) - len(text.rstrip())) > 0:
+        # Add missing spaces at the end of translation.
+        if (space := len(text) - len(text.rstrip())) > 0 and len(translation) == len(translation.rstrip()):
             translation = translation + " " * space
 
         self.clear_source_text()
@@ -144,8 +143,9 @@ class Deepl(AbstractProvider):
     def __removePunctuationMarkIfNotDemanded(
         self, source: str, translation: str
     ) -> str:
-        if (punctuation := translation[-1]) in [".", "?", "!"]:
+        stripped_translation: str = translation.rstrip()
+        if (punctuation := stripped_translation[-1]) in [".", "?", "!"]:
             if source[-1] != punctuation:
-                translation = translation[:-1]
+                translation = stripped_translation[:-1]
 
         return translation
