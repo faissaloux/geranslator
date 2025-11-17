@@ -39,9 +39,10 @@ class Deepl(AbstractProvider):
         translation = translated_element.get_attribute("value").lower()
         translation = self.__removePunctuationMarkIfNotDemanded(text, translation)
 
-        # deepl removes spaces at the end of text,
-        # so we need to add it back.
-        if (space := len(text) - len(text.rstrip())) > 0:
+        # Add missing spaces at the end of translation.
+        if (space := len(text) - len(text.rstrip())) > 0 and len(translation) == len(
+            translation.rstrip()
+        ):
             translation = translation + " " * space
 
         self.clear_source_text()
@@ -53,9 +54,10 @@ class Deepl(AbstractProvider):
         # so we can interact with language search.
         WebDriverWait(self.driver, 120).until(
             expected_conditions.visibility_of_element_located(
-                (By.XPATH, "//div[@data-testid='toolbar-item-glossary']")
+                (By.XPATH, "//div[@data-layout-id='configurationBarLanguagesRow']")
             )
         )
+        time.sleep(4)
 
         TermSpark().spark_left([f"{Languages().get(origin_lang)} "]).spark_right(
             [" CHECKING LANGUAGE", "yellow"]
@@ -108,7 +110,7 @@ class Deepl(AbstractProvider):
                 time.sleep(2)
                 unexisted_language = self.driver.find_elements(
                     by=By.XPATH,
-                    value="//div[@class='lmt__sides_wrapper'][contains(., 'No results')]|//section[@aria-labelledby='text-translator-section-heading'][contains(., 'No results')]",
+                    value="//div[@data-radix-popper-content-wrapper=''][contains(., 'No results')]",
                 )
 
                 if len(unexisted_language):
@@ -143,8 +145,9 @@ class Deepl(AbstractProvider):
     def __removePunctuationMarkIfNotDemanded(
         self, source: str, translation: str
     ) -> str:
-        if (punctuation := translation[-1]) in [".", "?", "!"]:
+        stripped_translation: str = translation.rstrip()
+        if (punctuation := stripped_translation[-1]) in [".", "?", "!"]:
             if source[-1] != punctuation:
-                translation = translation[:-1]
+                translation = stripped_translation[:-1]
 
         return translation
