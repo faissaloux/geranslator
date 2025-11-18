@@ -1,4 +1,8 @@
-## [Unreleased](https://github.com/faissaloux/geranslator/compare/v1.4.6...main)
+## [Unreleased](https://github.com/faissaloux/geranslator/compare/v1.4.7...main)
+
+## [v1.4.7](https://github.com/faissaloux/geranslator/compare/v1.4.6...v1.4.7) - 2025-11-18
+### FIXED
+- Fix deepl provider ([#156](https://github.com/faissaloux/geranslator/pull/156))
 
 ## [v1.4.6](https://github.com/faissaloux/geranslator/compare/v1.4.5...v1.4.6) - 2025-08-08
 ### FIXED
