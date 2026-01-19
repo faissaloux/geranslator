@@ -33,9 +33,7 @@ class TestPoExtension:
         Po().insert({"Hello": "Bonjour", "Bye": "Au revoir"}, po_file)
 
         assert os.path.exists(os.path.join(os.getcwd(), po_file))
-        assert (
-            str(polib.pofile(po_file))
-            == """#
+        assert str(polib.pofile(po_file)) == """#
 msgid ""
 msgstr ""
 
@@ -45,7 +43,6 @@ msgstr "Bonjour"
 msgid "Bye"
 msgstr "Au revoir"
 """
-        )
 
     def test_prevent_override(self):
         po_file = os.path.join(Config().get("lang_dir"), "fr.po")
@@ -54,9 +51,7 @@ msgstr "Au revoir"
         lang_file.close()
 
         Po().insert({"Bye": "Au revoir"}, po_file)
-        assert (
-            str(polib.pofile(po_file))
-            == """#
+        assert str(polib.pofile(po_file)) == """#
 msgid ""
 msgstr ""
 
@@ -66,7 +61,6 @@ msgstr "Au revoir"
 msgid "Hello"
 msgstr "Bonjour"
 """
-        )
 
     def test_skip_hidden(self):
         lang_dir = Config().get("lang_dir")
