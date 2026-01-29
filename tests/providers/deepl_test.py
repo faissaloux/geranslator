@@ -109,7 +109,7 @@ class TestDeeplProvider:
                 "Bye": "bye",
             },
             "en",
-            ["es", "sv"],
+            ["es", "de"],
             Config().get("lang_dir"),
             "json",
             "",
@@ -120,13 +120,13 @@ class TestDeeplProvider:
             "morning": {":attribute": ["good morning ", " nice to meet you"]},
             "Bye": "bye",
         }
-        assert list(deepl_provider.translation.keys()) == ["es", "sv"]
+        assert list(deepl_provider.translation.keys()) == ["es", "de"]
         assert list(deepl_provider.translation["es"].keys()) == [
             "Hello",
             "morning",
             "Bye",
         ]
-        assert list(deepl_provider.translation["sv"].keys()) == [
+        assert list(deepl_provider.translation["de"].keys()) == [
             "Hello",
             "morning",
             "Bye",
@@ -141,10 +141,10 @@ class TestDeeplProvider:
                 "morning": "buenos días :attribute encantado de conocerte",
                 "Bye": "adiós",
             },
-            "sv": {
-                "Hello": "hej",
-                "morning": "god morgon :attribute trevligt att träffas",
-                "Bye": "hejdå",
+            "de": {
+                "Hello": "hallo",
+                "morning": "guten morgen :attribute schön, sie kennenzulernen",
+                "Bye": "tschüss",
             },
         }
 
