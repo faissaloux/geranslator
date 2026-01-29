@@ -1,12 +1,10 @@
 name: Build and Deploy Docs
 on:
-  push:
-    branches:
-    - main
+  release:
+    types: [published]
 
 jobs:
   docs-deploy:
-    if: contains(github.event.head_commit.message, 'release')
     name: Deploy docs
     runs-on: ubuntu-latest
     steps:
