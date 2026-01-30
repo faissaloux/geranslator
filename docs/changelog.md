@@ -1,4 +1,11 @@
-## [Unreleased](https://github.com/faissaloux/geranslator/compare/v2.0.0...2.x)
+## [Unreleased](https://github.com/faissaloux/geranslator/compare/v2.0.1...2.x)
+
+## [v2.0.1](https://github.com/faissaloux/geranslator/compare/v2.0.0...v2.0.1) - 2026-01-30
+### CI/CD
+- publish workflow ([#170](https://github.com/faissaloux/geranslator/pull/170))
+- Fix workflow branch ([#169](https://github.com/faissaloux/geranslator/pull/169))
+### TESTS
+- [test] change test language to more stable one ([#168](https://github.com/faissaloux/geranslator/pull/168))
 
 ## v2.0.0 - 2026-01-21
 ### Python Support
