@@ -1,4 +1,8 @@
-## [Unreleased](https://github.com/faissaloux/geranslator/compare/v2.0.1...2.x)
+## [Unreleased](https://github.com/faissaloux/geranslator/compare/v2.0.2...2.x)
+
+## [v2.0.2](https://github.com/faissaloux/geranslator/compare/v2.0.1...v2.0.2) - 2026-01-30
+### CI/CD
+- Fix publish workflow ([#171](https://github.com/faissaloux/geranslator/pull/171))
 
 ## [v2.0.1](https://github.com/faissaloux/geranslator/compare/v2.0.0...v2.0.1) - 2026-01-30
 ### CI/CD
