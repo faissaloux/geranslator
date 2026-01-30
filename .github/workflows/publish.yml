@@ -1,6 +1,7 @@
 name: Publish
 
 on:
+  workflow_dispatch:
   release:
     types: [published]
 
@@ -82,4 +83,5 @@ jobs:
 
     - name: Publish distribution to PyPI
       uses: pypa/gh-action-pypi-publish@release/v1
-      password: ${{ secrets.PYPI_API_TOKEN }}
+      with:
+        password: ${{ secrets.PYPI_API_TOKEN }}
