@@ -143,7 +143,7 @@ class TestDeeplProvider:
             },
             "de": {
                 "Hello": "hallo",
-                "morning": "guten morgen :attribute schön, sie kennenzulernen",
+                "morning": "guten morgen :attribute freut mich, sie kennenzulernen",
                 "Bye": "tschüss",
             },
         }
@@ -183,7 +183,7 @@ class TestDeeplProvider:
         }
         assert translation["translation"] == {
             "es": {
-                "morning": "buenos días:attribute1 , te ves bien :attribute2 ¡hasta luego!"
+                "morning": "buenos días:attribute1 , qué bien estás :attribute2 ¡hasta luego!"
             },
             "sv": {
                 "morning": "god morgon:attribute1 , du ser bra ut :attribute2 vi ses senare!"
