@@ -1,4 +1,8 @@
-## [Unreleased](https://github.com/faissaloux/geranslator/compare/v2.0.2...2.x)
+## [Unreleased](https://github.com/faissaloux/geranslator/compare/v2.0.3...2.x)
+
+## [v2.0.3](https://github.com/faissaloux/geranslator/compare/v2.0.2...v2.0.3) - 2026-03-22
+### TESTS
+- Readapt Deepl tests([#176](https://github.com/faissaloux/geranslator/pull/176))
 
 ## [v2.0.2](https://github.com/faissaloux/geranslator/compare/v2.0.1...v2.0.2) - 2026-01-30
 ### CI/CD
