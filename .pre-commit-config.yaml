@@ -20,7 +20,7 @@ repos:
   - id: pretty-format-yaml
     args: [--autofix]
 - repo: https://github.com/pre-commit/mirrors-mypy
-  rev: v2.1.0
+  rev: v2.3.0
   hooks:
   - id: mypy
     additional_dependencies: [types-PyYAML, types-polib]
@@ -29,11 +29,11 @@ repos:
   hooks:
   - id: setup-cfg-fmt
 - repo: https://github.com/PyCQA/isort
-  rev: 9.0.0a3
+  rev: 9.0.0b1
   hooks:
   - id: isort
 - repo: https://github.com/psf/black-pre-commit-mirror
-  rev: 26.5.0
+  rev: 26.5.1
   hooks:
   - id: black
 - repo: https://github.com/PyCQA/autoflake
